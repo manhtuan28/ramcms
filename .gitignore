@@ -12,5 +12,6 @@ nohup*
 .wepycache
 .well-known
 node_modules/
-/upload
+/upload/vod/*
+cron.php
 application/data/install/install.lock

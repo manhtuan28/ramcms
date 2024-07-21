@@ -17,11 +17,11 @@ return array (
   ),
   'site' => 
   array (
-    'site_name' => 'ApiiOnline',
-    'site_url' => 'http://ramcms_phim1.test',
+    'site_name' => 'Asha',
+    'site_url' => 'http://asha.io.vn',
     'site_keywords' => 'Từ kho&aacute; cho website của bạn',
     'site_description' => 'Thẻ m&ocirc; tả website của bạn',
-    'site_email' => 'test@apii.online',
+    'site_email' => 'hotro@asha.io.vn',
     'install_dir' => '/',
     'site_logo' => 'upload/site/20221218-1/fcfc15a53bbe64bc245460d2ab0eec28.png',
     'site_waplogo' => 'upload/site/20221218-1/fcfc15a53bbe64bc245460d2ab0eec28.png',
@@ -45,9 +45,9 @@ return array (
     'cache_password' => '',
     'cache_flag' => 'a6bcf9aa58',
     'cache_core' => '0',
-    'cache_time' => '3600',
+    'cache_time' => '60',
     'cache_page' => '0',
-    'cache_time_page' => '3600',
+    'cache_time_page' => '60',
     'compress' => '0',
     'input_type' => '1',
     'ajax_page' => '0',
@@ -73,7 +73,7 @@ return array (
     'vod_extend_version' => 'Full HD, HD, 1080, Bản CAM, TV',
     'vod_extend_area' => '&Acirc;u Mỹ, Nhật Bản, H&agrave;n Quốc, Trung Quốc, Đ&agrave;i Loan, Anh, Ph&aacute;p, T&acirc;y Ban Nha, Thổ Nhĩ Kỳ, Việt Nam',
     'vod_extend_lang' => 'Vietsub, Thuyết Minh',
-    'vod_extend_year' => '2021,2020,2019,2018,2017,2016,2015,2014,2013,2012,2011,2010,2009,2008,2007,2006,2005,2004,2003,2002,2001,2000',
+    'vod_extend_year' => '2024,2023,2022,2021,2020,2019,2018,2017,2016,2015,2014,2013,2012,2011,2010,2009,2008,2007,2006,2005,2004,2003,2002,2001,2000',
     'vod_extend_weekday' => 'Thứ 2, Thứ 3, Thứ 4, Thứ 5, Thứ 6, Thứ 7, Chủ Nhật',
     'actor_extend_area' => '&Acirc;u Mỹ, Nhật Bản, H&agrave;n Quốc, Trung Quốc, Đ&agrave;i Loan, Anh, Ph&aacute;p, T&acirc;y Ban Nha, Thổ Nhĩ Kỳ, Việt Nam, Quốc Gia Kh&aacute;c',
     'filter_words' => 'www,http,com,net',
@@ -87,8 +87,8 @@ return array (
   ),
   'user' => 
   array (
-    'status' => '1',
-    'reg_open' => '1',
+    'status' => '0',
+    'reg_open' => '0',
     'reg_status' => '1',
     'reg_phone_sms' => '0',
     'reg_email_sms' => '0',
@@ -117,16 +117,16 @@ return array (
   ),
   'gbook' => 
   array (
-    'status' => '1',
+    'status' => '0',
     'audit' => '0',
     'login' => '0',
-    'verify' => '1',
+    'verify' => '0',
     'pagesize' => '20',
     'timespan' => '3',
   ),
   'comment' => 
   array (
-    'status' => '1',
+    'status' => '0',
     'audit' => '0',
     'login' => '0',
     'verify' => '1',
@@ -193,7 +193,7 @@ return array (
   'interface' => 
   array (
     'status' => 0,
-    'pass' => 'XQ0NE0ZF4APTZ6YW',
+    'pass' => '2Q23JHRK9UERWVSJ',
     'vodtype' => '动作片=动作',
     'arttype' => '头条=头条',
     'actortype' => '',

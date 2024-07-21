@@ -4609,7 +4609,7 @@ namespace app\common\util;
       {
 
         // ----- Error log
-        PclZip::privErrorLog(PCLZIP_ERR_BAD_FORMAT, "Unable to find End of Central Dir Record signature");
+        PclZip::privErrorLog(PCLZIP_ERR_BAD_FORMAT, "Không thể tìm thấy chữ ký End of Central Dir Record");
 
         // ----- Return
         return PclZip::errorCode();
