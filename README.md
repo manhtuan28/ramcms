@@ -1,5 +1,3 @@
-# ashacms-dev
-
 # Hướng dẫn cài đặt
 - Up lên host hoặc vps
 - Giải nén
