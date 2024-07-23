@@ -1,9 +1,9 @@
 <?php
 return array (
-    'name' => 'AshaCMS',
-    'copyright' => 'AshaCMS',
-    'url' => '//github.com/apiiphim/ramcms',
-    'code' => '3.0',
+    'name' => 'ApiiCMS',
+    'copyright' => 'ApiiCMS',
+    'url' => '//github.com/apiiphim/apiicms-dev',
+    'code' => '4',
     'license' => 'MIT',
 );
 ?>
