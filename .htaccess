@@ -1,18 +1,29 @@
 <IfModule mod_rewrite.c>
-    Options +FollowSymlinks -Multiviews
-    RewriteEngine on
-    
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^(.*)$ index.php?/$1 [QSA,PT,L]
-    </IfModule>
-    
-    <IfModule mod_headers.c>
+Options +FollowSymlinks -Multiviews
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php?/$1 [QSA,PT,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header unset Cache-Control
+    Header unset Pragma
+    Header unset Expires
+
+    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+
+    Header set Cache-Control "private, no-store, no-cache, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+
+    <FilesMatch "\.(jpg|jpeg|png|gif|js|css|ico|pdf|woff|woff2|ttf|eot)$">
         Header unset Cache-Control
         Header unset Pragma
         Header unset Expires
         Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
-        Header set Pragma "no-cache"
-        Header set Expires "0"
-    </IfModule>
-    
+    </FilesMatch>
+</IfModule>
