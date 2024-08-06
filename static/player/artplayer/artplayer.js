@@ -4497,39 +4497,63 @@
                 template: {
                     $poster: s
                 }
-            } = e, l = e.layers.add({
+            } = e;
+        
+            // Tạo lớp hiển thị thông báo (có thể bỏ nếu không cần hiển thị thông báo)
+            let l = e.layers.add({
                 name: "auto-playback",
                 html: `<div class="art-auto-playback-close"></div><div class="art-auto-playback-last"></div><div class="art-auto-playback-jump"></div>`
-            }), c = (0, i.query)(".art-auto-playback-last", l), u = (0, i.query)(".art-auto-playback-jump", l), p = (0, i.query)(".art-auto-playback-close", l);
-            return e.on("video:timeupdate", () => {
+            });
+        
+            let c = (0, i.query)(".art-auto-playback-last", l),
+                u = (0, i.query)(".art-auto-playback-jump", l),
+                p = (0, i.query)(".art-auto-playback-close", l);
+        
+            // Cập nhật thời gian phát lại khi video đang phát
+            e.on("video:timeupdate", () => {
                 if (e.playing) {
                     let t = a.get("times") || {},
                         r = Object.keys(t);
-                    r.length > o.AUTO_PLAYBACK_MAX && delete t[r[0]], t[e.option.id || e.option.url] = e.currentTime, a.set("times", t)
+                    if (r.length > o.AUTO_PLAYBACK_MAX) {
+                        delete t[r[0]]; // Xóa thời gian cũ nếu số lượng vượt quá giới hạn
+                    }
+                    t[e.option.id || e.option.url] = e.currentTime; // Lưu thời gian hiện tại
+                    a.set("times", t);
                 }
-            }), e.on("ready", () => {
+            });
+        
+            // Xử lý khi video đã sẵn sàng
+            e.on("ready", () => {
                 let d = (a.get("times") || {})[e.option.id || e.option.url];
-                d && d >= o.AUTO_PLAYBACK_MIN && ((0, i.append)(p, r.close), (0, i.setStyle)(l, "display", "flex"), c.innerText = `${t.get("Xem lần cuối")} ${(0,i.secondToTime)(d)}`, u.innerText = t.get("Xem tiếp"), n(p, "click", () => {
-                    (0, i.setStyle)(l, "display", "none")
-                }), n(u, "click", () => {
-                    e.seek = d, e.play(), (0, i.setStyle)(s, "display", "none"), (0, i.setStyle)(l, "display", "none")
-                }), e.once("video:timeupdate", () => {
-                    setTimeout(() => {
-                        (0, i.setStyle)(l, "display", "none")
-                    }, o.AUTO_PLAYBACK_TIMEOUT)
-                }))
-            }), {
+                if (d && d >= o.AUTO_PLAYBACK_MIN) {
+                    e.seek = d; // Di chuyển video đến thời điểm đã lưu
+                    e.play();   // Phát video ngay lập tức
+        
+                    // Ẩn thông báo sau một khoảng thời gian nhất định (tuỳ chọn)
+                    e.once("video:timeupdate", () => {
+                        setTimeout(() => {
+                            (0, i.setStyle)(l, "display", "none");
+                        }, o.AUTO_PLAYBACK_TIMEOUT);
+                    });
+                }
+            });
+        
+            // Trả về đối tượng quản lý thông tin phát lại
+            return {
                 name: "auto-playback",
                 get times() {
-                    return a.get("times") || {}
+                    return a.get("times") || {};
                 },
                 clear: () => a.del("times"),
                 delete(e) {
                     let t = a.get("times") || {};
-                    return delete t[e], a.set("times", t), t
+                    delete t[e];
+                    a.set("times", t);
+                    return t;
                 }
-            }
+            };
         }
+        
     }, {
         "../utils": "h3rH9",
         "@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
