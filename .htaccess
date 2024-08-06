@@ -7,7 +7,6 @@
     RewriteRule ^(.*)$ index.php?/$1 [QSA,PT,L]
     </IfModule>
     
-    # Loại bỏ toàn bộ cache
     <IfModule mod_headers.c>
         # Xóa bộ nhớ cache trình duyệt
         Header unset Cache-Control
