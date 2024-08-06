@@ -1,16 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embed Player support TVC by Brevis</title>
+    <title>YouTube-like Video Player</title>
     <script type="text/javascript" src="/static/player/artplayer/artplayer.js"></script>
     <script type="text/javascript" src="/static/player/artplayer/artplayer-plugin-ads.js"></script>
     <script type="text/javascript" src="/static/player/artplayer/hls.min.js"></script>
-    <style type="text/css">html,body{width:100%;height:100%; padding:0; margin:0;}#videodiv,iframe{width:100%;height:100%;}</style>
+    <style type="text/css">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #videodiv {
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+
+        .artplayer-app {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+
+        .artplayer-controlbar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
 </head>
-<body marginwidth="0" marginheight="0">
+
+<body>
     <div id="videodiv" class="artplayer-app"></div>
 
     <script type="text/javascript">
@@ -22,7 +58,7 @@
         let isTVCPlayed = false;
 
         var video_type = '';
-        if( parent.MacPlayer.PlayUrl.indexOf('.m3u8') >- 1 ){
+        if (parent.MacPlayer.PlayUrl.indexOf('.m3u8') > -1) {
             video_type = 'hls';
         } else {
             video_type = 'embed';
@@ -30,9 +66,9 @@
 
         var art = new Artplayer({
             container: '.artplayer-app',
-            url: video_type == 'hls' ? parent.MacPlayer.PlayUrl : '/static/player/artplayer/1s_blank.mp4',
+            url: video_type === 'hls' ? parent.MacPlayer.PlayUrl : '/static/player/artplayer/1s_blank.mp4',
             title: parent.player_aaaa.vod_data.vod_name,
-            poster: parent.player_aaaa.vod_data.vod_poster != "" ? parent.player_aaaa.vod_data.vod_poster : parent.player_aaaa.vod_data.vod_pic,
+            poster: parent.player_aaaa.vod_data.vod_poster || parent.player_aaaa.vod_data.vod_pic,
             pip: true,
             autoMini: true,
             screenshot: true,
@@ -48,7 +84,7 @@
             autoplay: true,
             autoPlayback: true,
             airplay: true,
-            theme: '#23ade5',
+            theme: '#FF0000',
             lang: navigator.language.toLowerCase(),
             whitelist: ['*'],
             moreVideoAttr: {
@@ -59,7 +95,7 @@
                     width: 200,
                     html: 'Subtitle',
                     tooltip: 'Bilingual',
-                    icon: '<img width="22" heigth="22" src="/static/player/artplayer/subtitle.svg">',
+                    icon: '<img width="22" height="22" src="/static/player/artplayer/subtitle.svg">',
                     selector: [
                         {
                             html: 'Display',
@@ -80,21 +116,10 @@
                     },
                 },
                 {
-                    html: 'Switcher',
-                    icon: '<img width="22" heigth="22" src="/static/player/artplayer/state.svg">',
-                    tooltip: 'OFF',
-                    switch: false,
-                    onSwitch: function (item) {
-                        item.tooltip = item.switch ? 'OFF' : 'ON';
-                        console.info('You clicked on the custom switch', item.switch);
-                        return !item.switch;
-                    },
-                },
-                {
-                    html: 'Slider',
-                    icon: '<img width="22" heigth="22" src="/static/player/artplayer/state.svg">',
-                    tooltip: '5x',
-                    range: [5, 1, 10, 0.1],
+                    html: 'Speed',
+                    icon: '<img width="22" height="22" src="/static/player/artplayer/speed.svg">',
+                    tooltip: 'Playback Speed',
+                    range: [2, 0.5, 2, 0.1],
                     onRange: function (item) {
                         return item.range + 'x';
                     },
@@ -113,25 +138,10 @@
                 url: '/assets/sample/subtitle.srt',
                 type: 'srt',
                 style: {
-                    color: '#fe9200',
-                    fontSize: '20px',
+                    color: '#FF0000',
+                    fontSize: '18px',
                 },
                 encoding: 'utf-8',
-            },
-            controls: [
-                {
-                    position: 'right',
-                    html: 'Control',
-                    tooltip: 'Control Tooltip',
-                    click: function () {
-                        console.info('You clicked on the custom control');
-                    },
-                },
-            ],
-            icons: {
-                loading: '<img src="/static/player/artplayer/apii-online.gif">',
-                state: '<img width="150" heigth="150" src="/static/player/artplayer/state.svg">',
-                indicator: '<img width="16" heigth="16" src="/static/player/artplayer/indicator.svg">',
             },
             customType: {
                 m3u8: function (video, url) {
@@ -141,7 +151,7 @@
                         hls.attachMedia(video);
                     } else {
                         const canPlay = video.canPlayType('application/vnd.apple.mpegurl');
-                        if (canPlay === 'probably' || canPlay == 'maybe') {
+                        if (canPlay === 'probably' || canPlay === 'maybe') {
                             video.src = url;
                         } else {
                             art.notice.show = 'Does not support playback of m3u8';
@@ -150,6 +160,7 @@
                 },
             },
             plugins: [
+                // Uncomment the following lines to enable ad plugin
                 // artplayerPluginAds({
                 //     video: TVC_VIDEO,
                 //     url: TVC_URL,
@@ -157,15 +168,16 @@
                 //     totalDuration: TVC_TOTAL_DURATION,
                 //     muted: false,
                 //     i18n: {
-                //         close: 'Bỏ qua quảng cáo',
-                //         countdown: '%s giây',
-                //         detail: 'Xem thêm',
-                //         canBeClosed: 'Tắt quảng cáo sau %s giây',
+                //         close: 'Skip Ad',
+                //         countdown: '%s seconds',
+                //         detail: 'See more',
+                //         canBeClosed: 'Skip ad in %s seconds',
                 //     },
                 // }),
             ],
         });
-        if (video_type == 'embed') {
+
+        if (video_type === 'embed') {
             art.on('video:ended', () => {
                 onVideoEnded();
             });
@@ -181,7 +193,7 @@
                     var i = setInterval(() => {
                         if (playDuration <= 0) {
                             art.plugins.artplayerPluginAds.skip();
-                            if (video_type == 'embed') {
+                            if (video_type === 'embed') {
                                 art.on('video:ended', () => {
                                     onVideoEnded();
                                 });
@@ -198,7 +210,7 @@
         function onVideoEnded() {
             art.pause();
             let playerDiv = document.getElementById('videodiv');
-            while(playerDiv.firstChild) {
+            while (playerDiv.firstChild) {
                 playerDiv.removeChild(playerDiv.firstChild);
             }
             let iframe = document.createElement('iframe');
@@ -218,4 +230,5 @@
         }
     </script>
 </body>
+
 </html>
