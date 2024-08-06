@@ -210,26 +210,26 @@
             });
         }
 
-        if (IS_AUTO_SKIP_TVC) {
-            let playDuration = TVC_PLAY_DURATION;
-            art.on('play', () => {
-                if (!isTVCPlayed) {
-                    var i = setInterval(() => {
-                        if (playDuration <= 0) {
-                            art.plugins.artplayerPluginAds.skip();
-                            if (video_type == 'embed') {
-                                art.on('video:ended', () => {
-                                    onVideoEnded();
-                                });
-                            }
-                            isTVCPlayed = true;
-                            clearInterval(i);
-                        }
-                        playDuration--;
-                    }, 1000);
-                }
-            });
-        }
+        // if (IS_AUTO_SKIP_TVC) {
+        //     let playDuration = TVC_PLAY_DURATION;
+        //     art.on('play', () => {
+        //         if (!isTVCPlayed) {
+        //             var i = setInterval(() => {
+        //                 if (playDuration <= 0) {
+        //                     art.plugins.artplayerPluginAds.skip();
+        //                     if (video_type == 'embed') {
+        //                         art.on('video:ended', () => {
+        //                             onVideoEnded();
+        //                         });
+        //                     }
+        //                     isTVCPlayed = true;
+        //                     clearInterval(i);
+        //                 }
+        //                 playDuration--;
+        //             }, 1000);
+        //         }
+        //     });
+        // }
 
         function onVideoEnded() {
             art.pause();
