@@ -8,7 +8,6 @@
     </IfModule>
     
     <IfModule mod_headers.c>
-        # Xóa bộ nhớ cache trình duyệt
         Header unset Cache-Control
         Header unset Pragma
         Header unset Expires
