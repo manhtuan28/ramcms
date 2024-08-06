@@ -776,7 +776,7 @@ var MAC = {
                     }
 
                     var html = '<div class="mac_user_box dropbox user">';
-                    html += '<div class="user_list_box"><div class="user_list"><a class="mac_user_n" href="javascript:;">' + UName + '</a><a class="mac_user_g" href="javascript:;">' + GName + '</a><a href="' + url + '" target="_blank"><i class="iconfont">&#xe62b;</i>个人中心</a><a href="' + urlfavs + '" target="_blank"><i class="iconfont">&#xe629;</i>我的收藏</a><a href="javascript:;" onclick="MAC.User.Logout();" target="_self"><i class="iconfont">&#xe646;</i>退出账号</a></div></div>'
+                    html += '<div class="user_list_box"><div class="user_list"><a class="mac_user_n" href="javascript:;">' + UName + '</a><a class="mac_user_g" href="javascript:;">' + GName + '</a><a href="' + url + '" target="_blank"><i class="iconfont">&#xe62b;</i>Trung tâm cá nhân</a><a href="' + urlfavs + '" target="_blank"><i class="iconfont">&#xe629;</i>Bộ Sưu tập</a><a href="javascript:;" onclick="MAC.User.Logout();" target="_self"><i class="iconfont">&#xe646;</i>Đăng xuất</a></div></div>'
 
                     $('.mac_user').after(html);
                     $('.mac_user').removeClass('mac_user');
