@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embed Player support TVC by Brevis</title>
-    <script type="text/javascript" src="/static/player/artplayer/artplayer.js"></script>
-    <script type="text/javascript" src="/static/player/artplayer/artplayer-plugin-ads.js"></script>
-    <script type="text/javascript" src="/static/player/artplayer/hls.min.js"></script>
+    <title>Modern Video Player</title>
+    <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
+    <script src="/static/player/artplayer/hls.min.js"></script>
     <style type="text/css">
         html,
         body {
@@ -17,222 +16,126 @@
             padding: 0;
             margin: 0;
             font-family: Arial, sans-serif;
+            background-color: #000;
         }
 
         #videodiv {
             width: 100%;
             height: 100%;
             background: #000;
-        }
-
-        .artplayer-app {
             position: relative;
-            width: 100%;
-            height: 100%;
-            background: #000;
         }
 
-        .artplayer-controlbar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 56px;
+        /* Tùy chỉnh thanh tiến trình */
+        .jw-progress-bar {
+            background-color: #f00 !important;
+            /* Màu đỏ cho thanh tiến trình */
+        }
+
+        .jw-progress {
+            background: #f00 !important;
+            /* Nền của thanh tiến trình */
+        }
+
+        .jw-slider {
+            border-radius: 5px;
+        }
+
+        /* Tùy chỉnh thanh điều khiển */
+        .jw-controlbar {
             background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            /* Nền tối mờ cho thanh điều khiển */
+        }
+
+        .jw-icon {
+            color: #fff;
+            /* Màu biểu tượng thanh điều khiển */
         }
     </style>
 </head>
 
 <body marginwidth="0" marginheight="0">
-    <div id="videodiv" class="artplayer-app"></div>
+    <div id="videodiv"></div>
 
     <script type="text/javascript">
         const TVC_VIDEO = "https://bigf.bigo.sg/asia_live/V4s7/2U4Jt3.mp4";
-        const TVC_URL = "https://apii.online";
         const TVC_PLAY_DURATION = 3;
-        const TVC_TOTAL_DURATION = 100;
         const IS_AUTO_SKIP_TVC = true;
         let isTVCPlayed = false;
 
-        var video_type = '';
-        if (parent.MacPlayer.PlayUrl.indexOf('.m3u8') > - 1) {
-            video_type = 'hls';
-        } else {
-            video_type = 'embed';
-        }
+        const videoUrl = parent.MacPlayer.PlayUrl;
 
-        var art = new Artplayer({
-            container: '.artplayer-app',
-            url: video_type == 'hls' ? parent.MacPlayer.PlayUrl : '/static/player/artplayer/1s_blank.mp4',
-            title: parent.player_aaaa.vod_data.vod_name,
-            poster: parent.player_aaaa.vod_data.vod_poster != "" ? parent.player_aaaa.vod_data.vod_poster : parent.player_aaaa.vod_data.vod_pic,
-            pip: true,
-            autoMini: true,
-            screenshot: true,
-            setting: true,
-            flip: true,
-            playbackRate: true,
-            aspectRatio: true,
-            fullscreen: true,
-            fullscreenWeb: false,
-            miniProgressBar: false,
-            backdrop: true,
-            playsInline: true,
-            autoplay: true,
-            autoPlayback: true,
-            airplay: true,
-            theme: '#FF0000',
-            lang: navigator.language.toLowerCase(),
-            whitelist: ['*'],
-            moreVideoAttr: {
-                crossOrigin: 'anonymous',
-            },
-            settings: [
-                {
-                    width: 200,
-                    html: 'Subtitle',
-                    tooltip: 'Bilingual',
-                    icon: '<img width="22" heigth="22" src="/static/player/artplayer/subtitle.svg">',
-                    selector: [
-                        {
-                            html: 'Display',
-                            tooltip: 'Show',
-                            switch: true,
-                            onSwitch: function (item) {
-                                item.tooltip = item.switch ? 'Hide' : 'Show';
-                                art.subtitle.show = !item.switch;
-                                return !item.switch;
-                            },
+        jwplayer.key = "MBvrieqNdmVL4jV0x6LPJ0wKB/Nbz2Qq/lqm3g==";
+
+        function setupJWPlayer(url) {
+            jwplayer("videodiv").setup({
+                file: url,
+                image: parent.player_aaaa.vod_data.vod_poster !== "" ? parent.player_aaaa.vod_data.vod_poster : parent.player_aaaa.vod_data.vod_pic,
+                width: "100%",
+                height: "100%",
+                autostart: true,
+                aspectratio: "16:9",
+                controls: true,
+                controlbar: {
+                    position: 'bottom',
+                    layout: 'below'
+                },
+                advertising: {
+                    client: "vast",
+                    adtimeout: 3000,
+                    tag: TVC_VIDEO,
+                    skipoffset: TVC_PLAY_DURATION * 1000
+                },
+                events: {
+                    onReady: function () {
+                        if (IS_AUTO_SKIP_TVC) {
+                            let playDuration = TVC_PLAY_DURATION;
+                            const skipInterval = setInterval(() => {
+                                if (playDuration <= 0) {
+                                    jwplayer().removeAd();
+                                    clearInterval(skipInterval);
+                                    isTVCPlayed = true;
+                                }
+                                playDuration--;
+                            }, 1000);
                         }
-                    ],
-                    onSelect: function (item) {
-                        art.subtitle.switch(item.url, {
-                            name: item.html,
-                        });
-                        return item.html;
                     },
-                },
-                {
-                    html: 'Switcher',
-                    icon: '<img width="22" heigth="22" src="/static/player/artplayer/state.svg">',
-                    tooltip: 'OFF',
-                    switch: false,
-                    onSwitch: function (item) {
-                        item.tooltip = item.switch ? 'OFF' : 'ON';
-                        console.info('You clicked on the custom switch', item.switch);
-                        return !item.switch;
-                    },
-                },
-                {
-                    html: 'Slider',
-                    icon: '<img width="22" heigth="22" src="/static/player/artplayer/state.svg">',
-                    tooltip: '5x',
-                    range: [5, 1, 10, 0.1],
-                    onRange: function (item) {
-                        return item.range + 'x';
-                    },
-                },
-            ],
-            contextmenu: [
-                {
-                    html: 'Custom menu',
-                    click: function (contextmenu) {
-                        console.info('You clicked on the custom menu');
-                        contextmenu.show = false;
-                    },
-                },
-            ],
-            subtitle: {
-                url: '/assets/sample/subtitle.srt',
-                type: 'srt',
-                style: {
-                    color: '#fe9200',
-                    fontSize: '20px',
-                },
-                encoding: 'utf-8',
-            },
-            controls: [
-                // {
-                //     position: 'right',
-                //     html: 'Control',
-                //     tooltip: 'Control Tooltip',
-                //     click: function () {
-                //         console.info('You clicked on the custom control');
-                //     },
-                // },
-            ],
-            icons: {
-                loading: '<img src="/static/player/artplayer/tuancute.gif">',
-                state: '<img width="150" heigth="150" src="/static/player/artplayer/state.svg">',
-                indicator: '<img width="16" heigth="16" src="/static/player/artplayer/indicator.svg">',
-            },
-            customType: {
-                m3u8: function (video, url) {
-                    if (Hls.isSupported()) {
-                        const hls = new Hls();
-                        hls.loadSource(url);
-                        hls.attachMedia(video);
-                    } else {
-                        const canPlay = video.canPlayType('application/vnd.apple.mpegurl');
-                        if (canPlay === 'probably' || canPlay == 'maybe') {
-                            video.src = url;
-                        } else {
-                            art.notice.show = 'Does not support playback of m3u8';
-                        }
+                    onComplete: function () {
+                        onVideoEnded();
                     }
-                },
-            },
-            plugins: [
-                // artplayerPluginAds({
-                //     video: TVC_VIDEO,
-                //     url: TVC_URL,
-                //     playDuration: TVC_PLAY_DURATION,
-                //     totalDuration: TVC_TOTAL_DURATION,
-                //     muted: false,
-                //     i18n: {
-                //         close: 'Bỏ qua quảng cáo',
-                //         countdown: '%s giây',
-                //         detail: 'Xem thêm',
-                //         canBeClosed: 'Tắt quảng cáo sau %s giây',
-                //     },
-                // }),
-            ],
-        });
-        if (video_type == 'embed') {
-            art.on('video:ended', () => {
-                onVideoEnded();
-            });
-            art.on('artplayerPluginAds:skip', () => {
-                onVideoEnded();
+                }
             });
         }
 
-        // if (IS_AUTO_SKIP_TVC) {
-        //     let playDuration = TVC_PLAY_DURATION;
-        //     art.on('play', () => {
-        //         if (!isTVCPlayed) {
-        //             var i = setInterval(() => {
-        //                 if (playDuration <= 0) {
-        //                     art.plugins.artplayerPluginAds.skip();
-        //                     if (video_type == 'embed') {
-        //                         art.on('video:ended', () => {
-        //                             onVideoEnded();
-        //                         });
-        //                     }
-        //                     isTVCPlayed = true;
-        //                     clearInterval(i);
-        //                 }
-        //                 playDuration--;
-        //             }, 1000);
-        //         }
-        //     });
-        // }
+        function setupIframe(url) {
+            let playerDiv = document.getElementById('videodiv');
+            while (playerDiv.firstChild) {
+                playerDiv.removeChild(playerDiv.firstChild);
+            }
+            let iframe = document.createElement('iframe');
+            iframe.setAttribute('src', url);
+            iframe.setAttribute('border', '0');
+            iframe.setAttribute('marginWidth', '0');
+            iframe.setAttribute('frameSpacing', '0');
+            iframe.setAttribute('marginHeight', '0');
+            iframe.setAttribute('frameBorder', '0');
+            iframe.setAttribute('scrolling', 'no');
+            iframe.setAttribute('allowfullscreen', 'allowfullscreen');
+            iframe.setAttribute('mozallowfullscreen', 'mozallowfullscreen');
+            iframe.setAttribute('msallowfullscreen', 'msallowfullscreen');
+            iframe.setAttribute('oallowfullscreen', 'oallowfullscreen');
+            iframe.setAttribute('webkitallowfullscreen', 'webkitallowfullscreen');
+            playerDiv.appendChild(iframe);
+        }
+
+        if (videoUrl.includes('.m3u8') || videoUrl.includes('.mp4')) {
+            setupJWPlayer(videoUrl);
+        } else {
+            setupIframe(videoUrl);
+        }
 
         function onVideoEnded() {
-            art.pause();
+            jwplayer().stop();
             let playerDiv = document.getElementById('videodiv');
             while (playerDiv.firstChild) {
                 playerDiv.removeChild(playerDiv.firstChild);
