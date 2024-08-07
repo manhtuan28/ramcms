@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modern Video Player</title>
     <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
-    <style type="text/css">
+    <style>
         html,
         body {
             width: 100%;
@@ -25,65 +25,54 @@
             position: relative;
         }
 
-        /* Tùy chỉnh thanh tiến trình */
         .jw-progress-bar {
             background-color: #f00 !important;
-            /* Màu đỏ cho thanh tiến trình */
         }
 
         .jw-progress {
             background: #f00 !important;
-            /* Nền của thanh tiến trình */
         }
 
         .jw-slider {
             border-radius: 5px;
         }
 
-        /* Tùy chỉnh thanh điều khiển */
         .jw-controlbar {
             background: rgba(0, 0, 0, 0.8);
-            /* Nền tối mờ cho thanh điều khiển */
         }
 
         .jw-icon {
             color: #fff;
-            /* Màu biểu tượng thanh điều khiển */
         }
     </style>
 </head>
 
-<body marginwidth="0" marginheight="0">
+<body>
     <div id="videodiv"></div>
 
-    <script type="text/javascript">
+    <script>
         const TVC_VIDEO = "https://bigf.bigo.sg/asia_live/V4s7/2U4Jt3.mp4";
         const TVC_PLAY_DURATION = 3;
         const IS_AUTO_SKIP_TVC = true;
-        let isTVCPlayed = false;
 
         const videoUrl = parent.MacPlayer.PlayUrl;
-
         jwplayer.key = "MBvrieqNdmVL4jV0x6LPJ0wKB/Nbz2Qq/lqm3g==";
 
         function setupJWPlayer(url) {
             jwplayer("videodiv").setup({
                 file: url,
-                image: parent.player_aaaa.vod_data.vod_poster !== "" ? parent.player_aaaa.vod_data.vod_poster : parent.player_aaaa.vod_data.vod_pic,
+                image: parent.player_aaaa.vod_data.vod_poster || parent.player_aaaa.vod_data.vod_pic,
                 width: "100%",
                 height: "100%",
                 autostart: true,
                 aspectratio: "16:9",
                 controls: true,
-                controlbar: {
-                    position: 'bottom',
-                    layout: 'below'
-                },
                 advertising: {
                     client: "vast",
+                    admessage: "Your video will resume in xx seconds",
                     adtimeout: 3000,
                     tag: TVC_VIDEO,
-                    skipoffset: TVC_PLAY_DURATION * 1000
+                    skipoffset: TVC_PLAY_DURATION
                 },
                 events: {
                     onReady: function () {
@@ -93,66 +82,53 @@
                                 if (playDuration <= 0) {
                                     jwplayer().removeAd();
                                     clearInterval(skipInterval);
-                                    isTVCPlayed = true;
                                 }
                                 playDuration--;
                             }, 1000);
                         }
                     },
-                    onComplete: function () {
-                        onVideoEnded();
-                    }
+                    onComplete: onVideoEnded
                 }
             });
         }
 
         function setupIframe(url) {
-            let playerDiv = document.getElementById('videodiv');
-            while (playerDiv.firstChild) {
-                playerDiv.removeChild(playerDiv.firstChild);
-            }
-            let iframe = document.createElement('iframe');
-            iframe.setAttribute('src', url);
-            iframe.setAttribute('border', '0');
-            iframe.setAttribute('marginWidth', '0');
-            iframe.setAttribute('frameSpacing', '0');
-            iframe.setAttribute('marginHeight', '0');
-            iframe.setAttribute('frameBorder', '0');
-            iframe.setAttribute('scrolling', 'no');
-            iframe.setAttribute('allowfullscreen', 'allowfullscreen');
-            iframe.setAttribute('mozallowfullscreen', 'mozallowfullscreen');
-            iframe.setAttribute('msallowfullscreen', 'msallowfullscreen');
-            iframe.setAttribute('oallowfullscreen', 'oallowfullscreen');
-            iframe.setAttribute('webkitallowfullscreen', 'webkitallowfullscreen');
+            const playerDiv = document.getElementById('videodiv');
+            playerDiv.innerHTML = '';
+            const iframe = document.createElement('iframe');
+            Object.assign(iframe, {
+                src: url,
+                border: '0',
+                marginWidth: '0',
+                marginHeight: '0',
+                frameBorder: '0',
+                scrolling: 'no',
+                allowfullscreen: 'allowfullscreen'
+            });
             playerDiv.appendChild(iframe);
-        }
-
-        if (videoUrl.includes('.m3u8') || videoUrl.includes('.mp4')) {
-            setupJWPlayer(videoUrl);
-        } else {
-            setupIframe(videoUrl);
         }
 
         function onVideoEnded() {
             jwplayer().stop();
-            let playerDiv = document.getElementById('videodiv');
-            while (playerDiv.firstChild) {
-                playerDiv.removeChild(playerDiv.firstChild);
-            }
-            let iframe = document.createElement('iframe');
-            iframe.setAttribute('src', parent.MacPlayer.PlayUrl);
-            iframe.setAttribute('border', '0');
-            iframe.setAttribute('marginWidth', '0');
-            iframe.setAttribute('frameSpacing', '0');
-            iframe.setAttribute('marginHeight', '0');
-            iframe.setAttribute('frameBorder', '0');
-            iframe.setAttribute('scrolling', 'no');
-            iframe.setAttribute('allowfullscreen', 'allowfullscreen');
-            iframe.setAttribute('mozallowfullscreen', 'mozallowfullscreen');
-            iframe.setAttribute('msallowfullscreen', 'msallowfullscreen');
-            iframe.setAttribute('oallowfullscreen', 'oallowfullscreen');
-            iframe.setAttribute('webkitallowfullscreen', 'webkitallowfullscreen');
+            const playerDiv = document.getElementById('videodiv');
+            playerDiv.innerHTML = '';
+            const iframe = document.createElement('iframe');
+            Object.assign(iframe, {
+                src: parent.MacPlayer.PlayUrl,
+                border: '0',
+                marginWidth: '0',
+                marginHeight: '0',
+                frameBorder: '0',
+                scrolling: 'no',
+                allowfullscreen: 'allowfullscreen'
+            });
             playerDiv.appendChild(iframe);
+        }
+
+        if (videoUrl.endsWith('.m3u8') || videoUrl.endsWith('.mp4')) {
+            setupJWPlayer(videoUrl);
+        } else {
+            setupIframe(videoUrl);
         }
     </script>
 </body>
