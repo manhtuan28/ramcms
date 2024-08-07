@@ -4,7 +4,7 @@
  * (c) 2017-2022 Harvey Zack
  * Released under the MIT License.
  */
-! function(e, t, r, o, i) {
+! function (e, t, r, o, i) {
 	var a = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof self ? self : "undefined" != typeof window ? window : "undefined" != typeof global ? global : {},
 		n = "function" == typeof a.parcelRequireb749 && a.parcelRequireb749,
 		s = n.cache || {},
@@ -20,7 +20,7 @@
 				var i = new Error("Cannot find module '" + t + "'");
 				throw i.code = "MODULE_NOT_FOUND", i
 			}
-			p.resolve = function(r) {
+			p.resolve = function (r) {
 				var o = e[t][1][r];
 				return null != o ? o : r
 			}, p.cache = {};
@@ -34,24 +34,24 @@
 			return !1 === t ? {} : c(t)
 		}
 	}
-	c.isParcelRequire = !0, c.Module = function(e) {
+	c.isParcelRequire = !0, c.Module = function (e) {
 		this.id = e, this.bundle = c, this.exports = {}
-	}, c.modules = e, c.cache = s, c.parent = n, c.register = function(t, r) {
-		e[t] = [function(e, t) {
+	}, c.modules = e, c.cache = s, c.parent = n, c.register = function (t, r) {
+		e[t] = [function (e, t) {
 			t.exports = r
 		}, {}]
 	}, Object.defineProperty(c, "root", {
-		get: function() {
+		get: function () {
 			return a.parcelRequireb749
 		}
 	}), a.parcelRequireb749 = c;
 	for (var u = 0; u < t.length; u++) c(t[u]);
 	var p = c(r);
-	"object" == typeof exports && "undefined" != typeof module ? module.exports = p : "function" == typeof define && define.amd && define((function() {
+	"object" == typeof exports && "undefined" != typeof module ? module.exports = p : "function" == typeof define && define.amd && define((function () {
 		return p
 	}))
 }({
-	abjMI: [function(e, t, r) {
+	abjMI: [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r);
 		var i = e("bundle-text:./style/index.less"),
@@ -109,7 +109,7 @@
 			constructor(e, t) {
 				super(), this.id = ++Q;
 				const r = u.mergeDeep(te.option, e);
-				if (this.option = (0, s.default)(r, d.default), this.isLock = !1, this.isReady = !1, this.isFocus = !1, this.isInput = !1, this.isRotate = !1, this.isDestroy = !1, this.whitelist = new(0, g.default)(this), this.template = new(0, v.default)(this), this.events = new(0, F.default)(this), this.whitelist.state ? (this.storage = new(0, Y.default)(this), this.icons = new(0, Z.default)(this), this.i18n = new(0, x.default)(this), this.notice = new(0, L.default)(this), this.player = new(0, j.default)(this), this.layers = new(0, R.default)(this), this.controls = new(0, S.default)(this), this.contextmenu = new(0, $.default)(this), this.subtitle = new(0, M.default)(this), this.info = new(0, T.default)(this), this.loading = new(0, z.default)(this), this.hotkey = new(0, H.default)(this), this.mask = new(0, V.default)(this), this.setting = new(0, W.default)(this), this.plugins = new(0, G.default)(this)) : this.mobile = new(0, K.default)(this), "function" == typeof t && this.on("ready", (() => t.call(this, this))), te.DEGUG) {
+				if (this.option = (0, s.default)(r, d.default), this.isLock = !1, this.isReady = !1, this.isFocus = !1, this.isInput = !1, this.isRotate = !1, this.isDestroy = !1, this.whitelist = new (0, g.default)(this), this.template = new (0, v.default)(this), this.events = new (0, F.default)(this), this.whitelist.state ? (this.storage = new (0, Y.default)(this), this.icons = new (0, Z.default)(this), this.i18n = new (0, x.default)(this), this.notice = new (0, L.default)(this), this.player = new (0, j.default)(this), this.layers = new (0, R.default)(this), this.controls = new (0, S.default)(this), this.contextmenu = new (0, $.default)(this), this.subtitle = new (0, M.default)(this), this.info = new (0, T.default)(this), this.loading = new (0, z.default)(this), this.hotkey = new (0, H.default)(this), this.mask = new (0, V.default)(this), this.setting = new (0, W.default)(this), this.plugins = new (0, G.default)(this)) : this.mobile = new (0, K.default)(this), "function" == typeof t && this.on("ready", (() => t.call(this, this))), te.DEGUG) {
 					const e = e => console.log(`[ART.${this.id}] -> ${e}`);
 					e("Version@" + te.version), e("Env@" + te.env), e("Build@" + te.build);
 					for (let t = 0; t < h.default.events.length; t++) this.on("video:" + h.default.events[t], (t => e("Event@" + t.type)))
@@ -261,22 +261,22 @@
 		"./mobile": "6M149",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	kfOe8: [function(e, t, r) {
+	kfOe8: [function (e, t, r) {
 		t.exports = '.art-video-player{z-index:20;width:100%;height:100%;zoom:1;color:#eee;text-align:left;direction:ltr;user-select:none;-webkit-tap-highlight-color:#0000;touch-action:manipulation;-ms-high-contrast-adjust:none;background-color:#000;outline:0;margin:0 auto;font-family:Roboto,Arial,Helvetica,sans-serif;font-size:14px;line-height:1.3;display:flex;position:relative}.art-video-player *,.art-video-player :before,.art-video-player :after{box-sizing:border-box;margin:0;padding:0}.art-video-player ::-webkit-scrollbar{width:5px;height:5px}.art-video-player ::-webkit-scrollbar-thumb{background-color:#666}.art-video-player ::-webkit-scrollbar-thumb:hover{background-color:#ccc}.art-video-player .art-icon{justify-content:center;align-items:center;line-height:1.5;display:inline-flex}.art-video-player .art-icon svg{fill:#fff}.art-video-player img{max-width:100%;vertical-align:top}@supports ((-webkit-backdrop-filter: initial) or (backdrop-filter: initial)){.art-video-player .art-backdrop-filter{-webkit-backdrop-filter:saturate(180%)blur(20px);backdrop-filter:saturate(180%)blur(20px);background-color:#000000b3!important}}.art-video-player .art-video{z-index:10;width:100%;height:100%;cursor:pointer;background-color:#000;position:absolute;inset:0}.art-video-player .art-poster{z-index:11;width:100%;height:100%;user-select:none;pointer-events:none;background-position:50%;background-repeat:no-repeat;background-size:cover;position:absolute;inset:0}.art-video-player .art-subtitle{z-index:20;width:100%;text-align:center;color:#fff;pointer-events:none;text-shadow:1px 0 1px #000,0 1px 1px #000,-1px 0 1px #000,0 -1px 1px #000,1px 1px 1px #000,-1px -1px 1px #000,1px -1px 1px #000,-1px 1px 1px #000;padding:0 20px;font-size:20px;transition:bottom .2s;display:none;position:absolute;bottom:10px}.art-video-player .art-subtitle p{word-break:break-all;height:fit-content;margin:5px 0 0;line-height:1.2}.art-video-player.art-subtitle-show .art-subtitle{display:block}.art-video-player.art-control-show .art-subtitle{bottom:50px}.art-video-player .art-danmuku{z-index:30;width:100%;height:100%;pointer-events:none;position:absolute;inset:0;overflow:hidden}.art-video-player .art-layers{z-index:40;width:100%;height:100%;pointer-events:none;display:none;position:absolute;inset:0;overflow:hidden}.art-video-player .art-layers .art-layer{pointer-events:auto}.art-video-player.art-layer-show .art-layers{display:block}.art-video-player .art-mask{z-index:50;width:100%;height:100%;pointer-events:none;justify-content:center;align-items:center;display:none;position:absolute;inset:0;overflow:hidden}.art-video-player .art-mask .art-state{width:60px;height:60px;opacity:.85;cursor:pointer;pointer-events:auto;justify-content:center;align-items:center;display:flex;position:absolute;bottom:65px;right:30px}.art-video-player.art-mask-show .art-mask{display:flex}.art-video-player.art-mobile .art-state{position:static}.art-video-player .art-loading{z-index:70;width:100%;height:100%;pointer-events:none;justify-content:center;align-items:center;display:none;position:absolute;inset:0}.art-video-player.art-loading-show .art-loading{display:flex}.art-video-player .art-bottom{z-index:60;height:100px;opacity:0;visibility:hidden;pointer-events:none;background-image:linear-gradient(#0000,#0006,#000);background-position:bottom;background-repeat:repeat-x;flex-direction:column;justify-content:space-between;padding:50px 10px 0;transition:all .2s ease-in-out;display:flex;position:absolute;bottom:0;left:0;right:0}.art-video-player .art-bottom .art-progress{z-index:0;pointer-events:auto;flex:1;position:relative}.art-video-player .art-bottom .art-progress .art-control-progress{height:4px;cursor:pointer;flex-direction:row;align-items:center;display:flex;position:relative}.art-video-player .art-bottom .art-progress .art-control-progress .art-control-progress-inner{height:50%;width:100%;background:#fff3;align-items:center;transition:all .2s;display:flex;position:relative}.art-video-player .art-bottom .art-progress .art-control-progress .art-control-progress-inner .art-progress-loaded{z-index:10;height:100%;width:0;background:#fff6;position:absolute;inset:0}.art-video-player .art-bottom .art-progress .art-control-progress .art-control-progress-inner .art-progress-played{z-index:20;height:100%;width:0;position:absolute;inset:0}.art-video-player .art-bottom .art-progress .art-control-progress .art-control-progress-inner .art-progress-highlight{z-index:30;height:100%;pointer-events:none;position:absolute;inset:0}.art-video-player .art-bottom .art-progress .art-control-progress .art-control-progress-inner .art-progress-highlight span{width:7px;height:100%;pointer-events:auto;background:#fff;display:inline-block;position:absolute;top:0;left:0}.art-video-player .art-bottom .art-progress .art-control-progress .art-control-progress-inner .art-progress-indicator{visibility:hidden;z-index:40;border-radius:50%;justify-content:center;align-items:center;transition:transform .1s ease-in-out;position:absolute;transform:scale(.1)}.art-video-player .art-bottom .art-progress .art-control-progress .art-control-progress-inner .art-progress-indicator .art-icon{width:100%;height:100%;pointer-events:none;user-select:none}.art-video-player .art-bottom .art-progress .art-control-progress .art-control-progress-inner .art-progress-indicator:hover{transform:scale(1.2)!important}.art-video-player .art-bottom .art-progress .art-control-progress .art-control-progress-inner .art-progress-tip{z-index:50;height:20px;color:#fff;text-align:center;white-space:nowrap;background:#000000b3;border-radius:3px;padding:0 5px;font-size:12px;font-weight:700;line-height:20px;display:none;position:absolute;top:-25px;left:0}.art-video-player .art-bottom .art-progress .art-control-thumbnails{pointer-events:none;background-color:#000000b3;display:none;position:absolute;bottom:8px;left:0}.art-video-player .art-bottom .art-progress .art-control-loop{width:100%;height:100%;pointer-events:none;display:none;position:absolute;inset:0}.art-video-player .art-bottom .art-progress .art-control-loop .art-loop-point{width:2px;height:8px;background:#ffffffbf;position:absolute;top:-2px;left:0}.art-video-player .art-bottom .art-controls{z-index:1;pointer-events:auto;height:45px;justify-content:space-between;align-items:center;display:flex;position:relative}.art-video-player .art-bottom .art-controls .art-controls-left,.art-video-player .art-bottom .art-controls .art-controls-right{display:flex}.art-video-player .art-bottom .art-controls .art-controls-center{height:100%;flex:1;justify-content:center;align-items:center;padding:0 10px;display:flex}.art-video-player .art-bottom .art-controls .art-controls-right{justify-content:flex-end}.art-video-player .art-bottom .art-controls .art-control{opacity:.9;min-height:36px;min-width:36px;text-align:center;cursor:pointer;white-space:nowrap;justify-content:center;align-items:center;font-size:12px;line-height:1;display:flex}.art-video-player .art-bottom .art-controls .art-control .art-icon{float:left;height:36px;width:36px;justify-content:center;align-items:center;display:flex}.art-video-player .art-bottom .art-controls .art-control:hover{opacity:1}.art-video-player .art-bottom .art-controls .art-control-volume .art-volume-panel{float:left;width:0;height:100%;transition:margin .2s cubic-bezier(.4,0,1,1),width .2s cubic-bezier(.4,0,1,1);position:relative;overflow:hidden}.art-video-player .art-bottom .art-controls .art-control-volume .art-volume-panel .art-volume-slider-handle{width:12px;height:12px;background:#fff;border-radius:12px;margin-top:-6px;position:absolute;top:50%;left:0}.art-video-player .art-bottom .art-controls .art-control-volume .art-volume-panel .art-volume-slider-handle:before{background:#fff;left:-54px}.art-video-player .art-bottom .art-controls .art-control-volume .art-volume-panel .art-volume-slider-handle:after{background:#fff3;left:6px}.art-video-player .art-bottom .art-controls .art-control-volume .art-volume-panel .art-volume-slider-handle:before,.art-video-player .art-bottom .art-controls .art-control-volume .art-volume-panel .art-volume-slider-handle:after{content:"";height:3px;width:60px;margin-top:-2px;display:block;position:absolute;top:50%}.art-video-player .art-bottom .art-controls .art-control-volume:hover .art-volume-panel{width:60px}.art-video-player .art-bottom .art-controls .art-control-quality{z-index:30;position:relative}.art-video-player .art-bottom .art-controls .art-control-quality .art-qualitys{width:100px;text-align:center;color:#fff;background:#000c;border-radius:3px;padding:5px 0;display:none;position:absolute;bottom:35px}.art-video-player .art-bottom .art-controls .art-control-quality .art-qualitys .art-quality-item{height:30px;text-overflow:ellipsis;white-space:nowrap;text-shadow:0 0 2px #00000080;line-height:30px;overflow:hidden}.art-video-player .art-bottom .art-controls .art-control-quality .art-qualitys .art-quality-item:hover{background-color:#ffffff1a}.art-video-player .art-bottom .art-controls .art-control-quality:hover .art-qualitys{display:block}.art-video-player .art-bottom:hover .art-progress .art-control-progress .art-control-progress-inner{height:100%}.art-video-player .art-bottom:hover .art-progress .art-control-progress .art-control-progress-inner .art-progress-indicator{visibility:visible;transform:scale(1)}.art-video-player.art-control-show .art-bottom,.art-video-player.art-hover .art-bottom{opacity:1;visibility:visible}.art-video-player.art-error .art-progress-indicator,.art-video-player.art-destroy .art-progress-indicator,.art-video-player.art-error .art-progress-tip,.art-video-player.art-destroy .art-progress-tip{display:none!important}.art-video-player.art-mobile .art-bottom{height:105px;padding:50px 7px 0}.art-video-player.art-mobile .art-bottom .art-controls{height:40px}.art-video-player.art-mobile .art-bottom .art-progress-indicator{visibility:visible!important;transform:scale(1)!important}.art-video-player .art-notice{z-index:80;width:100%;pointer-events:none;padding:10px;font-size:14px;display:none;position:absolute;top:0;left:0}.art-video-player .art-notice .art-notice-inner{color:#fff;background-color:#0009;border-radius:3px;padding:5px 10px;display:inline-block}.art-video-player.art-notice-show .art-notice{display:flex}.art-video-player .art-contextmenus{z-index:120;min-width:200px;background-color:#000000e6;border-radius:3px;flex-direction:column;padding:5px 0;display:none;position:absolute;top:10px;left:10px}.art-video-player .art-contextmenus .art-contextmenu{cursor:pointer;color:#fff;text-overflow:ellipsis;white-space:nowrap;text-shadow:0 0 2px #00000080;border-bottom:1px solid #ffffff1a;padding:10px 15px;font-size:12px;display:block;overflow:hidden}.art-video-player .art-contextmenus .art-contextmenu a{color:#fff;text-decoration:none}.art-video-player .art-contextmenus .art-contextmenu span{padding:0 7px;display:inline-block}.art-video-player .art-contextmenus .art-contextmenu span:hover,.art-video-player .art-contextmenus .art-contextmenu span.art-current{color:var(--theme)}.art-video-player .art-contextmenus .art-contextmenu:hover{background-color:#ffffff1a}.art-video-player .art-contextmenus .art-contextmenu:last-child{border-bottom:none}.art-video-player.art-contextmenu-show .art-contextmenus{display:flex}.art-video-player .art-settings{z-index:90;height:auto;max-height:300px;background-color:#000000e6;border-radius:3px;font-size:13px;transition:all .2s;display:none;position:absolute;bottom:50px;right:10px;overflow:auto}.art-video-player .art-settings .art-setting-panel{display:none}.art-video-player .art-settings .art-setting-panel.art-current{display:block}.art-video-player .art-settings .art-setting-panel .art-setting-item{height:35px;cursor:pointer;color:#fffc;justify-content:space-between;align-items:center;padding:0 5px;line-height:1;display:flex;overflow:hidden}.art-video-player .art-settings .art-setting-panel .art-setting-item:hover{color:#fff;background-color:#ffffff1a}.art-video-player .art-settings .art-setting-panel .art-setting-item.art-current{color:var(--theme)}.art-video-player .art-settings .art-setting-panel .art-setting-item .art-icon{width:30px;height:30px;justify-content:center;align-items:center;display:flex}.art-video-player .art-settings .art-setting-panel .art-setting-item .art-icon-check{visibility:hidden;height:15px}.art-video-player .art-settings .art-setting-panel .art-setting-item.art-current .art-icon-check{visibility:visible}.art-video-player .art-settings .art-setting-panel .art-setting-item .art-setting-item-left{white-space:nowrap;align-items:center;display:flex}.art-video-player .art-settings .art-setting-panel .art-setting-item .art-setting-item-left .art-setting-item-left-icon{height:24px;width:24px;justify-content:center;align-items:center;margin-right:10px;display:flex}.art-video-player .art-settings .art-setting-panel .art-setting-item .art-setting-item-right{align-items:center;display:flex}.art-video-player .art-settings .art-setting-panel .art-setting-item .art-setting-item-right .art-setting-item-right-tooltip{white-space:nowrap;color:#ffffff80;margin-right:5px;font-size:12px}.art-video-player .art-settings .art-setting-panel .art-setting-item .art-setting-item-right .art-setting-item-right-icon{height:24px;justify-content:center;align-items:center;display:flex}.art-video-player .art-settings .art-setting-panel .art-setting-item .art-setting-item-right .art-setting-range{height:3px;width:80px;appearance:none;background-color:#fff3;outline:none}.art-video-player .art-settings .art-setting-panel .art-setting-item-back{border-bottom:1px solid #ffffff1a}.art-video-player.art-setting-show .art-settings{display:block}.art-video-player.art-mobile .art-settings{max-height:200px}.art-video-player .art-info{z-index:100;width:350px;color:#fff;-webkit-font-smoothing:antialiased;background-color:#000000e6;flex-direction:column;padding:10px;font-family:Noto Sans CJK SC DemiLight,Roboto,Segoe UI,Tahoma,Arial,Helvetica,sans-serif;font-size:12px;display:none;position:absolute;top:10px;left:10px}.art-video-player .art-info .art-info-item{margin-bottom:5px;display:flex}.art-video-player .art-info .art-info-item .art-info-title{width:100px;text-align:right}.art-video-player .art-info .art-info-item .art-info-content{text-overflow:ellipsis;white-space:nowrap;user-select:all;flex:1;padding-left:5px;overflow:hidden}.art-video-player .art-info .art-info-item:last-child{margin-bottom:0}.art-video-player .art-info .art-info-close{cursor:pointer;position:absolute;top:5px;right:5px}.art-video-player.art-info-show .art-info{display:flex}.art-video-player.art-hide-cursor *{cursor:none!important}.art-video-player[data-aspect-ratio] video{box-sizing:content-box;object-fit:fill}.art-video-player.art-fullscreen-web{z-index:9999;width:100%;height:100%;position:fixed;inset:0}.art-video-player .art-mini-header{z-index:110;height:35px;color:#fff;opacity:0;visibility:hidden;background-color:#00000080;justify-content:space-between;align-items:center;line-height:35px;transition:all .2s ease-in-out;display:none;position:absolute;top:0;left:0;right:0}.art-video-player .art-mini-header .art-mini-title{text-overflow:ellipsis;white-space:nowrap;cursor:move;flex:1;padding:0 10px;overflow:hidden}.art-video-player .art-mini-header .art-mini-close{width:35px;text-align:center;cursor:pointer;font-size:22px}.art-video-player.art-is-dragging{opacity:.7}.art-video-player.art-mini{z-index:9999;width:400px;height:225px;position:fixed;box-shadow:0 2px 5px #00000029,0 3px 6px #0003}.art-video-player.art-mini .art-mini-header{user-select:none;display:flex}.art-video-player.art-mini.art-hover .art-mini-header{opacity:1;visibility:visible}.art-video-player.art-mini .art-mask .art-state{position:static}.art-video-player.art-mini .art-contextmenu,.art-video-player.art-mini .art-bottom,.art-video-player.art-mini .art-danmu,.art-video-player.art-mini .art-info,.art-video-player.art-mini .art-layers,.art-video-player.art-mini .art-notice,.art-video-player.art-mini .art-settings,.art-video-player.art-mini .art-subtitle{display:none!important}.art-auto-size{justify-content:center;align-items:center;display:flex}.art-auto-size .art-video-player{transition:all .2s}.art-video-player[data-flip=horizontal] .art-video{transform:scaleX(-1)}.art-video-player[data-flip=vertical] .art-video{transform:scaleY(-1)}.art-video-player .art-layer-miniProgressBar{height:2px;background-color:var(--theme);display:block;position:absolute;bottom:0;left:0;right:0}.art-video-player .art-layer-lock{height:34px;width:34px;color:#fff;background-color:#00000080;border-radius:50%;justify-content:center;align-items:center;display:none;position:absolute;top:calc(50% - 17px);left:15px}.art-video-player .art-layer-autoPlayback{background-color:#000c;border-radius:3px;align-items:center;padding:10px;line-height:1;display:none;position:absolute;bottom:60px;left:20px}.art-video-player .art-layer-autoPlayback .art-autoPlayback-close{cursor:pointer;align-items:center;margin-right:10px;display:flex}.art-video-player .art-layer-autoPlayback .art-autoPlayback-close svg{width:15px;height:15px;fill:var(--theme)}.art-video-player .art-layer-autoPlayback .art-autoPlayback-last{margin-right:10px}.art-video-player .art-layer-autoPlayback .art-autoPlayback-jump{color:var(--theme);cursor:pointer}.art-video-player.art-lock .art-bottom{display:none!important}.art-video-player.art-lock .art-subtitle{bottom:10px!important}.art-video-player.art-lock .art-layer-miniProgressBar{display:block!important}.art-video-player.art-control-show .art-layer-miniProgressBar{display:none}.art-video-player.art-control-show .art-layer-lock{display:flex}.art-video-player .art-control-selector{position:relative}.art-video-player .art-control-selector .art-selector-list{min-width:100px;max-width:200px;max-height:200px;text-align:center;color:#fff;background-color:#000c;border-radius:3px;padding:5px 0;display:none;position:absolute;bottom:35px;overflow:auto}.art-video-player .art-control-selector .art-selector-list .art-selector-item{height:30px;text-overflow:ellipsis;white-space:nowrap;text-shadow:0 0 2px #00000080;padding:0 5px;line-height:30px;overflow:hidden}.art-video-player .art-control-selector .art-selector-list .art-selector-item:hover{background-color:#ffffff1a}.art-video-player .art-control-selector .art-selector-list .art-selector-item:hover,.art-video-player .art-control-selector .art-selector-list .art-selector-item.art-current{color:var(--theme)}.art-video-player .art-control-selector:hover .art-selector-list{display:block}[class*=hint--]{font-style:normal;display:inline-block;position:relative}[class*=hint--]:before,[class*=hint--]:after{visibility:hidden;opacity:0;z-index:1000000;pointer-events:none;transition:all .3s;position:absolute;transform:translate(0,0)}[class*=hint--]:hover:before,[class*=hint--]:hover:after{visibility:visible;opacity:1;transition-delay:.1s}[class*=hint--]:before{content:"";z-index:1000001;background:0 0;border:6px solid #0000;position:absolute}[class*=hint--]:after{color:#fff;white-space:nowrap;background:#000;padding:8px 10px;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;font-size:12px;line-height:12px}[class*=hint--][aria-label]:after{content:attr(aria-label)}[class*=hint--][data-hint]:after{content:attr(data-hint)}[aria-label=""]:before,[aria-label=""]:after,[data-hint=""]:before,[data-hint=""]:after{display:none!important}.hint--top-left:before,.hint--top-right:before,.hint--top:before{border-top-color:#000}.hint--bottom-left:before,.hint--bottom-right:before,.hint--bottom:before{border-bottom-color:#000}.hint--left:before{border-left-color:#000}.hint--right:before{border-right-color:#000}.hint--top:before{margin-bottom:-11px}.hint--top:before,.hint--top:after{bottom:100%;left:50%}.hint--top:before{left:calc(50% - 6px)}.hint--top:after{transform:translate(-50%)}.hint--top:hover:before{transform:translateY(-8px)}.hint--top:hover:after{transform:translate(-50%)translateY(-8px)}.hint--bottom:before{margin-top:-11px}.hint--bottom:before,.hint--bottom:after{top:100%;left:50%}.hint--bottom:before{left:calc(50% - 6px)}.hint--bottom:after{transform:translate(-50%)}.hint--bottom:hover:before{transform:translateY(8px)}.hint--bottom:hover:after{transform:translate(-50%)translateY(8px)}.hint--right:before{margin-bottom:-6px;margin-left:-11px}.hint--right:after{margin-bottom:-14px}.hint--right:before,.hint--right:after{bottom:50%;left:100%}.hint--right:hover:before,.hint--right:hover:after{transform:translate(8px)}.hint--left:before{margin-bottom:-6px;margin-right:-11px}.hint--left:after{margin-bottom:-14px}.hint--left:before,.hint--left:after{bottom:50%;right:100%}.hint--left:hover:before,.hint--left:hover:after{transform:translate(-8px)}.hint--top-left:before{margin-bottom:-11px}.hint--top-left:before,.hint--top-left:after{bottom:100%;left:50%}.hint--top-left:before{left:calc(50% - 6px)}.hint--top-left:after{margin-left:12px;transform:translate(-100%)}.hint--top-left:hover:before{transform:translateY(-8px)}.hint--top-left:hover:after{transform:translate(-100%)translateY(-8px)}.hint--top-right:before{margin-bottom:-11px}.hint--top-right:before,.hint--top-right:after{bottom:100%;left:50%}.hint--top-right:before{left:calc(50% - 6px)}.hint--top-right:after{margin-left:-12px;transform:translate(0)}.hint--top-right:hover:before,.hint--top-right:hover:after{transform:translateY(-8px)}.hint--bottom-left:before{margin-top:-11px}.hint--bottom-left:before,.hint--bottom-left:after{top:100%;left:50%}.hint--bottom-left:before{left:calc(50% - 6px)}.hint--bottom-left:after{margin-left:12px;transform:translate(-100%)}.hint--bottom-left:hover:before{transform:translateY(8px)}.hint--bottom-left:hover:after{transform:translate(-100%)translateY(8px)}.hint--bottom-right:before{margin-top:-11px}.hint--bottom-right:before,.hint--bottom-right:after{top:100%;left:50%}.hint--bottom-right:before{left:calc(50% - 6px)}.hint--bottom-right:after{margin-left:-12px;transform:translate(0)}.hint--bottom-right:hover:before,.hint--bottom-right:hover:after{transform:translateY(8px)}.hint--small:after,.hint--medium:after,.hint--large:after{white-space:normal;word-wrap:break-word;line-height:1.4em}.hint--small:after{width:80px}.hint--medium:after{width:150px}.hint--large:after{width:300px}[class*=hint--]:after{text-shadow:0 -1px #000;box-shadow:4px 4px 8px #0000004d}.hint--error:after{text-shadow:0 -1px #592726;background-color:#b34e4d}.hint--error.hint--top-left:before,.hint--error.hint--top-right:before,.hint--error.hint--top:before{border-top-color:#b34e4d}.hint--error.hint--bottom-left:before,.hint--error.hint--bottom-right:before,.hint--error.hint--bottom:before{border-bottom-color:#b34e4d}.hint--error.hint--left:before{border-left-color:#b34e4d}.hint--error.hint--right:before{border-right-color:#b34e4d}.hint--warning:after{text-shadow:0 -1px #6c5328;background-color:#c09854}.hint--warning.hint--top-left:before,.hint--warning.hint--top-right:before,.hint--warning.hint--top:before{border-top-color:#c09854}.hint--warning.hint--bottom-left:before,.hint--warning.hint--bottom-right:before,.hint--warning.hint--bottom:before{border-bottom-color:#c09854}.hint--warning.hint--left:before{border-left-color:#c09854}.hint--warning.hint--right:before{border-right-color:#c09854}.hint--info:after{text-shadow:0 -1px #1a3c4d;background-color:#3986ac}.hint--info.hint--top-left:before,.hint--info.hint--top-right:before,.hint--info.hint--top:before{border-top-color:#3986ac}.hint--info.hint--bottom-left:before,.hint--info.hint--bottom-right:before,.hint--info.hint--bottom:before{border-bottom-color:#3986ac}.hint--info.hint--left:before{border-left-color:#3986ac}.hint--info.hint--right:before{border-right-color:#3986ac}.hint--success:after{text-shadow:0 -1px #1a321a;background-color:#458746}.hint--success.hint--top-left:before,.hint--success.hint--top-right:before,.hint--success.hint--top:before{border-top-color:#458746}.hint--success.hint--bottom-left:before,.hint--success.hint--bottom-right:before,.hint--success.hint--bottom:before{border-bottom-color:#458746}.hint--success.hint--left:before{border-left-color:#458746}.hint--success.hint--right:before{border-right-color:#458746}.hint--always:after,.hint--always:before{opacity:1;visibility:visible}.hint--always.hint--top:before{transform:translateY(-8px)}.hint--always.hint--top:after{transform:translate(-50%)translateY(-8px)}.hint--always.hint--top-left:before{transform:translateY(-8px)}.hint--always.hint--top-left:after{transform:translate(-100%)translateY(-8px)}.hint--always.hint--top-right:before,.hint--always.hint--top-right:after{transform:translateY(-8px)}.hint--always.hint--bottom:before{transform:translateY(8px)}.hint--always.hint--bottom:after{transform:translate(-50%)translateY(8px)}.hint--always.hint--bottom-left:before{transform:translateY(8px)}.hint--always.hint--bottom-left:after{transform:translate(-100%)translateY(8px)}.hint--always.hint--bottom-right:before,.hint--always.hint--bottom-right:after{transform:translateY(8px)}.hint--always.hint--left:before,.hint--always.hint--left:after{transform:translate(-8px)}.hint--always.hint--right:before,.hint--always.hint--right:after{transform:translate(8px)}.hint--rounded:after{border-radius:4px}.hint--no-animate:before,.hint--no-animate:after{transition-duration:0s}.hint--bounce:before,.hint--bounce:after{-webkit-transition:opacity .3s,visibility .3s,-webkit-transform .3s cubic-bezier(.71,1.7,.77,1.24);-moz-transition:opacity .3s,visibility .3s,-moz-transform .3s cubic-bezier(.71,1.7,.77,1.24);transition:opacity .3s,visibility .3s,transform .3s cubic-bezier(.71,1.7,.77,1.24)}.hint--no-shadow:before,.hint--no-shadow:after{text-shadow:initial;box-shadow:initial}.hint--no-arrow:before{display:none}'
 	}, {}],
-	"9I0i9": [function(e, t, r) {
-		t.exports = function() {
+	"9I0i9": [function (e, t, r) {
+		t.exports = function () {
 			"use strict";
 
 			function e(t) {
-				return (e = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(e) {
+				return (e = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (e) {
 					return typeof e
-				} : function(e) {
+				} : function (e) {
 					return e && "function" == typeof Symbol && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e
 				})(t)
 			}
 			var t = Object.prototype.toString,
-				r = function(r) {
+				r = function (r) {
 					if (void 0 === r) return "undefined";
 					if (null === r) return "null";
 					var i = e(r);
@@ -284,32 +284,32 @@
 					if ("string" === i) return "string";
 					if ("number" === i) return "number";
 					if ("symbol" === i) return "symbol";
-					if ("function" === i) return function(e) {
+					if ("function" === i) return function (e) {
 						return "GeneratorFunction" === o(e)
 					}(r) ? "generatorfunction" : "function";
-					if (function(e) {
-							return Array.isArray ? Array.isArray(e) : e instanceof Array
-						}(r)) return "array";
-					if (function(e) {
-							return !(!e.constructor || "function" != typeof e.constructor.isBuffer) && e.constructor.isBuffer(e)
-						}(r)) return "buffer";
-					if (function(e) {
-							try {
-								if ("number" == typeof e.length && "function" == typeof e.callee) return !0
-							} catch (e) {
-								if (-1 !== e.message.indexOf("callee")) return !0
-							}
-							return !1
-						}(r)) return "arguments";
-					if (function(e) {
-							return e instanceof Date || "function" == typeof e.toDateString && "function" == typeof e.getDate && "function" == typeof e.setDate
-						}(r)) return "date";
-					if (function(e) {
-							return e instanceof Error || "string" == typeof e.message && e.constructor && "number" == typeof e.constructor.stackTraceLimit
-						}(r)) return "error";
-					if (function(e) {
-							return e instanceof RegExp || "string" == typeof e.flags && "boolean" == typeof e.ignoreCase && "boolean" == typeof e.multiline && "boolean" == typeof e.global
-						}(r)) return "regexp";
+					if (function (e) {
+						return Array.isArray ? Array.isArray(e) : e instanceof Array
+					}(r)) return "array";
+					if (function (e) {
+						return !(!e.constructor || "function" != typeof e.constructor.isBuffer) && e.constructor.isBuffer(e)
+					}(r)) return "buffer";
+					if (function (e) {
+						try {
+							if ("number" == typeof e.length && "function" == typeof e.callee) return !0
+						} catch (e) {
+							if (-1 !== e.message.indexOf("callee")) return !0
+						}
+						return !1
+					}(r)) return "arguments";
+					if (function (e) {
+						return e instanceof Date || "function" == typeof e.toDateString && "function" == typeof e.getDate && "function" == typeof e.setDate
+					}(r)) return "date";
+					if (function (e) {
+						return e instanceof Error || "string" == typeof e.message && e.constructor && "number" == typeof e.constructor.stackTraceLimit
+					}(r)) return "error";
+					if (function (e) {
+						return e instanceof RegExp || "string" == typeof e.flags && "boolean" == typeof e.ignoreCase && "boolean" == typeof e.multiline && "boolean" == typeof e.global
+					}(r)) return "regexp";
 					switch (o(r)) {
 						case "Symbol":
 							return "symbol";
@@ -342,9 +342,9 @@
 						case "Float64Array":
 							return "float64array"
 					}
-					if (function(e) {
-							return "function" == typeof e.throw && "function" == typeof e.return && "function" == typeof e.next
-						}(r)) return "generator";
+					if (function (e) {
+						return "function" == typeof e.throw && "function" == typeof e.return && "function" == typeof e.next
+					}(r)) return "generator";
 					switch (i = t.call(r)) {
 						case "[object Object]":
 							return "object";
@@ -367,12 +367,12 @@
 			function i(e, t) {
 				var o = 2 < arguments.length && void 0 !== arguments[2] ? arguments[2] : ["option"];
 				return a(e, t, o), n(e, t, o),
-					function(e, t, o) {
+					function (e, t, o) {
 						var s = r(t),
 							l = r(e);
 						if ("object" === s) {
 							if ("object" !== l) throw new Error("[Type Error]: '".concat(o.join("."), "' require 'object' type, but got '").concat(l, "'"));
-							Object.keys(t).forEach((function(r) {
+							Object.keys(t).forEach((function (r) {
 								var s = e[r],
 									l = t[r],
 									c = o.slice();
@@ -381,7 +381,7 @@
 						}
 						if ("array" === s) {
 							if ("array" !== l) throw new Error("[Type Error]: '".concat(o.join("."), "' require 'array' type, but got '").concat(l, "'"));
-							e.forEach((function(r, s) {
+							e.forEach((function (r, s) {
 								var l = e[s],
 									c = t[s] || t[0],
 									u = o.slice();
@@ -394,11 +394,11 @@
 			function a(e, t, o) {
 				if ("string" === r(t)) {
 					var i = r(e);
-					if ("?" === t[0] && (t = t.slice(1) + "|undefined"), !(-1 < t.indexOf("|") ? t.split("|").map((function(e) {
-							return e.toLowerCase().trim()
-						})).filter(Boolean).some((function(e) {
-							return i === e
-						})) : t.toLowerCase().trim() === i)) throw new Error("[Type Error]: '".concat(o.join("."), "' require '").concat(t, "' type, but got '").concat(i, "'"))
+					if ("?" === t[0] && (t = t.slice(1) + "|undefined"), !(-1 < t.indexOf("|") ? t.split("|").map((function (e) {
+						return e.toLowerCase().trim()
+					})).filter(Boolean).some((function (e) {
+						return i === e
+					})) : t.toLowerCase().trim() === i)) throw new Error("[Type Error]: '".concat(o.join("."), "' require '").concat(t, "' type, but got '").concat(i, "'"))
 				}
 			}
 
@@ -414,7 +414,7 @@
 			return i.kindOf = r, i
 		}()
 	}, {}],
-	"2bGVu": [function(e, t, r) {
+	"2bGVu": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		r.default = class {
 			on(e, t, r) {
@@ -449,32 +449,32 @@
 	}, {
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	guZOB: [function(e, t, r) {
-		r.interopDefault = function(e) {
+	guZOB: [function (e, t, r) {
+		r.interopDefault = function (e) {
 			return e && e.__esModule ? e : {
 				default: e
 			}
-		}, r.defineInteropFlag = function(e) {
+		}, r.defineInteropFlag = function (e) {
 			Object.defineProperty(e, "__esModule", {
 				value: !0
 			})
-		}, r.exportAll = function(e, t) {
-			return Object.keys(e).forEach((function(r) {
+		}, r.exportAll = function (e, t) {
+			return Object.keys(e).forEach((function (r) {
 				"default" === r || "__esModule" === r || t.hasOwnProperty(r) || Object.defineProperty(t, r, {
 					enumerable: !0,
-					get: function() {
+					get: function () {
 						return e[r]
 					}
 				})
 			})), t
-		}, r.export = function(e, t, r) {
+		}, r.export = function (e, t, r) {
 			Object.defineProperty(e, t, {
 				enumerable: !0,
 				get: r
 			})
 		}
 	}, {}],
-	h3rH9: [function(e, t, r) {
+	h3rH9: [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r);
 		var i = e("./dom");
@@ -504,7 +504,7 @@
 		"./compatibility": "luXC1",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	XgAQE: [function(e, t, r) {
+	XgAQE: [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r), o.export(r, "query", (() => a)), o.export(r, "queryAll", (() => n)), o.export(r, "addClass", (() => s)), o.export(r, "removeClass", (() => l)), o.export(r, "hasClass", (() => c)), o.export(r, "append", (() => u)), o.export(r, "remove", (() => p)), o.export(r, "setStyle", (() => d)), o.export(r, "setStyles", (() => f)), o.export(r, "getStyle", (() => h)), o.export(r, "sublings", (() => m)), o.export(r, "inverseClass", (() => g)), o.export(r, "tooltip", (() => y)), o.export(r, "isInViewport", (() => v)), o.export(r, "includeFromEvent", (() => b)), o.export(r, "replaceElement", (() => x)), o.export(r, "createElement", (() => w));
 		var i = e("./compatibility");
@@ -588,7 +588,7 @@
 		"./compatibility": "luXC1",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	luXC1: [function(e, t, r) {
+	luXC1: [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r), o.export(r, "userAgent", (() => i)), o.export(r, "isMobile", (() => a)), o.export(r, "isSafari", (() => n)), o.export(r, "isWechat", (() => s)), o.export(r, "isIE", (() => l)), o.export(r, "isAndroid", (() => c)), o.export(r, "isIOS", (() => u));
 		const i = "undefined" != typeof window ? window.navigator.userAgent : "",
@@ -601,7 +601,7 @@
 	}, {
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"2nFlF": [function(e, t, r) {
+	"2nFlF": [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r), o.export(r, "ArtPlayerError", (() => i)), o.export(r, "errorHandle", (() => a));
 		class i extends Error {
@@ -617,7 +617,7 @@
 	}, {
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	yqFoT: [function(e, t, r) {
+	yqFoT: [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 
 		function i(e) {
@@ -646,7 +646,7 @@
 					return 0 === t ? e : t === r.length - 1 ? `.${e}` : `:${e}`
 				})).join("")
 			}
-			return `WEBVTT\n\n${e.split(/\r?\n/).map((e=>{const o=e.match(t);return o?{start:r(o[1].trim()),end:r(o[2].trim()),text:o[5].replace(/{[\s\S]*?}/g,"").replace(/(\\N)/g,"\n").trim().split(/\r?\n/).map((e=>e.trim())).join("\n")}:null})).filter((e=>e)).map(((e,t)=>e?`
+			return `WEBVTT\n\n${e.split(/\r?\n/).map((e => { const o = e.match(t); return o ? { start: r(o[1].trim()), end: r(o[2].trim()), text: o[5].replace(/{[\s\S]*?}/g, "").replace(/(\\N)/g, "\n").trim().split(/\r?\n/).map((e => e.trim())).join("\n") } : null })).filter((e => e)).map(((e, t) => e ? `
 			$ {
 				t + 1
 			}\
@@ -658,13 +658,13 @@
 			n$ {
 				e.text
 			}
-			`:"")).filter((e=>e.trim())).join("\n\n")}`
+			`: "")).filter((e => e.trim())).join("\n\n")}`
 		}
 		o.defineInteropFlag(r), o.export(r, "srtToVtt", (() => i)), o.export(r, "vttToBlob", (() => a)), o.export(r, "assToVtt", (() => n))
 	}, {
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"1VRQn": [function(e, t, r) {
+	"1VRQn": [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 
 		function i(e) {
@@ -679,7 +679,7 @@
 	}, {
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"3weX2": [function(e, t, r) {
+	"3weX2": [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r), o.export(r, "def", (() => i)), o.export(r, "has", (() => n)), o.export(r, "get", (() => s)), o.export(r, "mergeDeep", (() => l));
 		const i = Object.defineProperty,
@@ -706,7 +706,7 @@
 	}, {
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"7kBIx": [function(e, t, r) {
+	"7kBIx": [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 
 		function i(e = 0) {
@@ -717,11 +717,11 @@
 			let o;
 
 			function i(...i) {
-				clearTimeout(o), o = setTimeout((function() {
+				clearTimeout(o), o = setTimeout((function () {
 					o = null, e.apply(r, i)
 				}), t)
 			}
-			return i.clearTimeout = function() {
+			return i.clearTimeout = function () {
 				clearTimeout(o)
 			}, i
 		}
@@ -729,7 +729,7 @@
 		function n(e, t) {
 			let r, o, i = !1;
 			return function a(...n) {
-				if (i) return r = n, void(o = this);
+				if (i) return r = n, void (o = this);
 				i = !0, e.apply(this, n), setTimeout((() => {
 					i = !1, r && (a.apply(o, r), r = null, o = null)
 				}), t)
@@ -739,7 +739,7 @@
 	}, {
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"13atT": [function(e, t, r) {
+	"13atT": [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 
 		function i(e, t, r) {
@@ -768,13 +768,13 @@
 				">": "&gt;",
 				"'": "&#39;",
 				'"': "&quot;"
-			} [e] || e)))
+			}[e] || e)))
 		}
 		o.defineInteropFlag(r), o.export(r, "clamp", (() => i)), o.export(r, "capitalize", (() => a)), o.export(r, "isStringOrNumber", (() => n)), o.export(r, "secondToTime", (() => s)), o.export(r, "escape", (() => l))
 	}, {
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	AdvwB: [function(e, t, r) {
+	AdvwB: [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r), o.export(r, "ComponentOption", (() => d));
 		var i = e("../utils");
@@ -884,7 +884,7 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"9Xmqu": [function(e, t, r) {
+	"9Xmqu": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r), r.default = {
 			propertys: ["audioTracks", "autoplay", "buffered", "controller", "controls", "crossOrigin", "currentSrc", "currentTime", "defaultMuted", "defaultPlaybackRate", "duration", "ended", "error", "loop", "mediaGroup", "muted", "networkState", "paused", "playbackRate", "played", "preload", "readyState", "seekable", "seeking", "src", "startDate", "textTracks", "videoTracks", "volume"],
 			methods: ["addTextTrack", "canPlayType", "load", "play", "pause"],
@@ -894,7 +894,7 @@
 	}, {
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	jgRHH: [function(e, t, r) {
+	jgRHH: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("./utils");
 		r.default = class {
@@ -926,7 +926,7 @@
 		"./utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"2gKYH": [function(e, t, r) {
+	"2gKYH": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("./utils");
 		class i {
@@ -965,7 +965,7 @@
 		"./utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"1AdeF": [function(e, t, r) {
+	"1AdeF": [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r);
 		var i = e("../utils"),
@@ -1013,25 +1013,25 @@
 		"./fa.json": "l5Cvm",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	ho6iH: [function(e, t, r) {
+	ho6iH: [function (e, t, r) {
 		t.exports = JSON.parse('{"Video Info":"统计信息","Close":"关闭","Video Load Failed":"加载失败","Volume":"音量","Play":"播放","Pause":"暂停","Rate":"速度","Mute":"静音","Video Flip":"画面翻转","Horizontal":"水平","Vertical":"垂直","Reconnect":"重新连接","Show Setting":"显示设置","Hide Setting":"隐藏设置","Screenshot":"截图","Play Speed":"播放速度","Aspect Ratio":"画面比例","Default":"默认","Normal":"正常","Open":"打开","Switch Video":"切换","Switch Subtitle":"切换字幕","Fullscreen":"全屏","Exit Fullscreen":"退出全屏","Web Fullscreen":"网页全屏","Exit Web Fullscreen":"退出网页全屏","Mini Player":"迷你播放器","PIP Mode":"开启画中画","Exit PIP Mode":"退出画中画","PIP Not Supported":"不支持画中画","Fullscreen Not Supported":"不支持全屏","Subtitle Offset":"字幕偏移","Last Seen":"上次看到","Xem tiếp":"跳转播放","AirPlay":"隔空播放","AirPlay Not Available":"隔空播放不可用"}')
 	}, {}],
-	"7iMjq": [function(e, t, r) {
+	"7iMjq": [function (e, t, r) {
 		t.exports = JSON.parse('{"Video Info":"統計訊息","Close":"關閉","Video Load Failed":"載入失敗","Volume":"音量","Play":"播放","Pause":"暫停","Rate":"速度","Mute":"靜音","Video Flip":"畫面翻轉","Horizontal":"水平","Vertical":"垂直","Reconnect":"重新連接","Show Setting":"顯示设置","Hide Setting":"隱藏设置","Screenshot":"截圖","Play Speed":"播放速度","Aspect Ratio":"畫面比例","Default":"默認","Normal":"正常","Open":"打開","Switch Video":"切換","Switch Subtitle":"切換字幕","Fullscreen":"全屏","Exit Fullscreen":"退出全屏","Web Fullscreen":"網頁全屏","Exit Web Fullscreen":"退出網頁全屏","Mini Player":"迷你播放器","PIP Mode":"開啟畫中畫","Exit PIP Mode":"退出畫中畫","PIP Not Supported":"不支持畫中畫","Fullscreen Not Supported":"不支持全屏","Subtitle Offset":"字幕偏移","Last Seen":"上次看到","Xem tiếp":"跳轉播放","AirPlay":"隔空播放","AirPlay Not Available":"隔空播放不可用"}')
 	}, {}],
-	dBKEE: [function(e, t, r) {
+	dBKEE: [function (e, t, r) {
 		t.exports = JSON.parse('{"Video Info":"Informacje o wideo","Close":"Zamknij","Video Load Failed":"Błąd ładowania wideo","Volume":"Głośność","Play":"Odtwórz","Pause":"Wstrzymaj","Rate":"Oceń","Mute":"Wycisz","Video Flip":"Rotacja wideo","Horizontal":"Pozioma","Vertical":"Pionowa","Reconnect":"Połącz ponownie","Show Setting":"Pokaż ustawienia","Hide Setting":"Ukryj ustawienia","Screenshot":"Zrzut ekranu","Play Speed":"Prędkość odtwarzania","Aspect Ratio":"Współczynnik proporcji","Default":"Domyślny","Normal":"Normalny","Open":"Otwórz","Switch Video":"Przełącz wideo","Switch Subtitle":"Przełącz napisy","Fullscreen":"Pełny ekran","Exit Fullscreen":"Zamknij pełny ekran","Web Fullscreen":"Tryb pełnej strony","Exit Web Fullscreen":"Zamknij tryb pełnej strony","Mini Player":"Miniodtwarzacz","PIP Mode":"Tryb PiP","Exit PIP Mode":"Zamknij tryb PiP","PIP Not Supported":"Tryb PiP nieobsługiwany","Fullscreen Not Supported":"Pełny ekran nieobsługiwany","Subtitle Offset":"Przesunięcie napisów","Last Seen":"Ostatnio widziany","Xem tiếp":"Skocz do gry","AirPlay":"AirPlay","AirPlay Not Available":"AirPlay nie jest dostępny"}')
 	}, {}],
-	"6SDKc": [function(e, t, r) {
+	"6SDKc": [function (e, t, r) {
 		t.exports = JSON.parse('{"Video Info":"Info o videu","Close":"Zavřít","Video Load Failed":"Nahrání videa selhalo","Volume":"Hlasitost","Play":"Přehrát","Pause":"Pozastavit","Rate":"Hodnocení","Mute":"Ztlumit","Video Flip":"Otočit video","Horizontal":"Horizontálně","Vertical":"Vertikálně","Reconnect":"Opětovné připojení","Show Setting":"Zobrazit nastavení","Hide Setting":"Skrýt nastavení","Screenshot":"Snímek obrazovky","Play Speed":"Rychlost přehrávání","Aspect Ratio":"Poměr stran","Default":"Výchozí","Normal":"Normální","Open":"Otevřít","Switch Video":"Přepnout video","Switch Subtitle":"Přepnout titulky","Fullscreen":"Celá obrazovka","Exit Fullscreen":"Opustit režim celé obrazovky","Web Fullscreen":"Celá stránka","Exit Web Fullscreen":"Zavřít režim celé stránky","Mini Player":"Mini přehrávač","PIP Mode":"Režim PIP","Exit PIP Mode":"Opustit režim PIP","PIP Not Supported":"Režim PIP není podporován","Fullscreen Not Supported":"Režim celé obrazovky není podporován","Subtitle Offset":"Posun titulků","Last Seen":"Naposledy viděn","Xem tiếp":"Hra na skok","AirPlay":"AirPlay","AirPlay Not Available":"AirPlay není k dispozici"}')
 	}, {}],
-	dtcbg: [function(e, t, r) {
+	dtcbg: [function (e, t, r) {
 		t.exports = JSON.parse('{"Video Info":"Información del video","Close":"Cerrar","Video Load Failed":"Falló carga de video","Volume":"Volumen","Play":"Reproduciendo","Pause":"Pausa","Rate":"Velocidad","Mute":"Silencio","Video Flip":"Rotar video","Horizontal":"Horizontal","Vertical":"Vertical","Reconnect":"Reconectando","Show Setting":"Mostrar ajustes","Hide Setting":"Ocultar ajustes","Screenshot":"Captura de Pantalla","Play Speed":"Velocidad de reproducción","Aspect Ratio":"Relación de aspecto","Default":"Por defecto","Normal":"Normal","Open":"Abrir","Switch Video":"Cambiar video","Switch Subtitle":"Cambiar subtítulo","Fullscreen":"Pantalla completa","Exit Fullscreen":"Salir de Pantalla completa","Web Fullscreen":"Pantalla completa Web","Exit Web Fullscreen":"Salir de Pantalla completa","Mini Player":"Mini reproductor","PIP Mode":"Modo PiP","Exit PIP Mode":"Cerrar modo PiP","PIP Not Supported":"Modo PiP no compatible","Fullscreen Not Supported":"Pantalla completa no soportada","Subtitle Offset":"Ajuste subtítulo","Last Seen":"Visto última vez","Xem tiếp":"Saltar","AirPlay":"AirPlay","AirPlay Not Available":"AirPlay no disponible"}')
 	}, {}],
-	l5Cvm: [function(e, t, r) {
+	l5Cvm: [function (e, t, r) {
 		t.exports = JSON.parse('{"Video Info":"اطلاعات ویدیو","Close":"بستن","Video Load Failed":"بارگذاری ناموفق","Play":"پخش","Volume":"میزان صدا","Pause":"توقف","Rate":"نرخ","Mute":"سکوت","Video Flip":"چرخش تصویر","Horizontal":"افقی","Vertical":"عمودی","Reconnect":"اتصال مجدد","Show Setting":"تنظیمات","Hide Setting":"بستن تنظیمات","Screenshot":"عکس از صفحه","Play Speed":"سرعت پخش","Aspect Ratio":"نسبت تصویر","Default":"حالت پیشفرض","Normal":" حالت عادی","Open":"بازکردن","Switch Video":"تغییر ویدیو","Switch Subtitle":"نغییر زیرنویس","Fullscreen":"تمام صفحه","Exit Fullscreen":"کوچک کردن","Web Fullscreen":"حالت تئاتر","Exit Web Fullscreen":"خروج از حالت تئاتر","Mini Player":"حالت پخش کوچک","PIP Mode":" مینی پلیر","Exit PIP Mode":"خروج از مینی پلیر","PIP Not Supported":"عدم پشتیبانی از مینی پلیر","Fullscreen Not Supported":"عدم پشتیبانی از حالت تمام صفحه","Subtitle Offset":"افست زیرنویس","Last Seen":"آخرین بازدید","Xem tiếp":"جامپ پلی","AirPlay":"ایر پلی","AirPlay Not Available":"عدم پشتیبانی از ایرپلی"}')
 	}, {}],
-	"556MW": [function(e, t, r) {
+	"556MW": [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r);
 		var i = e("./urlMix"),
@@ -1144,10 +1144,10 @@
 		"./eventInit": "3mj0J",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"2mRAc": [function(e, t, r) {
+	"2mRAc": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				option: t,
 				template: {
@@ -1171,10 +1171,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"2EA19": [function(e, t, r) {
+	"2EA19": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				template: {
 					$video: t
@@ -1191,10 +1191,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	fD2Tc: [function(e, t, r) {
+	fD2Tc: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				i18n: t,
 				notice: r,
@@ -1207,7 +1207,7 @@
 				}
 			} = e;
 			(0, o.def)(e, "play", {
-				value: async function() {
+				value: async function () {
 					const o = await n.play();
 					if (r.show = t.get("Play"), e.emit("play"), i.mutex)
 						for (let t = 0; t < a.length; t++) {
@@ -1222,10 +1222,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	c3LGJ: [function(e, t, r) {
+	c3LGJ: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				template: {
 					$video: t
@@ -1244,10 +1244,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	fVsAa: [function(e, t, r) {
+	fVsAa: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			(0, o.def)(e, "toggle", {
 				value: () => e.playing ? e.pause() : e.play()
 			})
@@ -1256,16 +1256,16 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	dmROF: [function(e, t, r) {
+	dmROF: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				notice: t
 			} = e;
 			(0, o.def)(e, "seek", {
 				set(r) {
-					e.currentTime = r, e.emit("seek", e.currentTime), e.duration && (t.show = `${(0,o.secondToTime)(e.currentTime)} / ${(0,o.secondToTime)(e.duration)}`)
+					e.currentTime = r, e.emit("seek", e.currentTime), e.duration && (t.show = `${(0, o.secondToTime)(e.currentTime)} / ${(0, o.secondToTime)(e.duration)}`)
 				}
 			}), (0, o.def)(e, "forward", {
 				set(t) {
@@ -1281,10 +1281,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"9jtfB": [function(e, t, r) {
+	"9jtfB": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				template: {
 					$video: t
@@ -1296,7 +1296,7 @@
 			(0, o.def)(e, "volume", {
 				get: () => t.volume || 0,
 				set: n => {
-					t.volume = (0, o.clamp)(n, 0, 1), i.show = `${r.get("Volume")}: ${parseInt(100*t.volume,10)}`, 0 !== t.volume && a.set("volume", t.volume), e.emit("volume", t.volume)
+					t.volume = (0, o.clamp)(n, 0, 1), i.show = `${r.get("Volume")}: ${parseInt(100 * t.volume, 10)}`, 0 !== t.volume && a.set("volume", t.volume), e.emit("volume", t.volume)
 				}
 			}), (0, o.def)(e, "muted", {
 				get: () => t.muted,
@@ -1309,10 +1309,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"7NCDR": [function(e, t, r) {
+	"7NCDR": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				$video: t
 			} = e.template;
@@ -1327,10 +1327,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	YS7JL: [function(e, t, r) {
+	YS7JL: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			(0, o.def)(e, "duration", {
 				get: () => {
 					const {
@@ -1344,10 +1344,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	dzUqN: [function(e, t, r) {
+	dzUqN: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				i18n: t,
 				option: r,
@@ -1364,7 +1364,7 @@
 						e.playbackRate = !1, e.aspectRatio = !1, e.flip = "normal", e.autoSize = r.autoSize, e.currentTime = n, e.notice.show = "", l && e.play(), a && (i.show = `${t.get("Switch Video")}: ${a}`), e.emit("switch", o), s(o)
 					}))
 				}))
-			}(0, o.def)(e, "switchQuality", {
+			} (0, o.def)(e, "switchQuality", {
 				value: (t, r) => a(t, r, e.currentTime)
 			}), (0, o.def)(e, "switchUrl", {
 				value: (e, t) => a(e, t, 0)
@@ -1374,10 +1374,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"5I2mT": [function(e, t, r) {
+	"5I2mT": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				template: {
 					$video: t
@@ -1390,7 +1390,7 @@
 				set(o) {
 					if (o) {
 						if (o === t.playbackRate) return;
-						t.playbackRate = o, i.show = `${r.get("Rate")}: ${1===o?r.get("Normal"):`${o}x`}`, e.emit("playbackRate", o)
+						t.playbackRate = o, i.show = `${r.get("Rate")}: ${1 === o ? r.get("Normal") : `${o}x`}`, e.emit("playbackRate", o)
 					} else e.playbackRate = 1, e.emit("playbackRate", 1)
 				}
 			})
@@ -1399,10 +1399,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"7m6R8": [function(e, t, r) {
+	"7m6R8": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				template: {
 					$video: t,
@@ -1414,7 +1414,7 @@
 			(0, o.def)(e, "aspectRatio", {
 				get: () => r.dataset.aspectRatio || "default",
 				set(n) {
-					if (n || (n = "default"), "default" === n)(0, o.setStyle)(t, "width", null), (0, o.setStyle)(t, "height", null), (0, o.setStyle)(t, "padding", null), delete r.dataset.aspectRatio;
+					if (n || (n = "default"), "default" === n) (0, o.setStyle)(t, "width", null), (0, o.setStyle)(t, "height", null), (0, o.setStyle)(t, "padding", null), delete r.dataset.aspectRatio;
 					else {
 						const e = n.split(":").map(Number),
 							{
@@ -1429,14 +1429,14 @@
 							u = e[0] / e[1];
 						if (c > u) {
 							const e = u * a / i;
-							(0, o.setStyle)(t, "width", 100 * e + "%"), (0, o.setStyle)(t, "height", "100%"), (0, o.setStyle)(t, "padding", `0 ${(s-s*e)/2}px`)
+							(0, o.setStyle)(t, "width", 100 * e + "%"), (0, o.setStyle)(t, "height", "100%"), (0, o.setStyle)(t, "padding", `0 ${(s - s * e) / 2}px`)
 						} else {
 							const e = i / u / a;
 							(0, o.setStyle)(t, "width", "100%"), (0, o.setStyle)(t, "height", 100 * e + "%"), (0, o.setStyle)(t, "padding", (l - l * e) / 2 + "px 0")
 						}
 						r.dataset.aspectRatio = n
 					}
-					a.show = `${i.get("Aspect Ratio")}: ${"default"===n?i.get("Default"):n}`, e.emit("aspectRatio", n)
+					a.show = `${i.get("Aspect Ratio")}: ${"default" === n ? i.get("Default") : n}`, e.emit("aspectRatio", n)
 				}
 			}), (0, o.def)(e, "aspectRatioReset", {
 				set(t) {
@@ -1453,10 +1453,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"2dgtR": [function(e, t, r) {
+	"2dgtR": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				option: t,
 				notice: r,
@@ -1485,7 +1485,7 @@
 			}), (0, o.def)(e, "screenshot", {
 				value: async () => {
 					const r = await e.getDataURL();
-					return (0, o.download)(r, `${t.title||"artplayer"}_${(0,o.secondToTime)(i.currentTime)}.png`), e.emit("screenshot", r), r
+					return (0, o.download)(r, `${t.title || "artplayer"}_${(0, o.secondToTime)(i.currentTime)}.png`), e.emit("screenshot", r), r
 				}
 			})
 		}
@@ -1493,13 +1493,13 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	fKDW8: [function(e, t, r) {
+	fKDW8: [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r);
 		var i = e("../libs/screenfull"),
 			a = o.interopDefault(i),
 			n = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				i18n: t,
 				notice: r,
@@ -1536,15 +1536,15 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	lUahW: [function(e, t, r) {
+	lUahW: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		const o = [
-				["requestFullscreen", "exitFullscreen", "fullscreenElement", "fullscreenEnabled", "fullscreenchange", "fullscreenerror"],
-				["webkitRequestFullscreen", "webkitExitFullscreen", "webkitFullscreenElement", "webkitFullscreenEnabled", "webkitfullscreenchange", "webkitfullscreenerror"],
-				["webkitRequestFullScreen", "webkitCancelFullScreen", "webkitCurrentFullScreenElement", "webkitCancelFullScreen", "webkitfullscreenchange", "webkitfullscreenerror"],
-				["mozRequestFullScreen", "mozCancelFullScreen", "mozFullScreenElement", "mozFullScreenEnabled", "mozfullscreenchange", "mozfullscreenerror"],
-				["msRequestFullscreen", "msExitFullscreen", "msFullscreenElement", "msFullscreenEnabled", "MSFullscreenChange", "MSFullscreenError"]
-			],
+			["requestFullscreen", "exitFullscreen", "fullscreenElement", "fullscreenEnabled", "fullscreenchange", "fullscreenerror"],
+			["webkitRequestFullscreen", "webkitExitFullscreen", "webkitFullscreenElement", "webkitFullscreenEnabled", "webkitfullscreenchange", "webkitfullscreenerror"],
+			["webkitRequestFullScreen", "webkitCancelFullScreen", "webkitCurrentFullScreenElement", "webkitCancelFullScreen", "webkitfullscreenchange", "webkitfullscreenerror"],
+			["mozRequestFullScreen", "mozCancelFullScreen", "mozFullScreenElement", "mozFullScreenEnabled", "mozfullscreenchange", "mozfullscreenerror"],
+			["msRequestFullscreen", "msExitFullscreen", "msFullscreenElement", "msFullscreenEnabled", "MSFullscreenChange", "MSFullscreenError"]
+		],
 			i = (() => {
 				if ("undefined" == typeof document) return !1;
 				const e = o[0],
@@ -1614,10 +1614,10 @@
 	}, {
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	lNvYI: [function(e, t, r) {
+	lNvYI: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				notice: t,
 				template: {
@@ -1635,10 +1635,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"8j7oC": [function(e, t, r) {
+	"8j7oC": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				i18n: t,
 				notice: r,
@@ -1646,7 +1646,7 @@
 					$video: i
 				}
 			} = e;
-			document.pictureInPictureEnabled ? function(e) {
+			document.pictureInPictureEnabled ? function (e) {
 				const {
 					template: {
 						$video: t
@@ -1668,7 +1668,7 @@
 				})), r(t, "leavepictureinpicture", (() => {
 					e.emit("pip", !1)
 				}))
-			}(e) : i.webkitSupportsPresentationMode ? function(e) {
+			}(e) : i.webkitSupportsPresentationMode ? function (e) {
 				const {
 					$video: t
 				} = e.template;
@@ -1689,10 +1689,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	dwVOT: [function(e, t, r) {
+	dwVOT: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				$video: t
 			} = e.template;
@@ -1706,10 +1706,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	dDeLx: [function(e, t, r) {
+	dDeLx: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			(0, o.def)(e, "played", {
 				get: () => e.currentTime / e.duration
 			})
@@ -1718,10 +1718,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	ceoBp: [function(e, t, r) {
+	ceoBp: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				$video: t
 			} = e.template;
@@ -1733,10 +1733,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	lcWXX: [function(e, t, r) {
+	lcWXX: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				$container: t,
 				$player: r,
@@ -1764,7 +1764,7 @@
 							width: e.width,
 							height: e.height
 						})
-					} else(0, o.removeClass)(t, "art-auto-size"), (0, o.setStyle)(r, "width", null), (0, o.setStyle)(r, "height", null), e.emit("autoSize")
+					} else (0, o.removeClass)(t, "art-auto-size"), (0, o.setStyle)(r, "width", null), (0, o.setStyle)(r, "height", null), e.emit("autoSize")
 				}
 			})
 		}
@@ -1772,10 +1772,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	f7y88: [function(e, t, r) {
+	f7y88: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			(0, o.def)(e, "rect", {
 				get: () => e.template.$player.getBoundingClientRect()
 			});
@@ -1785,7 +1785,7 @@
 				(0, o.def)(e, i, {
 					get: () => e.rect[i]
 				})
-			}(0, o.def)(e, "x", {
+			} (0, o.def)(e, "x", {
 				get: () => e.left + window.pageXOffset
 			}), (0, o.def)(e, "y", {
 				get: () => e.top + window.pageYOffset
@@ -1795,10 +1795,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	l4qt5: [function(e, t, r) {
+	l4qt5: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				template: {
 					$player: t
@@ -1809,7 +1809,7 @@
 			(0, o.def)(e, "flip", {
 				get: () => t.dataset.flip || "normal",
 				set(a) {
-					a || (a = "normal"), "normal" === a ? delete t.dataset.flip : t.dataset.flip = a, i.show = `${r.get("Video Flip")}: ${r.get((0,o.capitalize)(a))}`, e.emit("flip", a)
+					a || (a = "normal"), "normal" === a ? delete t.dataset.flip : t.dataset.flip = a, i.show = `${r.get("Video Flip")}: ${r.get((0, o.capitalize)(a))}`, e.emit("flip", a)
 				}
 			})
 		}
@@ -1817,10 +1817,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"9ZPBQ": [function(e, t, r) {
+	"9ZPBQ": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				i18n: t,
 				option: r,
@@ -1858,14 +1858,14 @@
 						e.normalSize = "mini", e.autoSize = !1, (0, o.addClass)(n, "art-mini");
 						const t = i.get("top"),
 							r = i.get("left");
-						if (t && r)(0, o.setStyle)(n, "top", `${t}px`), (0, o.setStyle)(n, "left", `${r}px`), (0, o.isInViewport)(c) || (i.del("top"), i.del("left"), e.mini = !0);
+						if (t && r) (0, o.setStyle)(n, "top", `${t}px`), (0, o.setStyle)(n, "left", `${r}px`), (0, o.isInViewport)(c) || (i.del("top"), i.del("left"), e.mini = !0);
 						else {
 							const t = window.innerHeight - e.height - 50,
 								r = window.innerWidth - e.width - 50;
 							i.set("top", t), i.set("left", r), (0, o.setStyle)(n, "top", `${t}px`), (0, o.setStyle)(n, "left", `${r}px`)
 						}
 						e.aspectRatio = !1, e.playbackRate = !1, e.notice.show = "", e.emit("mini", !0)
-					} else(0, o.removeClass)(n, "art-mini"), (0, o.setStyle)(n, "top", null), (0, o.setStyle)(n, "left", null), e.aspectRatio = !1, e.playbackRate = !1, e.autoSize = r.autoSize, e.notice.show = "", e.emit("mini", !1)
+					} else (0, o.removeClass)(n, "art-mini"), (0, o.setStyle)(n, "top", null), (0, o.setStyle)(n, "left", null), e.aspectRatio = !1, e.playbackRate = !1, e.autoSize = r.autoSize, e.notice.show = "", e.emit("mini", !1)
 				}
 			})
 		}
@@ -1873,10 +1873,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	d89IV: [function(e, t, r) {
+	d89IV: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			let t = [];
 			(0, o.def)(e, "loop", {
 				get: () => t,
@@ -1895,10 +1895,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"5K8hA": [function(e, t, r) {
+	"5K8hA": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				option: t,
 				template: {
@@ -1916,10 +1916,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"3T5ls": [function(e, t, r) {
+	"3T5ls": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				option: t,
 				template: {
@@ -1938,7 +1938,7 @@
 							videoWidth: s
 						} = i, l = n * (a / s);
 						(0, o.setStyle)(r, "height", l + "px"), (0, o.addClass)(r, "art-auto-height"), e.autoSize = t.autoSize, e.emit("autoHeight", l)
-					} else(0, o.setStyle)(r, "height", a), (0, o.removeClass)(r, "art-auto-height"), e.autoSize = t.autoSize, e.emit("autoHeight")
+					} else (0, o.setStyle)(r, "height", a), (0, o.removeClass)(r, "art-auto-height"), e.autoSize = t.autoSize, e.emit("autoHeight")
 				}
 			})
 		}
@@ -1946,10 +1946,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"7lcSc": [function(e, t, r) {
+	"7lcSc": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				option: t,
 				template: {
@@ -1967,10 +1967,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	a8ZHz: [function(e, t, r) {
+	a8ZHz: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			(0, o.def)(e, "title", {
 				get: () => e.option.title,
 				set(t) {
@@ -1982,10 +1982,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"8JgTw": [function(e, t, r) {
+	"8JgTw": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			(0, o.def)(e, "type", {
 				get: () => e.option.type,
 				set(t) {
@@ -1997,10 +1997,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"3EY4s": [function(e, t, r) {
+	"3EY4s": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const t = ["mini", "pip", "fullscreen", "fullscreenWeb"];
 			(0, o.def)(e, "normalSize", {
 				get: () => t.every((t => !e[t])),
@@ -2015,10 +2015,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	hJvIy: [function(e, t, r) {
+	hJvIy: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				clamp: t
 			} = e.constructor.utils, {
@@ -2052,10 +2052,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"4Tp0U": [function(e, t, r) {
+	"4Tp0U": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				i18n: t,
 				notice: r,
@@ -2083,10 +2083,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	iPdgW: [function(e, t, r) {
+	iPdgW: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				option: t,
 				storage: r,
@@ -2105,13 +2105,13 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"3mj0J": [function(e, t, r) {
+	"3mj0J": [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r);
 		var i = e("../config"),
 			a = o.interopDefault(i),
 			n = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				i18n: t,
 				notice: r,
@@ -2161,7 +2161,7 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"14IBq": [function(e, t, r) {
+	"14IBq": [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r);
 		var i = e("../utils"),
@@ -2311,7 +2311,7 @@
 		"./airplay": "6GRju",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	guki8: [function(e, t, r) {
+	guki8: [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r);
 		var i = e("./dom"),
@@ -2360,7 +2360,7 @@
 				(0, i.addClass)(t, "art-control-selector");
 				const a = (0, i.createElement)("div");
 				(0, i.addClass)(a, "art-selector-value"), (0, i.append)(a, e.html), t.innerText = "", (0, i.append)(t, a);
-				const n = e.selector.map(((e, t) => `<div class="art-selector-item ${e.default?"art-current":""}" data-index="${t}">${e.html}</div>`)).join(""),
+				const n = e.selector.map(((e, t) => `<div class="art-selector-item ${e.default ? "art-current" : ""}" data-index="${t}">${e.html}</div>`)).join(""),
 					s = (0, i.createElement)("div");
 				(0, i.addClass)(s, "art-selector-list"), (0, i.append)(s, n), (0, i.append)(t, s);
 				const l = () => {
@@ -2389,10 +2389,10 @@
 		"./error": "2nFlF",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	cxHNK: [function(e, t, r) {
+	cxHNK: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			return t => ({
 				...e,
 				tooltip: t.i18n.get("Fullscreen"),
@@ -2414,10 +2414,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"66eEC": [function(e, t, r) {
+	"66eEC": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			return t => ({
 				...e,
 				tooltip: t.i18n.get("Web Fullscreen"),
@@ -2439,10 +2439,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	kCFkA: [function(e, t, r) {
+	kCFkA: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			return t => ({
 				...e,
 				tooltip: t.i18n.get("PIP Mode"),
@@ -2464,10 +2464,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	iRhgD: [function(e, t, r) {
+	iRhgD: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			return t => ({
 				...e,
 				mounted: e => {
@@ -2483,7 +2483,7 @@
 
 					function c() {
 						(0, o.setStyle)(n, "display", "none"), (0, o.setStyle)(s, "display", "flex")
-					}(0, o.tooltip)(n, a.get("Play")), (0, o.tooltip)(s, a.get("Pause")), r(n, "click", (() => {
+					} (0, o.tooltip)(n, a.get("Play")), (0, o.tooltip)(s, a.get("Pause")), r(n, "click", (() => {
 						t.play()
 					})), r(s, "click", (() => {
 						t.pause()
@@ -2499,7 +2499,7 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	aBBSH: [function(e, t, r) {
+	aBBSH: [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r), o.export(r, "getPosFromEvent", (() => a)), o.export(r, "setCurrentTime", (() => n));
 		var i = e("../utils");
@@ -2531,7 +2531,7 @@
 				e.emit("setBar", "played", o), e.seek = r
 			}
 		}
-		r.default = function(e) {
+		r.default = function (e) {
 			return t => {
 				const {
 					icons: r,
@@ -2559,12 +2559,12 @@
 						let b = m;
 
 						function x(e, t) {
-							"loaded" === e && (0, i.setStyle)(c, "width", 100 * t + "%"), "played" === e && ((0, i.setStyle)(u, "width", 100 * t + "%"), (0, i.setStyle)(d, "left", `calc(${100*t}% - ${b/2}px)`))
+							"loaded" === e && (0, i.setStyle)(c, "width", 100 * t + "%"), "played" === e && ((0, i.setStyle)(u, "width", 100 * t + "%"), (0, i.setStyle)(d, "left", `calc(${100 * t}% - ${b / 2}px)`))
 						}
 						r.indicator ? (b = g, (0, i.append)(d, r.indicator)) : (0, i.setStyles)(d, {
 							backgroundColor: "var(--theme)"
 						}), i.isMobile && (b = y, r.indicator && (b = v)), (0, i.setStyles)(d, {
-							left: `-${b/2}px`,
+							left: `-${b / 2}px`,
 							width: `${b}px`,
 							height: `${b}px`
 						}), t.on("video:loadedmetadata", (() => {
@@ -2584,7 +2584,7 @@
 						})), i.isMobile || (s(e, "click", (e => {
 							e.target !== d && n(t, e)
 						})), s(e, "mousemove", (r => {
-							(0, i.setStyle)(f, "display", "block"), (0, i.includeFromEvent)(r, p) ? function(r) {
+							(0, i.setStyle)(f, "display", "block"), (0, i.includeFromEvent)(r, p) ? function (r) {
 								const {
 									width: o
 								} = a(t, r), {
@@ -2593,7 +2593,7 @@
 								f.innerHTML = n;
 								const s = f.clientWidth;
 								o <= s / 2 ? (0, i.setStyle)(f, "left", 0) : o > e.clientWidth - s / 2 ? (0, i.setStyle)(f, "left", e.clientWidth - s + "px") : (0, i.setStyle)(f, "left", o - s / 2 + "px")
-							}(r) : function(r) {
+							}(r) : function (r) {
 								const {
 									width: o,
 									time: n
@@ -2625,10 +2625,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"7H0CE": [function(e, t, r) {
+	"7H0CE": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			return t => ({
 				...e,
 				style: {
@@ -2637,7 +2637,7 @@
 				},
 				mounted: e => {
 					function r() {
-						const r = `${(0,o.secondToTime)(t.currentTime)} / ${(0,o.secondToTime)(t.duration)}`;
+						const r = `${(0, o.secondToTime)(t.currentTime)} / ${(0, o.secondToTime)(t.duration)}`;
 						r !== e.innerText && (e.innerText = r)
 					}
 					r();
@@ -2650,10 +2650,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	lMwFm: [function(e, t, r) {
+	lMwFm: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			return t => ({
 				...e,
 				mounted: e => {
@@ -2678,12 +2678,12 @@
 					}
 
 					function h(e = .7) {
-						if (t.muted || 0 === e)(0, o.setStyle)(c, "display", "none"), (0, o.setStyle)(u, "display", "flex"), (0, o.setStyle)(d, "left", "0");
+						if (t.muted || 0 === e) (0, o.setStyle)(c, "display", "none"), (0, o.setStyle)(u, "display", "flex"), (0, o.setStyle)(d, "left", "0");
 						else {
 							const t = (s - l) * e;
 							(0, o.setStyle)(c, "display", "flex"), (0, o.setStyle)(u, "display", "none"), (0, o.setStyle)(d, "left", `${t}px`)
 						}
-					}(0, o.tooltip)(c, a.get("Mute")), (0, o.setStyle)(u, "display", "none"), o.isMobile && (0, o.setStyle)(p, "display", "none"), h(t.volume), t.on("video:volumechange", (() => {
+					} (0, o.tooltip)(c, a.get("Mute")), (0, o.setStyle)(u, "display", "none"), o.isMobile && (0, o.setStyle)(p, "display", "none"), h(t.volume), t.on("video:volumechange", (() => {
 						h(t.volume)
 					})), r(c, "click", (() => {
 						t.muted = !0
@@ -2705,10 +2705,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"8BrCu": [function(e, t, r) {
+	"8BrCu": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			return t => ({
 				...e,
 				tooltip: t.i18n.get("Show Setting"),
@@ -2730,11 +2730,11 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"2HiWx": [function(e, t, r) {
+	"2HiWx": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils"),
 			i = e("./progress");
-		r.default = function(e) {
+		r.default = function (e) {
 			return t => ({
 				...e,
 				mounted: e => {
@@ -2758,7 +2758,7 @@
 							const e = await l(r.thumbnails.url);
 							c = e, p = !0
 						}
-						p && ((0, o.setStyle)(e, "display", "block"), function(s) {
+						p && ((0, o.setStyle)(e, "display", "block"), function (s) {
 							const {
 								width: l
 							} = (0, i.getPosFromEvent)(t, s), {
@@ -2768,7 +2768,7 @@
 								width: f,
 								height: h
 							} = r.thumbnails, m = f || c.naturalWidth / d, g = h || m / (n.videoWidth / n.videoHeight), y = a.clientWidth / p, v = Math.floor(l / y), b = Math.ceil(v / d) - 1, x = v % d || d - 1;
-							(0, o.setStyle)(e, "backgroundImage", `url(${u})`), (0, o.setStyle)(e, "height", `${g}px`), (0, o.setStyle)(e, "width", `${m}px`), (0, o.setStyle)(e, "backgroundPosition", `-${x*m}px -${b*g}px`), l <= m / 2 ? (0, o.setStyle)(e, "left", 0) : l > a.clientWidth - m / 2 ? (0, o.setStyle)(e, "left", a.clientWidth - m + "px") : (0, o.setStyle)(e, "left", l - m / 2 + "px")
+							(0, o.setStyle)(e, "backgroundImage", `url(${u})`), (0, o.setStyle)(e, "height", `${g}px`), (0, o.setStyle)(e, "width", `${m}px`), (0, o.setStyle)(e, "backgroundPosition", `-${x * m}px -${b * g}px`), l <= m / 2 ? (0, o.setStyle)(e, "left", 0) : l > a.clientWidth - m / 2 ? (0, o.setStyle)(e, "left", a.clientWidth - m + "px") : (0, o.setStyle)(e, "left", l - m / 2 + "px")
 						}(s))
 					})), s(a, "mouseout", (() => {
 						(0, o.setStyle)(e, "display", "none")
@@ -2781,10 +2781,10 @@
 		"./progress": "aBBSH",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	c1GeG: [function(e, t, r) {
+	c1GeG: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			return t => ({
 				...e,
 				tooltip: t.i18n.get("Screenshot"),
@@ -2803,8 +2803,8 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"5oUJF": [function(e, t, r) {
-		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r), r.default = function(e) {
+	"5oUJF": [function (e, t, r) {
+		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r), r.default = function (e) {
 			return t => {
 				const r = t.option.quality,
 					o = r.find((e => e.default)) || r[0];
@@ -2824,17 +2824,17 @@
 	}, {
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	fiwRm: [function(e, t, r) {
+	fiwRm: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			return t => ({
 				...e,
 				mounted: e => {
 					const r = (0, o.append)(e, '<span class="art-loop-point"></span>'),
 						i = (0, o.append)(e, '<span class="art-loop-point"></span>');
 					t.on("loop", (a => {
-						a && a.length ? ((0, o.setStyle)(e, "display", "block"), (0, o.setStyle)(r, "left", `calc(${a[0]/t.duration*100}% - ${r.clientWidth}px)`), (0, o.setStyle)(i, "left", a[1] / t.duration * 100 + "%")) : (0, o.setStyle)(e, "display", "none")
+						a && a.length ? ((0, o.setStyle)(e, "display", "block"), (0, o.setStyle)(r, "left", `calc(${a[0] / t.duration * 100}% - ${r.clientWidth}px)`), (0, o.setStyle)(i, "left", a[1] / t.duration * 100 + "%")) : (0, o.setStyle)(e, "display", "none")
 					}))
 				}
 			})
@@ -2843,10 +2843,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"6GRju": [function(e, t, r) {
+	"6GRju": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			return t => ({
 				...e,
 				tooltip: t.i18n.get("AirPlay"),
@@ -2863,7 +2863,7 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"7iUum": [function(e, t, r) {
+	"7iUum": [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r);
 		var i = e("../utils"),
@@ -2954,10 +2954,10 @@
 		"./close": "9zTkI",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	f1W36: [function(e, t, r) {
+	f1W36: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			return t => {
 				const {
 					i18n: r,
@@ -2967,7 +2967,7 @@
 				} = t;
 				return {
 					...e,
-					html: `${r.get("Play Speed")}:\n                ${i.map((e=>`<span data-value="${e}">${1===e?r.get("Normal"):e}</span>`)).join("")}\n            `,
+					html: `${r.get("Play Speed")}:\n                ${i.map((e => `<span data-value="${e}">${1 === e ? r.get("Normal") : e}</span>`)).join("")}\n            `,
 					click: (e, r) => {
 						const {
 							value: o
@@ -2988,10 +2988,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	afxZC: [function(e, t, r) {
+	afxZC: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			return t => {
 				const {
 					i18n: r,
@@ -3001,7 +3001,7 @@
 				} = t;
 				return {
 					...e,
-					html: `${r.get("Aspect Ratio")}:\n                ${i.map((e=>`<span data-value="${e}">${"default"===e?r.get("Default"):e}</span>`)).join("")}\n            `,
+					html: `${r.get("Aspect Ratio")}:\n                ${i.map((e => `<span data-value="${e}">${"default" === e ? r.get("Default") : e}</span>`)).join("")}\n            `,
 					click: (e, r) => {
 						const {
 							value: o
@@ -3022,10 +3022,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"9jCuX": [function(e, t, r) {
+	"9jCuX": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			return t => {
 				const {
 					i18n: r,
@@ -3035,7 +3035,7 @@
 				} = t;
 				return {
 					...e,
-					html: `${r.get("Video Flip")}:\n                ${i.map((e=>`<span data-value="${e}">${r.get((0,o.capitalize)(e))}</span>`)).join("")}\n            `,
+					html: `${r.get("Video Flip")}:\n                ${i.map((e => `<span data-value="${e}">${r.get((0, o.capitalize)(e))}</span>`)).join("")}\n            `,
 					click: (e, r) => {
 						const {
 							value: o
@@ -3056,8 +3056,8 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	k8wIZ: [function(e, t, r) {
-		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r), r.default = function(e) {
+	k8wIZ: [function (e, t, r) {
+		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r), r.default = function (e) {
 			return t => ({
 				...e,
 				html: t.i18n.get("Video Info"),
@@ -3069,8 +3069,8 @@
 	}, {
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	bb0TU: [function(e, t, r) {
-		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r), r.default = function(e) {
+	bb0TU: [function (e, t, r) {
+		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r), r.default = function (e) {
 			return {
 				...e,
 				html: '<a href="https://artplayer.org" target="_blank">ArtPlayer 4.5.12</a>'
@@ -3079,8 +3079,8 @@
 	}, {
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"9zTkI": [function(e, t, r) {
-		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r), r.default = function(e) {
+	"9zTkI": [function (e, t, r) {
+		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r), r.default = function (e) {
 			return t => ({
 				...e,
 				html: t.i18n.get("Close"),
@@ -3092,7 +3092,7 @@
 	}, {
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	hD2Lg: [function(e, t, r) {
+	hD2Lg: [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r);
 		var i = e("./utils"),
@@ -3118,8 +3118,8 @@
 				let n = null;
 				const s = (0, i.queryAll)("[data-video]", r) || [];
 				this.art.on("destroy", (() => {
-						clearTimeout(n)
-					})),
+					clearTimeout(n)
+				})),
 					function e() {
 						for (let e = 0; e < s.length; e++) {
 							const t = s[e],
@@ -3137,7 +3137,7 @@
 		"./utils/component": "guki8",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	lum0D: [function(e, t, r) {
+	lum0D: [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r);
 		var i = e("./utils"),
@@ -3179,9 +3179,9 @@
 				const {
 					$subtitle: e
 				} = this.art.template;
-				e.innerHTML = "", this.activeCue && (e.innerHTML = this.activeCue.text.split(/\r?\n/).map((e => `<p>${(0,i.escape)(e)}</p>`)).join(""), this.art.emit("subtitleUpdate", this.activeCue.text))
+				e.innerHTML = "", this.activeCue && (e.innerHTML = this.activeCue.text.split(/\r?\n/).map((e => `<p>${(0, i.escape)(e)}</p>`)).join(""), this.art.emit("subtitleUpdate", this.activeCue.text))
 			}
-			async switch (e, t = {}) {
+			async switch(e, t = {}) {
 				const {
 					i18n: r,
 					notice: o,
@@ -3235,7 +3235,7 @@
 		"./scheme": "AdvwB",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"1Epl5": [function(e, t, r) {
+	"1Epl5": [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r);
 		var i = e("../utils/error"),
@@ -3269,11 +3269,11 @@
 					let o;
 					if (e instanceof HTMLImageElement) o = e;
 					else {
-						if ("string" != typeof e) return r(new(0, i.ArtPlayerError)("Unable to get Image"));
+						if ("string" != typeof e) return r(new (0, i.ArtPlayerError)("Unable to get Image"));
 						o = new Image, o.src = e
 					}
 					if (o.complete) return t(o);
-					this.proxy(o, "load", (() => t(o))), this.proxy(o, "error", (() => r(new(0, i.ArtPlayerError)(`Failed to load Image: ${o.src}`))))
+					this.proxy(o, "load", (() => t(o))), this.proxy(o, "error", (() => r(new (0, i.ArtPlayerError)(`Failed to load Image: ${o.src}`))))
 				}))
 			}
 			destroy() {
@@ -3290,10 +3290,10 @@
 		"./viewInit": "hDyWF",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	gzL6e: [function(e, t, r) {
+	gzL6e: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e, t) {
+		r.default = function (e, t) {
 			const {
 				constructor: r,
 				template: {
@@ -3314,10 +3314,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	kpTJf: [function(e, t, r) {
+	kpTJf: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e, t) {
+		r.default = function (e, t) {
 			const {
 				$player: r
 			} = e.template;
@@ -3331,8 +3331,8 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"9tYbi": [function(e, t, r) {
-		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r), r.default = function(e, t) {
+	"9tYbi": [function (e, t, r) {
+		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r), r.default = function (e, t) {
 			const {
 				$player: r
 			} = e.template;
@@ -3343,10 +3343,10 @@
 	}, {
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"9TXOX": [function(e, t, r) {
+	"9TXOX": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e, t) {
+		r.default = function (e, t) {
 			const {
 				option: r
 			} = e, i = (0, o.throttle)((() => {
@@ -3362,11 +3362,11 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	dePMU: [function(e, t, r) {
+	dePMU: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils"),
 			i = e("../control/progress");
-		r.default = function(e, t) {
+		r.default = function (e, t) {
 			if (o.isMobile && !e.option.isLive) {
 				const {
 					$video: r,
@@ -3378,22 +3378,22 @@
 					c = 0,
 					u = 0;
 				const p = t => {
-						if (1 === t.touches.length && !e.isLock) {
-							n === a && (0, i.setCurrentTime)(e, t), s = !0;
-							const {
-								clientX: r,
-								clientY: o
-							} = t.touches[0];
-							l = r, c = o, u = e.currentTime
-						}
-					},
+					if (1 === t.touches.length && !e.isLock) {
+						n === a && (0, i.setCurrentTime)(e, t), s = !0;
+						const {
+							clientX: r,
+							clientY: o
+						} = t.touches[0];
+						l = r, c = o, u = e.currentTime
+					}
+				},
 					d = t => {
 						if (1 === t.touches.length && s && e.duration) {
 							const {
 								clientX: i,
 								clientY: a
 							} = t.touches[0], s = (0, o.clamp)((i - l) / e.width, -1, 1), p = (0, o.clamp)((a - c) / e.height, -1, 1), d = e.isRotate ? p : s, f = n === r ? e.constructor.TOUCH_MOVE_RATIO : 1, h = (0, o.clamp)(u + e.duration * d * f, 0, e.duration);
-							e.seek = h, e.emit("setBar", "played", (0, o.clamp)(h / e.duration, 0, 1)), e.notice.show = `${(0,o.secondToTime)(h)} / ${(0,o.secondToTime)(e.duration)}`
+							e.seek = h, e.emit("setBar", "played", (0, o.clamp)(h / e.duration, 0, 1)), e.notice.show = `${(0, o.secondToTime)(h)} / ${(0, o.secondToTime)(e.duration)}`
 						}
 					},
 					f = () => {
@@ -3411,10 +3411,10 @@
 		"../control/progress": "aBBSH",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	hDyWF: [function(e, t, r) {
+	hDyWF: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e, t) {
+		r.default = function (e, t) {
 			const {
 				option: r,
 				constructor: i,
@@ -3434,7 +3434,7 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	eTow4: [function(e, t, r) {
+	eTow4: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("./utils");
 		r.default = class {
@@ -3487,7 +3487,7 @@
 		"./utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"4fDoD": [function(e, t, r) {
+	"4fDoD": [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r);
 		var i = e("./utils/component"),
@@ -3510,7 +3510,7 @@
 		"./utils/component": "guki8",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	fE0Sp: [function(e, t, r) {
+	fE0Sp: [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r);
 		var i = e("./utils"),
@@ -3527,7 +3527,7 @@
 		"./utils/component": "guki8",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"9PuGy": [function(e, t, r) {
+	"9PuGy": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("./utils");
 		r.default = class {
@@ -3551,7 +3551,7 @@
 		"./utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"2etr0": [function(e, t, r) {
+	"2etr0": [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r);
 		var i = e("./utils"),
@@ -3576,7 +3576,7 @@
 		"./utils/component": "guki8",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"6dYSr": [function(e, t, r) {
+	"6dYSr": [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r);
 		var i = e("../utils"),
@@ -3707,88 +3707,88 @@
 		"bundle-text:./airplay.svg": "jK5Fx",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	fY5Gt: [function(e, t, r) {
+	fY5Gt: [function (e, t, r) {
 		t.exports = '<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="uil-default"><path fill="none" class="bk" d="M0 0h100v100H0z"/><rect x="47" y="40" width="6" height="20" rx="5" ry="5" fill="#fff" transform="translate(0 -30)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="-1s" repeatCount="indefinite"/></rect><rect x="47" y="40" width="6" height="20" rx="5" ry="5" fill="#fff" transform="rotate(30 105.98 65)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="-0.9166666666666666s" repeatCount="indefinite"/></rect><rect x="47" y="40" width="6" height="20" rx="5" ry="5" fill="#fff" transform="rotate(60 75.98 65)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="-0.8333333333333334s" repeatCount="indefinite"/></rect><rect x="47" y="40" width="6" height="20" rx="5" ry="5" fill="#fff" transform="rotate(90 65 65)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="-0.75s" repeatCount="indefinite"/></rect><rect x="47" y="40" width="6" height="20" rx="5" ry="5" fill="#fff" transform="rotate(120 58.66 65)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="-0.6666666666666666s" repeatCount="indefinite"/></rect><rect x="47" y="40" width="6" height="20" rx="5" ry="5" fill="#fff" transform="rotate(150 54.02 65)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="-0.5833333333333334s" repeatCount="indefinite"/></rect><rect x="47" y="40" width="6" height="20" rx="5" ry="5" fill="#fff" transform="rotate(180 50 65)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="-0.5s" repeatCount="indefinite"/></rect><rect x="47" y="40" width="6" height="20" rx="5" ry="5" fill="#fff" transform="rotate(-150 45.98 65)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="-0.4166666666666667s" repeatCount="indefinite"/></rect><rect x="47" y="40" width="6" height="20" rx="5" ry="5" fill="#fff" transform="rotate(-120 41.34 65)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="-0.3333333333333333s" repeatCount="indefinite"/></rect><rect x="47" y="40" width="6" height="20" rx="5" ry="5" fill="#fff" transform="rotate(-90 35 65)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="-0.25s" repeatCount="indefinite"/></rect><rect x="47" y="40" width="6" height="20" rx="5" ry="5" fill="#fff" transform="rotate(-60 24.02 65)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="-0.16666666666666666s" repeatCount="indefinite"/></rect><rect x="47" y="40" width="6" height="20" rx="5" ry="5" fill="#fff" transform="rotate(-30 -5.98 65)"><animate attributeName="opacity" from="1" to="0" dur="1s" begin="-0.08333333333333333s" repeatCount="indefinite"/></rect></svg>'
 	}, {}],
-	iNfLt: [function(e, t, r) {
+	iNfLt: [function (e, t, r) {
 		t.exports = '<svg xmlns="http://www.w3.org/2000/svg" height="60" width="60" style="filter:drop-shadow(0 1px 1px #000)" viewBox="0 0 24 24"><path d="M20 2H4C1.8 2 0 3.8 0 6v12c0 2.2 1.8 4 4 4h16c2.2 0 4-1.8 4-4V6c0-2.2-1.8-4-4-4zm-4.4 10.8L10.5 16c-.6.5-1.5 0-1.5-.8V8.8c0-.8.9-1.3 1.5-.8l5.1 3.2c.7.3.7 1.3 0 1.6z"/></svg>'
 	}, {}],
-	jtE9u: [function(e, t, r) {
+	jtE9u: [function (e, t, r) {
 		t.exports = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:100%;height:100%"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" fill="#fff"/></svg>'
 	}, {}],
-	elgfY: [function(e, t, r) {
+	elgfY: [function (e, t, r) {
 		t.exports = '<svg xmlns="http://www.w3.org/2000/svg" height="22" width="22"><path d="M17.982 9.275 8.06 3.27A2.013 2.013 0 0 0 5 4.994v12.011a2.017 2.017 0 0 0 3.06 1.725l9.922-6.005a2.017 2.017 0 0 0 0-3.45z"/></svg>'
 	}, {}],
-	eKokJ: [function(e, t, r) {
+	eKokJ: [function (e, t, r) {
 		t.exports = '<svg xmlns="http://www.w3.org/2000/svg" height="22" width="22"><path d="M7 3a2 2 0 0 0-2 2v12a2 2 0 1 0 4 0V5a2 2 0 0 0-2-2zm8 0a2 2 0 0 0-2 2v12a2 2 0 1 0 4 0V5a2 2 0 0 0-2-2z"/></svg>'
 	}, {}],
-	hNB4y: [function(e, t, r) {
+	hNB4y: [function (e, t, r) {
 		t.exports = '<svg xmlns="http://www.w3.org/2000/svg" height="22" width="22"><path d="M10.188 4.65 6 8H5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h1l4.188 3.35a.5.5 0 0 0 .812-.39V5.04a.498.498 0 0 0-.812-.39zm4.258-.872a1 1 0 0 0-.862 1.804 6.002 6.002 0 0 1-.007 10.838 1 1 0 0 0 .86 1.806A8.001 8.001 0 0 0 19 11a8.001 8.001 0 0 0-4.554-7.222z"/><path d="M15 11a3.998 3.998 0 0 0-2-3.465v6.93A3.998 3.998 0 0 0 15 11z"/></svg>'
 	}, {}],
-	i9vta: [function(e, t, r) {
+	i9vta: [function (e, t, r) {
 		t.exports = '<svg xmlns="http://www.w3.org/2000/svg" height="22" width="22"><path d="M15 11a3.998 3.998 0 0 0-2-3.465v2.636l1.865 1.865A4.02 4.02 0 0 0 15 11z"/><path d="M13.583 5.583A5.998 5.998 0 0 1 17 11a6 6 0 0 1-.585 2.587l1.477 1.477a8.001 8.001 0 0 0-3.446-11.286 1 1 0 0 0-.863 1.805zm5.195 13.195-2.121-2.121-1.414-1.414-1.415-1.415L13 13l-2-2-3.889-3.889-3.889-3.889a.999.999 0 1 0-1.414 1.414L5.172 8H5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h1l4.188 3.35a.5.5 0 0 0 .812-.39v-3.131l2.587 2.587-.01.005a1 1 0 0 0 .86 1.806c.215-.102.424-.214.627-.333l2.3 2.3a1.001 1.001 0 0 0 1.414-1.416zM11 5.04a.5.5 0 0 0-.813-.39L8.682 5.854 11 8.172V5.04z"/></svg>'
 	}, {}],
-	kB3Mf: [function(e, t, r) {
+	kB3Mf: [function (e, t, r) {
 		t.exports = '<svg xmlns="http://www.w3.org/2000/svg" height="22" width="22" viewBox="0 0 50 50"><path d="M19.402 6a5 5 0 0 0-4.902 4.012L14.098 12H9a5 5 0 0 0-5 5v21a5 5 0 0 0 5 5h32a5 5 0 0 0 5-5V17a5 5 0 0 0-5-5h-5.098l-.402-1.988A5 5 0 0 0 30.598 6ZM25 17c5.52 0 10 4.48 10 10s-4.48 10-10 10-10-4.48-10-10 4.48-10 10-10Zm0 2c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8Z"/></svg>'
 	}, {}],
-	"3MONs": [function(e, t, r) {
+	"3MONs": [function (e, t, r) {
 		t.exports = '<svg xmlns="http://www.w3.org/2000/svg" height="22" width="22"><circle cx="11" cy="11" r="2"/><path d="M19.164 8.861 17.6 8.6a6.978 6.978 0 0 0-1.186-2.099l.574-1.533a1 1 0 0 0-.436-1.217l-1.997-1.153a1.001 1.001 0 0 0-1.272.23l-1.008 1.225a7.04 7.04 0 0 0-2.55.001L8.716 2.829a1 1 0 0 0-1.272-.23L5.447 3.751a1 1 0 0 0-.436 1.217l.574 1.533A6.997 6.997 0 0 0 4.4 8.6l-1.564.261A.999.999 0 0 0 2 9.847v2.306c0 .489.353.906.836.986l1.613.269a7 7 0 0 0 1.228 2.075l-.558 1.487a1 1 0 0 0 .436 1.217l1.997 1.153c.423.244.961.147 1.272-.23l1.04-1.263a7.089 7.089 0 0 0 2.272 0l1.04 1.263a1 1 0 0 0 1.272.23l1.997-1.153a1 1 0 0 0 .436-1.217l-.557-1.487c.521-.61.94-1.31 1.228-2.075l1.613-.269a.999.999 0 0 0 .835-.986V9.847a.999.999 0 0 0-.836-.986zM11 15a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>'
 	}, {}],
-	iMCpk: [function(e, t, r) {
+	iMCpk: [function (e, t, r) {
 		t.exports = '<svg xmlns="http://www.w3.org/2000/svg" height="32" width="32"><path d="m19.41 20.09-4.58-4.59 4.58-4.59L18 9.5l-6 6 6 6z" fill="#fff"/></svg>'
 	}, {}],
-	"3oe4L": [function(e, t, r) {
+	"3oe4L": [function (e, t, r) {
 		t.exports = '<svg xmlns="http://www.w3.org/2000/svg" height="32" width="32"><path d="m12.59 20.34 4.58-4.59-4.58-4.59L14 9.75l6 6-6 6z" fill="#fff"/></svg>'
 	}, {}],
-	liE22: [function(e, t, r) {
+	liE22: [function (e, t, r) {
 		t.exports = '<svg height="24" width="24"><path d="M10 8v8l6-4-6-4zM6.3 5l-.6-.8C7.2 3 9 2.2 11 2l.1 1c-1.8.2-3.4.9-4.8 2zM5 6.3l-.8-.6C3 7.2 2.2 9 2 11l1 .1c.2-1.8.9-3.4 2-4.8zm0 11.4c-1.1-1.4-1.8-3.1-2-4.8L2 13c.2 2 1 3.8 2.2 5.4l.8-.7zm6.1 3.3c-1.8-.2-3.4-.9-4.8-2l-.6.8C7.2 21 9 21.8 11 22l.1-1zM22 12c0-5.2-3.9-9.4-9-10l-.1 1c4.6.5 8.1 4.3 8.1 9s-3.5 8.5-8.1 9l.1 1c5.2-.5 9-4.8 9-10z" fill="#fff" style="--darkreader-inline-fill:#a8a6a4"/></svg>'
 	}, {}],
-	"8HqYc": [function(e, t, r) {
+	"8HqYc": [function (e, t, r) {
 		t.exports = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88" style="width:100%;height:100%;transform:translate(0,0)"><defs><clipPath id="__lottie_element_216"><path d="M0 0h88v88H0z"/></clipPath></defs><g style="display:block" clip-path="url(\'#__lottie_element_216\')"><path fill="#FFF" d="m12.438-12.702-2.82 2.82c-.79.79-.79 2.05 0 2.83l7.07 7.07-7.07 7.07c-.79.79-.79 2.05 0 2.83l2.82 2.83c.79.78 2.05.78 2.83 0l11.32-11.31c.78-.78.78-2.05 0-2.83l-11.32-11.31c-.78-.79-2.04-.79-2.83 0zm-24.88 0c-.74-.74-1.92-.78-2.7-.12l-.13.12-11.31 11.31a2 2 0 0 0-.12 2.7l.12.13 11.31 11.31a2 2 0 0 0 2.7.12l.13-.12 2.83-2.83c.74-.74.78-1.91.11-2.7l-.11-.13-7.07-7.07 7.07-7.07c.74-.74.78-1.91.11-2.7l-.11-.13-2.83-2.82zM28-28c4.42 0 8 3.58 8 8v40c0 4.42-3.58 8-8 8h-56c-4.42 0-8-3.58-8-8v-40c0-4.42 3.58-8 8-8h56z" style="--darkreader-inline-fill:#a8a6a4" transform="translate(44 44)"/></g></svg>'
 	}, {}],
-	hYAAH: [function(e, t, r) {
+	hYAAH: [function (e, t, r) {
 		t.exports = '<svg height="24" width="24"><path d="M15 17h6v1h-6v-1zm-4 0H3v1h8v2h1v-5h-1v2zm3-9h1V3h-1v2H3v1h11v2zm4-3v1h3V5h-3zM6 14h1V9H6v2H3v1h3v2zm4-2h11v-1H10v1z" fill="#fff" style="--darkreader-inline-fill:#a8a6a4"/></svg>'
 	}, {}],
-	jmNrH: [function(e, t, r) {
+	jmNrH: [function (e, t, r) {
 		t.exports = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" height="32" width="32"><path d="M25 17h-8v6h8v-6Zm4 8V10.98C29 9.88 28.1 9 27 9H9c-1.1 0-2 .88-2 1.98V25c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2Zm-2 .02H9V10.97h18v14.05Z"/></svg>'
 	}, {}],
-	cIqko: [function(e, t, r) {
+	cIqko: [function (e, t, r) {
 		t.exports = '<svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path d="M298.667 426.667v-85.334a213.333 213.333 0 1 1 426.666 0v85.334H768A85.333 85.333 0 0 1 853.333 512v256A85.333 85.333 0 0 1 768 853.333H256A85.333 85.333 0 0 1 170.667 768V512A85.333 85.333 0 0 1 256 426.667h42.667zM512 213.333a128 128 0 0 0-128 128v85.334h256v-85.334a128 128 0 0 0-128-128z" fill="#fff"/></svg>'
 	}, {}],
-	"65zy4": [function(e, t, r) {
+	"65zy4": [function (e, t, r) {
 		t.exports = '<svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path d="m666.752 194.517-49.365 74.112A128 128 0 0 0 384 341.333l.043 85.334h384A85.333 85.333 0 0 1 853.376 512v256a85.333 85.333 0 0 1-85.333 85.333H256A85.333 85.333 0 0 1 170.667 768V512A85.333 85.333 0 0 1 256 426.667h42.667v-85.334a213.333 213.333 0 0 1 368.085-146.816z" fill="#fff"/></svg>'
 	}, {}],
-	jaJRT: [function(e, t, r) {
+	jaJRT: [function (e, t, r) {
 		t.exports = '<svg class="icon" width="22" height="22" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="M768 298.667h170.667V384h-256V128H768v170.667zM341.333 384h-256v-85.333H256V128h85.333v256zM768 725.333V896h-85.333V640h256v85.333H768zM341.333 640v256H256V725.333H85.333V640h256z"/></svg>'
 	}, {}],
-	cRY1X: [function(e, t, r) {
+	cRY1X: [function (e, t, r) {
 		t.exports = '<svg class="icon" width="22" height="22" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="M625.778 256H768v142.222h113.778v-256h-256V256zM256 398.222V256h142.222V142.222h-256v256H256zm512 227.556V768H625.778v113.778h256v-256H768zM398.222 768H256V625.778H142.222v256h256V768z"/></svg>'
 	}, {}],
-	"3aVGL": [function(e, t, r) {
+	"3aVGL": [function (e, t, r) {
 		t.exports = '<svg class="icon" width="18" height="18" viewBox="0 0 1152 1024" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="M1075.2 0H76.8A76.8 76.8 0 0 0 0 76.8v870.4a76.8 76.8 0 0 0 76.8 76.8h998.4a76.8 76.8 0 0 0 76.8-76.8V76.8A76.8 76.8 0 0 0 1075.2 0zM1024 128v768H128V128h896zM896 512a64 64 0 0 1 7.488 127.552L896 640H768v128a64 64 0 0 1-56.512 63.552L704 832a64 64 0 0 1-63.552-56.512L640 768V582.592c0-34.496 25.024-66.112 61.632-70.208l8-.384H896zm-640 0a64 64 0 0 1-7.488-127.552L256 384h128V256a64 64 0 0 1 56.512-63.552L448 192a64 64 0 0 1 63.552 56.512L512 256v185.408c0 34.432-25.024 66.112-61.632 70.144l-8 .448H256z"/></svg>'
 	}, {}],
-	"4DiVn": [function(e, t, r) {
+	"4DiVn": [function (e, t, r) {
 		t.exports = '<svg class="icon" width="18" height="18" viewBox="0 0 1152 1024" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="M1075.2 0H76.8A76.8 76.8 0 0 0 0 76.8v870.4a76.8 76.8 0 0 0 76.8 76.8h998.4a76.8 76.8 0 0 0 76.8-76.8V76.8A76.8 76.8 0 0 0 1075.2 0zM1024 128v768H128V128h896zm-576 64a64 64 0 0 1 7.488 127.552L448 320H320v128a64 64 0 0 1-56.512 63.552L256 512a64 64 0 0 1-63.552-56.512L192 448V262.592c0-34.432 25.024-66.112 61.632-70.144l8-.448H448zm256 640a64 64 0 0 1-7.488-127.552L704 704h128V576a64 64 0 0 1 56.512-63.552L896 512a64 64 0 0 1 63.552 56.512L960 576v185.408c0 34.496-25.024 66.112-61.632 70.208l-8 .384H704z"/></svg>'
 	}, {}],
-	kwdKE: [function(e, t, r) {
+	kwdKE: [function (e, t, r) {
 		t.exports = '<svg class="icon" width="26" height="26" viewBox="0 0 1664 1024" xmlns="http://www.w3.org/2000/svg"><path fill="#648FFC" d="M1152 0H512a512 512 0 0 0 0 1024h640a512 512 0 0 0 0-1024zm0 960a448 448 0 1 1 448-448 448 448 0 0 1-448 448z"/></svg>'
 	}, {}],
-	bWfXZ: [function(e, t, r) {
+	bWfXZ: [function (e, t, r) {
 		t.exports = '<svg class="icon" width="26" height="26" viewBox="0 0 1740 1024" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="M511.898 1024h670.515c282.419-.41 511.18-229.478 511.18-511.898 0-282.419-228.761-511.488-511.18-511.897H511.898C229.478.615.717 229.683.717 512.102c0 282.42 228.761 511.488 511.18 511.898zm-.564-975.36A464.589 464.589 0 1 1 48.026 513.024 463.872 463.872 0 0 1 511.334 48.435v.205z"/></svg>'
 	}, {}],
-	h3zZ9: [function(e, t, r) {
+	h3zZ9: [function (e, t, r) {
 		t.exports = '<svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M554.667 810.667V896h-85.334v-85.333h85.334zm-384-632.662a42.667 42.667 0 0 1 34.986 18.219l203.904 291.328a42.667 42.667 0 0 1 0 48.896L205.611 827.776A42.667 42.667 0 0 1 128 803.328V220.672a42.667 42.667 0 0 1 42.667-42.667zm682.666 0a42.667 42.667 0 0 1 42.368 37.718l.299 4.949v582.656a42.667 42.667 0 0 1-74.24 28.63l-3.413-4.182-203.904-291.328a42.667 42.667 0 0 1-3.03-43.861l3.03-5.035 203.946-291.328a42.667 42.667 0 0 1 34.944-18.219zM554.667 640v85.333h-85.334V640h85.334zm-358.4-320.896V716.8L335.957 512 196.31 319.104zm358.4 150.23v85.333h-85.334v-85.334h85.334zm0-170.667V384h-85.334v-85.333h85.334zm0-170.667v85.333h-85.334V128h85.334z" fill="#fff"/></svg>'
 	}, {}],
-	"7Oyth": [function(e, t, r) {
+	"7Oyth": [function (e, t, r) {
 		t.exports = '<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="50" height="50"><path d="M593.818 168.55 949.82 763.76c26.153 43.746 10.732 99.738-34.447 125.052-14.397 8.069-30.72 12.308-47.37 12.308H155.976c-52.224 0-94.536-40.96-94.536-91.505 0-16.097 4.383-31.928 12.718-45.875l356.004-595.19c26.173-43.724 84.009-58.654 129.208-33.341a93.082 93.082 0 0 1 34.448 33.341zM512 819.2a61.44 61.44 0 1 0 0-122.88 61.44 61.44 0 0 0 0 122.88zm0-512a72.315 72.315 0 0 0-71.762 81.306l25.723 205.721a46.408 46.408 0 0 0 92.078 0l25.723-205.742A72.315 72.315 0 0 0 512 307.2z"/></svg>'
 	}, {}],
-	U5Jcy: [function(e, t, r) {
+	U5Jcy: [function (e, t, r) {
 		t.exports = '<svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="m571.733 512 268.8-268.8c17.067-17.067 17.067-42.667 0-59.733-17.066-17.067-42.666-17.067-59.733 0L512 452.267l-268.8-268.8c-17.067-17.067-42.667-17.067-59.733 0-17.067 17.066-17.067 42.666 0 59.733l268.8 268.8-268.8 268.8c-17.067 17.067-17.067 42.667 0 59.733 8.533 8.534 19.2 12.8 29.866 12.8s21.334-4.266 29.867-12.8l268.8-268.8 268.8 268.8c8.533 8.534 19.2 12.8 29.867 12.8s21.333-4.266 29.866-12.8c17.067-17.066 17.067-42.666 0-59.733L571.733 512z"/></svg>'
 	}, {}],
-	jK5Fx: [function(e, t, r) {
+	jK5Fx: [function (e, t, r) {
 		t.exports = '<svg width="18" height="18" xmlns="http://www.w3.org/2000/svg"><g fill="#fff"><path d="M16 1H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3v-2H3V3h12v8h-2v2h3a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/><path d="M4 17h10l-5-6z"/></g></svg>'
 	}, {}],
-	bRHiA: [function(e, t, r) {
+	bRHiA: [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r);
 		var i = e("./flip"),
@@ -3881,12 +3881,12 @@
 				});
 				const c = (0, h.createElement)("div");
 				switch ((0, h.addClass)(c, "art-setting-item-right-tooltip"), (0, h.append)(c, t.tooltip || ""), (0, h.append)(n, c), t.$tooltip = c, (0, h.def)(t, "tooltip", {
-						configurable: !0,
-						get: () => c.innerHTML,
-						set(e) {
-							(0, h.isStringOrNumber)(e) && (c.innerHTML = e)
-						}
-					}), e) {
+					configurable: !0,
+					get: () => c.innerHTML,
+					set(e) {
+						(0, h.isStringOrNumber)(e) && (c.innerHTML = e)
+					}
+				}), e) {
 					case "switch": {
 						const e = (0, h.createElement)("div");
 						(0, h.addClass)(e, "art-setting-item-right-icon");
@@ -3913,7 +3913,7 @@
 							}
 						})
 					}
-					break;
+						break;
 					case "selector":
 						if (t.selector && t.selector.length) {
 							const e = (0, h.createElement)("div");
@@ -3978,7 +3978,7 @@
 					for (let t = 0; t < e.length; t++) {
 						const r = e[t];
 						(0, h.has)(r, "switch") ? (0, h.append)(o, this.creatItem("switch", r)) : (0, h.has)(r, "range") ? (0, h.append)(o, this.creatItem("range", r)) : (0, h.append)(o, this.creatItem("selector", r))
-					}(0, h.append)(this.$parent, o), this.cache.set(e, o), (0, h.inverseClass)(o, "art-current"), (0, h.setStyle)(this.$parent, "width", `${o.dataset.width}px`), (0, h.setStyle)(this.$parent, "height", `${o.dataset.height}px`), e[0] && e[0].$parentItem && e[0].$parentItem.mounted && e[0].$parentItem.mounted.call(this.art, o, e[0].$parentItem)
+					} (0, h.append)(this.$parent, o), this.cache.set(e, o), (0, h.inverseClass)(o, "art-current"), (0, h.setStyle)(this.$parent, "width", `${o.dataset.width}px`), (0, h.setStyle)(this.$parent, "height", `${o.dataset.height}px`), e[0] && e[0].$parentItem && e[0].$parentItem.mounted && e[0].$parentItem.mounted.call(this.art, o, e[0].$parentItem)
 				}
 			}
 		}
@@ -3992,10 +3992,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	bNOaj: [function(e, t, r) {
+	bNOaj: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				i18n: t,
 				icons: r,
@@ -4034,10 +4034,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"5lAsp": [function(e, t, r) {
+	"5lAsp": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				i18n: t,
 				icons: r,
@@ -4080,10 +4080,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	e6hsR: [function(e, t, r) {
+	e6hsR: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				i18n: t,
 				icons: r,
@@ -4126,10 +4126,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	fFNEr: [function(e, t, r) {
+	fFNEr: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				i18n: t,
 				icons: r,
@@ -4169,7 +4169,7 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	f2Thp: [function(e, t, r) {
+	f2Thp: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		r.default = class {
 			constructor() {
@@ -4212,7 +4212,7 @@
 	}, {
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"96ThS": [function(e, t, r) {
+	"96ThS": [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r);
 		var i = e("../utils"),
@@ -4253,8 +4253,8 @@
 		"./lock": "5dnKh",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	iBx4M: [function(e, t, r) {
-		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r), r.default = function(e) {
+	iBx4M: [function (e, t, r) {
+		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r), r.default = function (e) {
 			return e.on("ready", (() => {
 				e.layers.add({
 					name: "miniProgressBar",
@@ -4275,10 +4275,10 @@
 	}, {
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"2O9qO": [function(e, t, r) {
+	"2O9qO": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				option: t,
 				constructor: r,
@@ -4299,7 +4299,7 @@
 					(t > n && s < l || t < n && s > l) && setTimeout((() => {
 						(0, o.setStyle)(i, "width", `${l}px`), (0, o.setStyle)(i, "height", `${s}px`), (0, o.setStyle)(i, "transform-origin", "0 0"), (0, o.setStyle)(i, "transform", `rotate(90deg) translate(0, -${s}px)`), (0, o.addClass)(i, "art-auto-orientation"), e.isRotate = !0, e.emit("resize")
 					}), r.MOBILE_AUTO_ORIENTATION_TIME)
-				} else(0, o.hasClass)(i, "art-auto-orientation") && ((0, o.setStyle)(i, "width", null), (0, o.setStyle)(i, "height", null), (0, o.setStyle)(i, "transform", null), (0, o.setStyle)(i, "transform-origin", null), (0, o.removeClass)(i, "art-auto-orientation"), e.isRotate = !1, e.aspectRatioReset = !0, e.autoSize = t.autoSize, e.notice.show = "", e.emit("resize"))
+				} else (0, o.hasClass)(i, "art-auto-orientation") && ((0, o.setStyle)(i, "width", null), (0, o.setStyle)(i, "height", null), (0, o.setStyle)(i, "transform", null), (0, o.setStyle)(i, "transform-origin", null), (0, o.removeClass)(i, "art-auto-orientation"), e.isRotate = !1, e.aspectRatioReset = !0, e.autoSize = t.autoSize, e.notice.show = "", e.emit("resize"))
 			})), e.on("fullscreen", (async e => {
 				const t = screen.orientation.type;
 				if (e) {
@@ -4314,7 +4314,7 @@
 						const e = t.startsWith("portrait") ? "landscape" : "portrait";
 						await screen.orientation.lock(e), (0, o.addClass)(i, "art-auto-orientation-fullscreen")
 					}
-				} else(0, o.hasClass)(i, "art-auto-orientation-fullscreen") && (await screen.orientation.lock(t), (0, o.removeClass)(i, "art-auto-orientation-fullscreen"))
+				} else (0, o.hasClass)(i, "art-auto-orientation-fullscreen") && (await screen.orientation.lock(t), (0, o.removeClass)(i, "art-auto-orientation-fullscreen"))
 			})), {
 				name: "autoOrientation",
 				get state() {
@@ -4326,10 +4326,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	iiOc1: [function(e, t, r) {
+	iiOc1: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				i18n: t,
 				icons: r,
@@ -4339,45 +4339,50 @@
 				template: {
 					$poster: s
 				}
-			} = e, l = e.layers.add({
-				name: "autoPlayback",
-				html: '<div class="art-autoPlayback-close"></div><div class="art-autoPlayback-last"></div><div class="art-autoPlayback-jump"></div>'
-			}), c = (0, o.query)(".art-autoPlayback-last", l), u = (0, o.query)(".art-autoPlayback-jump", l), p = (0, o.query)(".art-autoPlayback-close", l);
-			return e.on("video:timeupdate", (() => {
+			} = e;
+			e.on("video:timeupdate", () => {
 				const t = i.get("times") || {},
 					r = Object.keys(t);
-				r.length > a.AUTO_PLAYBACK_MAX && delete t[r[0]], t[e.option.id || e.option.url] = e.currentTime, i.set("times", t)
-			})), e.on("ready", (() => {
+				if (r.length > a.AUTO_PLAYBACK_MAX) {
+					delete t[r[0]];
+				}
+				t[e.option.id || e.option.url] = e.currentTime;
+				i.set("times", t);
+			});
+			e.on("ready", () => {
 				const d = (i.get("times") || {})[e.option.id || e.option.url];
-				d && d >= a.AUTO_PLAYBACK_MIN && ((0, o.append)(p, r.close), (0, o.setStyle)(l, "display", "flex"), c.innerText = `${t.get("Last Seen")} ${(0,o.secondToTime)(d)}`, u.innerText = t.get("Xem tiếp"), n(p, "click", (() => {
-					(0, o.setStyle)(l, "display", "none")
-				})), n(u, "click", (() => {
-					e.seek = d, e.play(), (0, o.setStyle)(s, "display", "none"), (0, o.setStyle)(l, "display", "none")
-				})), e.once("video:timeupdate", (() => {
-					setTimeout((() => {
-						(0, o.setStyle)(l, "display", "none")
-					}), a.AUTO_PLAYBACK_TIMEOUT)
-				})))
-			})), {
+				if (d && d >= a.AUTO_PLAYBACK_MIN) {
+					e.seek = d;
+					e.play();
+					e.once("video:timeupdate", () => {
+						setTimeout(() => {
+						}, a.AUTO_PLAYBACK_TIMEOUT);
+					});
+				}
+			});
+			return {
 				name: "autoPlayback",
 				get times() {
-					return i.get("times") || {}
+					return i.get("times") || {};
 				},
 				clear: () => i.del("times"),
 				delete(e) {
 					const t = i.get("times") || {};
-					return delete t[e], i.set("times", t), t
+					delete t[e];
+					i.set("times", t);
+					return t;
 				}
-			}
+			};
 		}
+
 	}, {
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	d9NUE: [function(e, t, r) {
+	d9NUE: [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				constructor: t,
 				proxy: r,
@@ -4407,10 +4412,10 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"5dnKh": [function(e, t, r) {
+	"5dnKh": [function (e, t, r) {
 		e("@parcel/transformer-js/src/esmodule-helpers.js").defineInteropFlag(r);
 		var o = e("../utils");
-		r.default = function(e) {
+		r.default = function (e) {
 			const {
 				layers: t,
 				icons: r,
@@ -4441,7 +4446,7 @@
 		"../utils": "h3rH9",
 		"@parcel/transformer-js/src/esmodule-helpers.js": "guZOB"
 	}],
-	"6M149": [function(e, t, r) {
+	"6M149": [function (e, t, r) {
 		var o = e("@parcel/transformer-js/src/esmodule-helpers.js");
 		o.defineInteropFlag(r);
 		var i = e("./config"),
