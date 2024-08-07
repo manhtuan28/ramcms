@@ -21,53 +21,34 @@
             height: 100%;
         }
     </style>
-    <script src="/static/player/jwplayer/IDzF9Zmk.js"></script>
+    <script src="/static/player/jwplayer/jwplayer.js"></script>
+    <script>jwplayer.key = 'BVhDMzxpDXhQUnBiyE7xIHwu4jCRGt4/VwcYaV2zMDZjSz105E5460tjxhI8HTZD';</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/static/player/jwplayer/hls.min.js"></script>
+
 </head>
 
 <body marginwidth="0" marginheight="0">
     <div id="playerCnt"></div>
     <script type="text/javascript">
-        var type = 'mp4';
 
-        if (parent.MacPlayer.PlayUrl.indexOf('.m3u8') > -1) {
-            type = 'hls';
-        } else if (parent.MacPlayer.PlayUrl.indexOf('.mkv') > -1) {
-            type = 'mkv';
-        }
-
-        var player = jwplayer("playerCnt").setup({
+        jwplayer("playerCnt").setup({
             file: parent.MacPlayer.PlayUrl,
-            type: type,
             width: "100%",
             height: "100%",
             autostart: true,
-            events: {
-                onReady: function () {
-                    console.log('Player is ready!');
-
-                    // Load saved time from localStorage
-                    var savedTime = localStorage.getItem('videoCurrentTime');
-                    if (savedTime) {
-                        player.seek(parseFloat(savedTime));
-                        console.log('Seeking to saved time:', savedTime);
-                    } else {
-                        console.log('No saved time found.');
-                    }
-                },
-                onTime: function (event) {
-                    // Save current playback time to localStorage
-                    localStorage.setItem('videoCurrentTime', event.position);
-                    console.log('Saved time:', event.position);
-                },
-                onComplete: function () {
-                    console.log('Video completed.');
-
-                    // Clear saved time when video is complete
-                    localStorage.removeItem('videoCurrentTime');
-                }
-            }
+            primary: "html5",
+            aspectratio: "16:9",
+            controls: true,
+            volume: 100,
+            skin: {
+                name: "five",
+                active: "#f00"
+            },
         });
     </script>
+
+
 </body>
 
 </html>

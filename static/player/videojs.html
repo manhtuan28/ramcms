@@ -23,17 +23,17 @@
 	</style>
 	<link rel="stylesheet" href="/static/player/videojs/video-js.min.css">
 	<script type="text/javascript" src="/static/player/videojs/video.min.js"></script>
-	<link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet">
 </head>
 
 <body marginwidth="0" marginheight="0">
-	<video id="playerCnt" class="video-js vjs-theme-city" controls preload="none" width="100%" height="100%"></video>
+	<video id="playerCnt" class="video-js vjs-default-skin" controls preload="none" width="100%" height="100%"></video>
 	<script type="text/javascript">
 		var type = 'video/mp4';
 
 		if (parent.MacPlayer.PlayUrl.indexOf('.m3u8') > -1) {
 			type = 'application/x-mpegURL';
-		} else if (parent.MacPlayer.PlayUrl.indexOf('.mkv') > -1) {
+		}
+		else if (parent.MacPlayer.PlayUrl.indexOf('.mkv') > -1) {
 			type = 'video/x-matroska';
 		}
 
@@ -46,19 +46,15 @@
 
 		var player = videojs('playerCnt', options, function onPlayerReady() {
 			videojs.log('Your player is ready!');
-			var savedTime = localStorage.getItem('videoTime');
-			if (savedTime) {
-				this.currentTime(parseFloat(savedTime));
-			}
 			this.play();
-			this.on('pause', function () {
-				var currentTime = this.currentTime();
-				localStorage.setItem('videoTime', currentTime);
-			});
 			this.on('ended', function () {
 				videojs.log('Awww...over so soon?!');
 			});
 		});
+
+		try {
+		}
+		catch (e) { }
 	</script>
 </body>
 
