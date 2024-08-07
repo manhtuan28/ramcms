@@ -191,13 +191,6 @@ class Captcha
                 imagettftext($this->_image, $this->fontSize, mt_rand(-40, 40), $codeNX, $this->fontSize * 1.6, $this->_color, $this->fontttf, $code[$i]);
             }
         }
-        
-        $code = ['1', '2', '3', '4', '5'];
-        $codeNX = 0;
-        for ($i = 0; $i < count($code); $i++) {
-            $codeNX += mt_rand($this->fontSize * 1.2, $this->fontSize * 1.6);
-            imagettftext($this->_image, $this->fontSize, mt_rand(-40, 40), $codeNX, $this->fontSize * 1.6, $this->_color, $this->fontttf, $code[$i]);
-        }
 
         // 保存验证码
         $key                   = $this->authcode($this->seKey);

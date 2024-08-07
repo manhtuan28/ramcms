@@ -88,6 +88,15 @@
                             },
                         }
                     ],
+                    // plugins: [
+                    //     artplayerPluginHlsQuality({
+                    //         control: true,
+                    //         setting: true,
+                    //         getResolution: (level) => level.height + 'P',
+                    //         title: 'Quality',
+                    //         auto: 'Auto',
+                    //     }),
+                    // ],
                     onSelect: function (item) {
                         art.subtitle.switch(item.url, {
                             name: item.html,
@@ -117,9 +126,8 @@
                         hls.loadSource(url);
                         hls.attachMedia(video);
                         hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                            // Tùy chọn chọn chất lượng
                             hls.on(Hls.Events.LEVEL_LOADED, function (event, data) {
-                                hls.loadLevel = data.levels.length - 1; // Chọn chất lượng cao nhất
+                                hls.loadLevel = data.levels.length - 1;
                             });
                         });
                     } else {

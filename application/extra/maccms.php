@@ -6,9 +6,9 @@ return array (
     'path' => '',
     'server' => 'localhost',
     'port' => '3306',
-    'name' => 'cms',
+    'name' => 'maccms10',
     'user' => 'root',
-    'pass' => '',
+    'pass' => 'root',
     'tablepre' => 'mac_',
     'backup_path' => './application/data/backup/database/',
     'part_size' => 20971520,
@@ -17,8 +17,8 @@ return array (
   ),
   'site' => 
   array (
-    'site_name' => 'Asha',
-    'site_url' => 'http://asha.io.vn',
+    'site_name' => 'Asha Phim',
+    'site_url' => 'https://asha.io.vn',
     'site_keywords' => 'Từ kho&aacute; cho website của bạn',
     'site_description' => 'Thẻ m&ocirc; tả website của bạn',
     'site_email' => 'hotro@asha.io.vn',
@@ -87,8 +87,8 @@ return array (
   ),
   'user' => 
   array (
-    'status' => '0',
-    'reg_open' => '0',
+    'status' => '1',
+    'reg_open' => '1',
     'reg_status' => '1',
     'reg_phone_sms' => '0',
     'reg_email_sms' => '0',
@@ -193,7 +193,7 @@ return array (
   'interface' => 
   array (
     'status' => 0,
-    'pass' => '2Q23JHRK9UERWVSJ',
+    'pass' => '6UR4OPR4JZOT6ZNA',
     'vodtype' => '动作片=动作',
     'arttype' => '头条=头条',
     'actortype' => '',

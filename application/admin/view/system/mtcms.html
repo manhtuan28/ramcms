@@ -1,0 +1,128 @@
+{include file="../../../application/admin/view/public/head" /}
+{include file="../../../template/mt/asset/admin/head"}
+<?php $mttheme = parse_ini_file(substr('/template/mt/', strlen('/')).'info.ini'); ?>
+<div class="mt-container">
+        <form class="layui-form" action="">
+        <div class="layui-tab"> 
+            <ul class="layui-tab-title">
+                <li class="layui-this">主题说明</li>
+                <li>站点配置</li>
+                <li>导航菜单</li>
+                <li>首页配置</li>
+                <li>页面配置</li>
+                <li>其他设置</li>
+                <li>广告设置</li>       
+            </ul>
+            <div class="layui-tab-content">
+            {include file="../../../template/mt/asset/admin/mt"}
+            {include file="../../../template/mt/asset/admin/jiben"}
+            {include file="../../../template/mt/asset/admin/caidan"}
+            {include file="../../../template/mt/asset/admin/shouye"}
+            {include file="../../../template/mt/asset/admin/yemian"}
+            {include file="../../../template/mt/asset/admin/qita"}
+             {include file="../../../template/mt/asset/admin/ad"}
+                <div class="layui-form-item layui-layout-admin" style="margin: 30px 0;">
+                    <div class="layui-input-block">
+                        <div class="layui-footer" style="left:0;height:38px;">
+                             <button type="submit" class="layui-btn layui-btn-normal" lay-submit="" lay-filter="formSubmit">保存主题设置</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{include file="../../../application/admin/view/public/foot" /}
+
+<script type="text/javascript">
+  layui.config({
+        base: '../../../template/mt/asset/admin/js/',
+    })
+	layui.use(['form', 'upload', 'layer','multiSelect'], function() {
+		// 操作对象
+		var form = layui.form,
+			layer = layui.layer,
+			multiSelect = layui.multiSelect,
+			upload = layui.upload;
+
+		form.on('radio(cache_type)', function(data) {
+			$('.row_cache_server').hide();
+			if(data.value == 'memcache' || data.value == 'redis' || data.value == 'memcached') {
+				$('.row_cache_server').show();
+			}
+		});
+		upload.render({
+			elem: '.layui-upload',
+			url: "{:url('upload/upload')}?flag=mxprocms",
+			method: 'post',
+			before: function(input) {
+				layer.msg('文件上传中...', {
+					time: 3000000
+				});
+			},
+			done: function(res, index, upload) {
+				var obj = this.item;
+				if(res.code == 0) {
+					layer.msg(res.msg);
+					return false;
+				}
+				layer.closeAll();
+				var input = $(obj).parent().parent().find('.upload-input');
+				if($(obj).attr('lay-type') == 'image') {
+					input.siblings('img').attr('src', res.data.file).show();
+				}
+				input.val(res.data.file);
+
+				if(res.data.thumb_class != '') {
+					$('.' + res.data.thumb_class).val(res.data.thumb[0].file);
+				}
+			}
+		});
+	     $('.mt-item').each(function(){
+            if ($(this).length) {
+                var $this = $(this);
+                var $on = $this.find('.layui-form-select');
+                $on.find('dd').click(function() {
+                    var item = $on.find('dd input:checked').length;
+                    if(item>0){
+                        var vals = [];
+                        var sele = $this.find('select[multiple] option:selected');
+                        sele.each(function() {
+                            vals.push($(this).val());
+                            $(this).parents('select').prev('input').attr("value",vals);
+                            $(this).parents('.layui-form-item').next('.vod-nums-filer').show();
+                        });
+                    }else{
+                       $(this).parents('.layui-form-select').prev('select').prev('input').attr("value",""); 
+                       $(this).parents('.layui-form-item').next('.vod-nums-filer').hide();
+                    }
+                });
+            }
+        });
+		$('.upload-input').hover(function(e) {
+			var e = window.event || e;
+			var imgsrc = $(this).val();
+			if(imgsrc.trim() == "") {
+				return;
+			}
+			var left = e.clientX + document.body.scrollLeft + 20;
+			var top = e.clientY + document.body.scrollTop + 20;
+			$(".showpic").css({
+				left: left,
+				top: top,
+				display: ""
+			});
+			if(imgsrc.indexOf('://') < 0) {
+				imgsrc = ROOT_PATH + '/' + imgsrc;
+			} else {
+				imgsrc = imgsrc.replace('mac:', 'http:');
+			}
+			$(".showpic_img").attr("src", imgsrc);
+		}, function(e) {
+			$(".showpic").css("display", "none");
+		});
+
+	});
+</script>
+</body>
+</html>

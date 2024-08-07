@@ -40,7 +40,7 @@ var eWave = {
       try {
         window.sidebar.addPanel(s, u, "");
       } catch (e) {
-        eWave.Layer.Error('Lỗi thêm vào mục yêu thích, vui lòng sử dụng bàn phím Ctrl+D để thêm');
+        eWave.Layer.Error('Lỗi thêm vào mục Bộ Sưu tập, vui lòng sử dụng bàn phím Ctrl+D để thêm');
       }
     }
   },
@@ -820,7 +820,7 @@ var eWave = {
           if (r.code == 1) {
             $.each(r['list'], function (index, row) {
               if (row.ulog_type == 2) {
-                $(".ewave-ulog-get-" + row.data.id).addClass("active").html('<i class="fa fa-heart"></i>&nbsp;Đã yêu thích');
+                $(".ewave-ulog-get-" + row.data.id).addClass("active").html('<i class="fa fa-heart"></i>&nbsp;Đã Bộ Sưu tập');
               }
             });
           } else {
@@ -848,7 +848,7 @@ var eWave = {
             if (r.code == 1) {
               layer.msg(r.msg);
               if ($that.hasClass("ewave-ulog-get")) {
-                $that.addClass("active").html('<i class="fa fa-heart"></i>&nbsp;Đã yêu thích');
+                $that.addClass("active").html('<i class="fa fa-heart"></i>&nbsp;Đã Bộ Sưu tập');
               }
             } else {
               eWave.Layer.Error(r.msg);
