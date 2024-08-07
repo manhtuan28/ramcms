@@ -14,12 +14,12 @@
     <div id="videodiv" class="artplayer-app"></div>
 
     <script type="text/javascript">
-        const TVC_VIDEO = "https://bit.ly/i9bet-mung-xuan-quy-mao";
-        const TVC_URL = "https://bit.ly/i9bet-mung-xuan-quy-mao";
-        const TVC_PLAY_DURATION = 8;
-        const TVC_TOTAL_DURATION = 36;
-        const IS_AUTO_SKIP_TVC = true;
-        let isTVCPlayed = false;
+        // const TVC_VIDEO = "https://bit.ly/i9bet-mung-xuan-quy-mao";
+        // const TVC_URL = "https://bit.ly/i9bet-mung-xuan-quy-mao";
+        // const TVC_PLAY_DURATION = 8;
+        // const TVC_TOTAL_DURATION = 36;
+        // const IS_AUTO_SKIP_TVC = true;
+        // let isTVCPlayed = false;
 
         var video_type = '';
         if( parent.MacPlayer.PlayUrl.indexOf('.m3u8') >- 1 ){
@@ -37,18 +37,18 @@
             autoMini: true,
             screenshot: true,
             setting: true,
-            flip: true,
+            flip: false,
             playbackRate: true,
             aspectRatio: true,
             fullscreen: true,
             fullscreenWeb: false,
-            miniProgressBar: true,
+            miniProgressBar: false,
             backdrop: true,
             playsInline: true,
             autoplay: true,
             autoPlayback: true,
             airplay: true,
-            theme: '#23ade5',
+            theme: '#f00',
             lang: navigator.language.toLowerCase(),
             whitelist: ['*'],
             moreVideoAttr: {
@@ -118,16 +118,7 @@
                 },
                 encoding: 'utf-8',
             },
-            controls: [
-                {
-                    position: 'right',
-                    html: 'Control',
-                    tooltip: 'Control Tooltip',
-                    click: function () {
-                        console.info('You clicked on the custom control');
-                    },
-                },
-            ],
+ 
             icons: {
                 loading: '<img src="/static/player/artplayer/ploading.gif">',
                 state: '<img width="150" heigth="150" src="/static/player/artplayer/state.svg">',
@@ -174,26 +165,26 @@
             });
         }
 
-        if (IS_AUTO_SKIP_TVC) {
-            let playDuration = TVC_PLAY_DURATION;
-            art.on('play', () => {
-                if (!isTVCPlayed) {
-                    var i = setInterval(() => {
-                        if (playDuration <= 0) {
-                            art.plugins.artplayerPluginAds.skip();
-                            if (video_type == 'embed') {
-                                art.on('video:ended', () => {
-                                    onVideoEnded();
-                                });
-                            }
-                            isTVCPlayed = true;
-                            clearInterval(i);
-                        }
-                        playDuration--;
-                    }, 1000);
-                }
-            });
-        }
+        // if (IS_AUTO_SKIP_TVC) {
+        //     let playDuration = TVC_PLAY_DURATION;
+        //     art.on('play', () => {
+        //         if (!isTVCPlayed) {
+        //             var i = setInterval(() => {
+        //                 if (playDuration <= 0) {
+        //                     art.plugins.artplayerPluginAds.skip();
+        //                     if (video_type == 'embed') {
+        //                         art.on('video:ended', () => {
+        //                             onVideoEnded();
+        //                         });
+        //                     }
+        //                     isTVCPlayed = true;
+        //                     clearInterval(i);
+        //                 }
+        //                 playDuration--;
+        //             }, 1000);
+        //         }
+        //     });
+        // }
 
         function onVideoEnded() {
             art.pause();
