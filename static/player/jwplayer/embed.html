@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player</title>
+    <style>
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <iframe id="videoIframe" src="" allow="autoplay" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <div id="error-message" style="color: red; display: none;">Cannot load video. Please try again later.</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var iframeUrl = parent.MacPlayer.PlayUrl; 
+            var iframe = document.getElementById('videoIframe');
+            iframe.src = iframeUrl;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<VAST version="3.0">
+    <Ad id="1028283">
+        <InLine>
+            <AdSystem>QUảng cáo</AdSystem><Error><![CDATA[#error_url]]></Error><AdTitle>Xem phim miễn phí</AdTitle>
+            <Impression>
+                <![CDATA[#]]>
+            </Impression>
+            <Creatives>
+                <Creative>
+                    <Linear>
+                        <Duration>00:00:05</Duration>
+                        <VideoClicks>
+                            <ClickThrough><![CDATA[https://www.i9004.com/Register?a=1376215]]></ClickThrough>
+                            <ClickTracking>
+                                <![CDATA[#tracking_url]]>
+                            </ClickTracking>
+                        </VideoClicks>
+                        <MediaFiles><MediaFile id="1028283" delivery="progressive" type="video/mp4" width="1280" height="720"><![CDATA[https://bf.333xbet.com/18881999/video888.mp4]]></MediaFile></MediaFiles>
+                    </Linear>
+                </Creative>
+            </Creatives>
+        </InLine>
+    </Ad>
+</VAST>

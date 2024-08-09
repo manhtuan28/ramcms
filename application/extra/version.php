@@ -3,7 +3,7 @@ return array (
     'name' => 'ApiiCMS',
     'copyright' => 'ApiiCMS',
     'url' => '//github.com/apiiphim/apiicms-dev',
-    'code' => '5',
+    'code' => '6',
     'license' => 'MIT',
 );
 ?>
