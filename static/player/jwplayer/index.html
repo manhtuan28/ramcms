@@ -10,7 +10,9 @@
     <div id="player"></div>
     <script src='/static/player/jwplayer/jw/jwplayer.js'></script>
     <script>
-        const videoKey = "videoProgress"; // Key để lưu trữ vị trí trong Local Storage
+        // Sử dụng URL của video làm key lưu trữ
+        const videoUrl = parent.MacPlayer.PlayUrl; // Lấy URL của video hiện tại
+        const videoKey = `videoProgress_${videoUrl}`; // Tạo key riêng cho mỗi video
 
         const playerInstance = jwplayer("player").setup({
             controls: true,
@@ -33,7 +35,7 @@
                     image: parent.player_aaaa.vod_data.vod_poster != "" ? parent.player_aaaa.vod_data.vod_poster : parent.player_aaaa.vod_data.vod_pic,
                     sources: [
                         {
-                            file: parent.MacPlayer.PlayUrl,
+                            file: videoUrl,
                             autostart: true,
                             default: true
                         }
@@ -42,7 +44,7 @@
             ],
         });
 
-        // Khi video sẵn sàng, tiếp tục phát từ vị trí đã lưu
+        // Khi video sẵn sàng, tiếp tục phát từ vị trí đã lưu cho video cụ thể này
         playerInstance.on("ready", function () {
             const savedTime = localStorage.getItem(videoKey);
             if (savedTime) {
