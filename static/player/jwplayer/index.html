@@ -10,6 +10,8 @@
     <div id="player"></div>
     <script src='/static/player/jwplayer/jw/jwplayer.js'></script>
     <script>
+        const videoKey = "videoProgress"; // Key để lưu trữ vị trí trong Local Storage
+
         const playerInstance = jwplayer("player").setup({
             controls: true,
             sharing: true,
@@ -38,18 +40,15 @@
                     ]
                 }
             ],
-            // advertising: {
-            //     skipoffset: 5,
-            //     client: 'vast',
-            //     tag: '/static/player/jwplayer/ad-rules/preroll.xml',
-            //     rules: {
-            //         startOn: 1,
-            //         frequency: 1
-            //     }
-            // },
         });
-        
+
+        // Khi video sẵn sàng, tiếp tục phát từ vị trí đã lưu
         playerInstance.on("ready", function () {
+            const savedTime = localStorage.getItem(videoKey);
+            if (savedTime) {
+                playerInstance.seek(parseFloat(savedTime));
+            }
+
             const playerContainer = playerInstance.getContainer();
             const buttonContainer = playerContainer.querySelector(".jw-button-container");
             const spacer = buttonContainer.querySelector(".jw-spacer");
@@ -76,6 +75,18 @@
                     playerInstance.seek(playerInstance.getPosition() + 10);
                 };
             });
+        });
+
+        // Lưu lại vị trí video khi người dùng dừng xem hoặc rời khỏi trang
+        playerInstance.on("pause", function () {
+            const currentTime = playerInstance.getPosition();
+            localStorage.setItem(videoKey, currentTime);
+        });
+
+        // Lưu lại vị trí video khi người dùng thoát khỏi trang
+        window.addEventListener("beforeunload", function () {
+            const currentTime = playerInstance.getPosition();
+            localStorage.setItem(videoKey, currentTime);
         });
     </script>
 </body>
