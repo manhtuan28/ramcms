@@ -359,7 +359,7 @@ Tooltip timeslider e botões de qualidade e legenda.
 .jwplayer.jw-skin-netflix .jw-time-tip .jw-reset {
   border-radius: 0 0 0.3rem 0.3rem;
   background-color: var(--bg-black);
-  color: var(--bg-white);
+  color: #020202;
 }
 
 .jwplayer.jw-skin-netflix .jw-time-tip {
