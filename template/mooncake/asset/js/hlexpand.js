@@ -58,7 +58,7 @@ var ConchEx = {
                 var json = eval("(" + get_history + ")");
                 var list = "";
                 for (i = 0; i < json.length; i++) {
-                    list = list + '<li class="vodlist_item"><a href="' + json[i].link + '" title="' + json[i].name + '"><div class="vodlist_thumb" style="background-image:url(/' + json[i].pic + ')"><span class="pic_text text_right">Đang xem ' + json[i].part + '</span></div><div class="vodlist_titbox"><p class="vodlist_title">' + json[i].name + '</p></div></a></li>';
+                    list = list + '<li class="vodlist_item"><a href="' + json[i].link + '" title="' + json[i].name + '"><div class="vodlist_thumb" style="background-image:url(' + json[i].pic + ')"><span class="pic_text text_right">Đang xem ' + json[i].part + '</span></div><div class="vodlist_titbox"><p class="vodlist_title">' + json[i].name + '</p></div></a></li>';
                 }
                 $("#conch_history").append(list);
                 $(".conch_history_title").prepend('<a class="clean_history" target="_self" href="javascript:void(0)" onclick="ConchEx.History.Clear();">Xoá</a>');
