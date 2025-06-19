@@ -193,7 +193,7 @@ return array (
   'interface' => 
   array (
     'status' => 0,
-    'pass' => 'KLDG4REC75O32KYU',
+    'pass' => '2EZ2D9QQDSBQC7SQ',
     'vodtype' => '动作片=动作',
     'arttype' => '头条=头条',
     'actortype' => '',
@@ -350,7 +350,7 @@ return array (
   array (
     'vod' => 
     array (
-      'status' => '0',
+      'status' => 0,
       'charge' => '0',
       'detail_inc_hits' => '1',
       'pagesize' => '20',
@@ -363,7 +363,7 @@ return array (
     ),
     'art' => 
     array (
-      'status' => '0',
+      'status' => 0,
       'charge' => '0',
       'pagesize' => '20',
       'imgurl' => '',
