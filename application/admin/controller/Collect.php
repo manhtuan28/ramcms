@@ -976,14 +976,10 @@ class Collect extends Base
             $thumb_url = $sourcePage["movie"]["thumb_url"];
             $poster_url = $sourcePage["movie"]["poster_url"];
 
-            if (strpos($poster_url, 'img.phimapi.com') !== false) {
-                $vod_pic = $poster_url;
-                $vod_pic_slide = $thumb_url;
-            } else {
-                $vod_pic = $thumb_url;
-                $vod_pic_slide = $poster_url;
-            }
+            $vod_pic = $poster_url;          // Ảnh chính dùng poster_url
+            $vod_pic_slide = $thumb_url;     // Ảnh phụ vẫn là thumb (hoặc dùng poster_url luôn cũng được)
         }
+
 
     
         $vod_play_data = $this->play_list($sourcePage["episodes"]);
