@@ -240,14 +240,15 @@ return array(
         '9407' => array("show"=>0,'name' => '--Xuất quy tắc tùy chỉnh', 'controller' => 'cj',		'action' => 'export'),
         '9408' => array("show"=>0,'name' => '--Nhập quy tắc tùy chỉnh', 'controller' => 'cj',		'action' => 'import'),
 
-        '95' => array("show"=>1,'name' => '[APII] Cào OPhim', 'controller' => 'collect',		'action' => 'ophim'),
-        '96' => array("show"=>1,'name' => '[APII] Cào KKphim', 'controller' => 'collect',		'action' => 'kkphim'),
-        '97' => array("show"=>1,'name' => '[APII] Cào NguonC', 'controller' => 'collect',		'action' => 'nguonc'),
-        '98' => array("show"=>1,'name' => '[APII] Cào 3Nguồn', 'controller' => 'collect',		'action' => 'apiiphim'),
-        '99' => array("show"=>1,'name' => '[APII] Cào Hoạt Hình', 'controller' => 'collect',		'action' => 'apiiphim_hoathinh'),
+        // '95' => array("show"=>1,'name' => '[APII] Cào OPhim', 'controller' => 'collect',		'action' => 'ophim'),
+        // '96' => array("show"=>1,'name' => '[APII] Cào KKphim', 'controller' => 'collect',		'action' => 'kkphim'),
+        // '97' => array("show"=>1,'name' => '[APII] Cào NguonC', 'controller' => 'collect',		'action' => 'nguonc'),
+        // '98' => array("show"=>1,'name' => '[APII] Cào 3Nguồn', 'controller' => 'collect',		'action' => 'apiiphim'),
+        // '99' => array("show"=>1,'name' => '[APII] Cào Hoạt Hình', 'controller' => 'collect',		'action' => 'apiiphim_hoathinh'),
         '100' => array("show"=>1,'name' => '[OP] Cào OPhim', 'controller' => 'collect',		'action' => 'ophim_goc'),
         '101' => array("show"=>1,'name' => '[KK] Cào KKphim', 'controller' => 'collect',		'action' => 'kkphim_goc'),
         '102' => array("show"=>1,'name' => '[NC] Cào NguồnC', 'controller' => 'collect',		'action' => 'nguonc_goc'),
+        '103' => array("show"=>1,'name' => '[VIP] Cào 3 Nguồn', 'controller' => 'collect',		'action' => 'ba_nguon'),
         // '96' => array("show"=>1,'name' => 'Myanimelist', 'controller' => 'collect',		'action' => 'myanimelist'),
 
     )),
@@ -280,7 +281,7 @@ return array(
         '11104' => array("show"=>0,'name' => '--Trạng thái plugin ứng dụng', 'controller' => 'addon',		'action' => 'state'),
         '11105' => array("show"=>0,'name' => '--Tải lên plugin ứng dụng', 'controller' => 'addon',		'action' => 'local'),
         '11106' => array("show"=>0,'name' => '--Nâng cấp plugin ứng dụng', 'controller' => 'addon',		'action' => 'upgrade'),
-        '11107' => array("show"=>0,'name' => '--Thêm plugin ứng dụng', 'controller' => 'addon',		'action' => 'add'),
+        '11107' => array("show"=>1,'name' => '--Thêm plugin ứng dụng', 'controller' => 'addon',		'action' => 'add'),
     )),
 
 );

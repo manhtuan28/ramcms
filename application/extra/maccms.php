@@ -18,10 +18,10 @@ return array (
   'site' => 
   array (
     'site_name' => 'Asha Phim',
-    'site_url' => 'https://asha.io.vn',
+    'site_url' => 'https://ashamovie.me',
     'site_keywords' => 'Từ kho&aacute; cho website của bạn',
     'site_description' => 'Thẻ m&ocirc; tả website của bạn',
-    'site_email' => 'hotro@asha.io.vn',
+    'site_email' => 'hotro@ashamovie.me',
     'install_dir' => '/',
     'site_logo' => 'upload/site/20221218-1/fcfc15a53bbe64bc245460d2ab0eec28.png',
     'site_waplogo' => 'upload/site/20221218-1/fcfc15a53bbe64bc245460d2ab0eec28.png',
@@ -193,7 +193,7 @@ return array (
   'interface' => 
   array (
     'status' => 0,
-    'pass' => '93X7A0MLKMEJVMDK',
+    'pass' => 'KLDG4REC75O32KYU',
     'vodtype' => '动作片=动作',
     'arttype' => '头条=头条',
     'actortype' => '',
@@ -350,9 +350,9 @@ return array (
   array (
     'vod' => 
     array (
-      'status' => 0,
+      'status' => '0',
       'charge' => '0',
-      'detail_inc_hits' => '0',
+      'detail_inc_hits' => '1',
       'pagesize' => '20',
       'imgurl' => 'http://img.test.com/',
       'typefilter' => '',
@@ -363,7 +363,7 @@ return array (
     ),
     'art' => 
     array (
-      'status' => 0,
+      'status' => '0',
       'charge' => '0',
       'pagesize' => '20',
       'imgurl' => '',

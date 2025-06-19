@@ -2,7 +2,7 @@
 <div class="page-container p10">
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">CÀO NGUỒN NGUONC OLD</h4>
+            <h4 class="card-title">CÀO 3 NGUỒN</h4>
         </div>
         <div class="card-body">
             <form id="crawl-form">
@@ -166,6 +166,16 @@
                 <div class="mb-3 row g-3 align-items-center">
                     <div class="col">
                         <div class="input-group">
+                            <span class="input-group-text"><strong>Nguồn cào</strong></span>
+                            <select name="crawl_source" class="form-select" id="crawl-source">
+                                <option value="ophim">Ổ Phim</option>
+                                <option value="kkphim">KK Phim</option>
+                                <option value="nguonc">Nguồn C</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="input-group">
                             <span class="input-group-text"><strong>Từ trang</strong></span>
                             <input name="page_from" type="number" class="form-control">
                         </div>
@@ -258,7 +268,7 @@
             divMsgCrawlSuccess.style.display = "block";
             divMsgCrawlError.style.display = "block";
             divMsgText.textContent = `Crawl Link: ${urlPhim}`;
-            fetch("{:url('crawl_nguonc_goc_link')}", {
+            fetch("{:url('crawl_ba_nguon_link')}", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -282,31 +292,43 @@
             crawl_page_callback(parseInt(inputPageFrom.value));
         });
 
+        const selectCrawlSource = document.getElementById("crawl-source");
         const crawl_page_callback = (currentPage) => {
-            const urlPageCrawl = `{$GLOBALS['config']['site']['site_url']}/nguonc.php?page=${currentPage}`;
+            const sourceUrls = {
+                'ophim': `https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=${currentPage}`,
+                'kkphim': `https://phimapi.com/danh-sach/phim-moi-cap-nhat?page=${currentPage}`,
+                'nguonc': `{$GLOBALS['config']['site']['site_url']}/nguonc.php?page=${currentPage}`
+            };
+            
+            const selectedSource = selectCrawlSource.value;
+            const urlPageCrawl = sourceUrls[selectedSource];
 
             if (currentPage > parseInt(inputPageTo.value)) {
                 divMsgText.textContent = "Done!";
                 buttonCrawlMovies.style.display = "block";
                 return false;
             }
+            
             divMsgText.textContent = `Crawl Page: ${urlPageCrawl}`;
-            fetch("{:url('crawl_nguonc_goc_page')}", {
+            fetch("{:url('crawl_ba_nguon_page')}", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ url: urlPageCrawl })
+                body: JSON.stringify({ 
+                    url: urlPageCrawl,
+                    source: selectedSource 
+                })
             }).then(response => response.text())
-              .then(res => {
-                  let currentList = textArealistMovies.value;
-                  if (currentList !== "") currentList += "\n" + res;
-                  else currentList += res;
+            .then(res => {
+                let currentList = textArealistMovies.value;
+                if (currentList !== "") currentList += "\n" + res;
+                else currentList += res;
 
-                  textArealistMovies.value = currentList;
-                  currentPage++;
-                  crawl_page_callback(currentPage);
-              });
+                textArealistMovies.value = currentList;
+                currentPage++;
+                crawl_page_callback(currentPage);
+            });
         };
 
         buttonCrawlMovies.addEventListener('click', () => {
@@ -338,7 +360,7 @@
             textArealistMovies.value = listLink.join("\n");
             divMsgText.textContent = `Đang cào phim: ${linkCurrent}`;
 
-            fetch("{:url('crawl_nguonc_goc_movies')}", {
+            fetch("{:url('crawl_ba_nguon_movies')}", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'

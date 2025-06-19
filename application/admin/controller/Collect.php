@@ -496,6 +496,97 @@ class Collect extends Base
         model('Collect')->website_data($param,$res );
     }
 
+    // CRAWLER 3 Nguồn bay Apii
+    public function ba_nguon()
+    {
+        return $this->fetch('admin@collect/ba_nguon');
+    }
+
+    public function crawl_ba_nguon_link()
+    {
+        try {
+            $url = input('url');
+            $host = parse_url($url, PHP_URL_HOST);
+            $api_url = str_replace(['http://', 'https://', $host], '', $url);
+            $api_url = $GLOBALS['config']['site']['site_url'] . $api_url;
+            $html = mac_curl_get($api_url);
+            $html = mac_filter_tags($html);
+            $sourcePage = json_decode($html, true);
+            $title = $sourcePage['movie']['name'];
+            $year = $sourcePage['movie']['year'];
+            $ba_nguon_id = $sourcePage['movie']['_id'];
+            $result = $this->add_movie($title, $year, $ba_nguon_id, $sourcePage);
+            return $result;
+        } catch (\Throwable $th) {
+            $result = array(
+                'status' => false,
+                'msg' => "Crawl error: " . $th,
+            );
+            return json_encode($result);
+        }
+    }
+
+    public function crawl_ba_nguon_page()
+    {
+        $url = input('url');
+        $html = mac_curl_get($url);
+        if(empty($html)){
+            return ['code'=>1001, 'msg'=>lang('model/collect/get_html_err') . ', url: ' . $url];
+        }
+        $html = mac_filter_tags($html);
+        $sourcePage = json_decode($html);
+        $listMovies = [];
+
+        if(count($sourcePage->items) > 0) {
+            foreach ($sourcePage->items as $key => $item) {
+                array_push($listMovies, $GLOBALS['config']['site']['site_url'] . "/get.php?slug={$item->slug}|{$item->_id}|{$item->modified->time}|{$item->name}|{$item->origin_name}|{$item->year}");
+            }
+            echo join("\n", $listMovies);
+        } else {
+            echo [];
+        }
+        die();
+    }
+
+    public function crawl_ba_nguon_movies()
+    {
+        try {
+            $data_post = input('url');
+            $filterType = input('filterType');
+            $filterCategory = input('filterCategory');
+            $url = explode('|', $data_post)[0];
+            $ba_nguon_id = explode('|', $data_post)[1];
+            $ba_nguon_update_time 	= explode('|', $data_post)[2];
+            $title = explode('|', $data_post)[3];
+            $org_title = explode('|', $data_post)[4];
+            $year = explode('|', $data_post)[5];
+
+            $host = parse_url($url, PHP_URL_HOST);
+            $api_url = str_replace(['http://', 'https://', $host], '', $url);
+            $api_url = $GLOBALS['config']['site']['site_url'] . $api_url;
+            $html = mac_curl_get($api_url);
+            $html = mac_filter_tags($html);
+            $sourcePage = json_decode($html, true);
+
+            if ($filterType) {
+                $filterType = explode(",", $filterType);
+            }
+            if ($filterCategory) {
+                $filterCategory = explode(",", $filterCategory);
+            }
+            
+            $result = $this->add_movie($title, $year, $ba_nguon_id, $sourcePage, $filterType, $filterCategory);
+            return $result;
+
+        } catch (Exception $e) {
+            $result = array(
+                'status' => false,
+                'msg' => "Crawl error"
+            );
+            return json_encode($result);
+        }
+    }
+
     // CRAWLER OPHIM_OLD by APII.ONLINE
     public function ophim_goc()
     {
@@ -674,706 +765,96 @@ class Collect extends Base
         }
     }
 
-    // CRAWLER OPHIM by APII.ONLINE
-    public function ophim()
-    {
-        return $this->fetch('admin@collect/ophim');
-    }
-
-    public function crawl_ophim_link()
-    {
-        try {
-            $url = input('url');
-            $host = parse_url($url, PHP_URL_HOST);
-            $api_url = str_replace($host, 'apii.online', $url);
-            $html = mac_curl_get($api_url);
-            $html = mac_filter_tags($html);
-            $sourcePage = json_decode($html, true);
-            $title = $sourcePage['movie']['name'];
-            $year = $sourcePage['movie']['year'];
-            $ophim_id = $sourcePage['movie']['_id'];
-            $result = $this->add_movie($title, $year, $ophim_id, $sourcePage);
-            return $result;
-        } catch (\Throwable $th) {
-            $result = array(
-                'status' => true,
-                'msg' => "Crawl error: " . $th,
-            );
-            return json_encode($result);
-        }
-    }
-
-    public function crawl_ophim_page()
-    {
-        $url = input('url');
-        $html = mac_curl_get($url);
-        if(empty($html)){
-            return ['code'=>1001, 'msg'=>lang('model/collect/get_html_err') . ', url: ' . $url];
-        }
-        $html = mac_filter_tags($html);
-        $sourcePage = json_decode($html);
-        $listMovies = [];
-
-        if(count($sourcePage->items) > 0) {
-            foreach ($sourcePage->items as $key => $item) {
-                array_push($listMovies, "https://apii.online/ophim/phim/{$item->slug}|{$item->_id}|{$item->modified->time}|{$item->name}|{$item->origin_name}|{$item->year}");
-            }
-            echo join("\n", $listMovies);
-        } else {
-            echo [];
-        }
-        die();
-    }
-
-    public function crawl_ophim_movies()
-    {
-        try {
-            $data_post = input('url');
-            $filterType = input('filterType');
-            $filterCategory = input('filterCategory');
-            $url = explode('|', $data_post)[0];
-            $ophim_id = explode('|', $data_post)[1];
-            $ophim_update_time 	= explode('|', $data_post)[2];
-            $title = explode('|', $data_post)[3];
-            $org_title = explode('|', $data_post)[4];
-            $year = explode('|', $data_post)[5];
-
-            $host = parse_url($url, PHP_URL_HOST);
-            $api_url = str_replace($host, 'apii.online', $url);
-            $html = mac_curl_get($api_url);
-            $html = mac_filter_tags($html);
-            $sourcePage = json_decode($html, true);
-
-            if ($filterType) {
-                $filterType = explode(",", $filterType);
-            }
-            if ($filterCategory) {
-                $filterCategory = explode(",", $filterCategory);
-            }
-            
-            $result = $this->add_movie($title, $year, $ophim_id, $sourcePage, $filterType, $filterCategory);
-            return $result;
-
-        } catch (Exception $e) {
-            $result = array(
-                'status' => true,
-                'msg' => "Crawl error"
-            );
-            return json_encode($result);
-        }
-    }
-
-    // CRAWLER KKPHIM by APII.Online
-    public function kkphim()
-    {
-        return $this->fetch('admin@collect/kkphim');
-    }
-
-    public function crawl_kkphim_link()
-    {
-        try {
-            $url = input('url');
-            $host = parse_url($url, PHP_URL_HOST);
-            $api_url = str_replace($host, 'apii.online', $url);
-            $html = mac_curl_get($api_url);
-            $html = mac_filter_tags($html);
-            $sourcePage = json_decode($html, true);
-            $title = $sourcePage['movie']['name'];
-            $year = $sourcePage['movie']['year'];
-            $kkphim_id = $sourcePage['movie']['_id'];
-            $result = $this->add_movie($title, $year, $kkphim_id, $sourcePage);
-            return $result;
-        } catch (\Throwable $th) {
-            $result = array(
-                'status' => true,
-                'msg' => "Crawl error: " . $th,
-            );
-            return json_encode($result);
-        }
-    }
-
-    public function crawl_kkphim_page()
-    {
-        $url = input('url');
-        $html = mac_curl_get($url);
-        if(empty($html)){
-            return ['code'=>1001, 'msg'=>lang('model/collect/get_html_err') . ', url: ' . $url];
-        }
-        $html = mac_filter_tags($html);
-        $sourcePage = json_decode($html);
-        $listMovies = [];
-
-        if(count($sourcePage->items) > 0) {
-            foreach ($sourcePage->items as $key => $item) {
-                array_push($listMovies, "https://apii.online/kkphim/phim/{$item->slug}|{$item->_id}|{$item->modified->time}|{$item->name}|{$item->origin_name}|{$item->year}");
-            }
-            echo join("\n", $listMovies);
-        } else {
-            echo [];
-        }
-        die();
-    }
-
-    public function crawl_kkphim_movies()
-    {
-        try {
-            $data_post = input('url');
-            $filterType = input('filterType');
-            $filterCategory = input('filterCategory');
-            $url = explode('|', $data_post)[0];
-            $kkphim_id = explode('|', $data_post)[1];
-            $kkphim_update_time 	= explode('|', $data_post)[2];
-            $title = explode('|', $data_post)[3];
-            $org_title = explode('|', $data_post)[4];
-            $year = explode('|', $data_post)[5];
-
-            $host = parse_url($url, PHP_URL_HOST);
-            $api_url = str_replace($host, 'apii.online', $url);
-            $html = mac_curl_get($api_url);
-            $html = mac_filter_tags($html);
-            $sourcePage = json_decode($html, true);
-
-            if ($filterType) {
-                $filterType = explode(",", $filterType);
-            }
-            if ($filterCategory) {
-                $filterCategory = explode(",", $filterCategory);
-            }
-
-            $result = $this->add_movie($title, $year, $kkphim_id, $sourcePage, $filterType, $filterCategory);
-            return $result;
-
-        } catch (Exception $e) {
-            $result = array(
-                'status' => true,
-                'msg' => "Crawl error"
-            );
-            return json_encode($result);
-        }
-    }
-
-    // CRAWLER NGUONC by APII.Online
-    public function nguonc()
-    {
-        return $this->fetch('admin@collect/nguonc');
-    }
-
-    public function crawl_nguonc_link()
-    {
-        try {
-            $url = input('url');
-            $host = parse_url($url, PHP_URL_HOST);
-            $api_url = str_replace($host, 'apii.online', $url);
-            $html = mac_curl_get($api_url);
-            $html = mac_filter_tags($html);
-            $sourcePage = json_decode($html, true);
-            $title = $sourcePage['movie']['name'];
-            $year = $sourcePage['movie']['year'];
-            $nguonc_id = $sourcePage['movie']['_id'];
-            $result = $this->add_movie($title, $year, $nguonc_id, $sourcePage);
-            return $result;
-        } catch (\Throwable $th) {
-            $result = array(
-                'status' => true,
-                'msg' => "Crawl error: " . $th,
-            );
-            return json_encode($result);
-        }
-    }
-
-    public function crawl_nguonc_page()
-    {
-        $url = input('url');
-        $html = mac_curl_get($url);
-        if(empty($html)){
-            return ['code'=>1001, 'msg'=>lang('model/collect/get_html_err') . ', url: ' . $url];
-        }
-        $html = mac_filter_tags($html);
-        $sourcePage = json_decode($html);
-        $listMovies = [];
-
-        if(count($sourcePage->items) > 0) {
-            foreach ($sourcePage->items as $key => $item) {
-                array_push($listMovies, "https://apii.online/nguonc/phim/{$item->slug}|{$item->_id}|{$item->modified->time}|{$item->name}|{$item->origin_name}|{$item->year}");
-            }
-            echo join("\n", $listMovies);
-        } else {
-            echo [];
-        }
-        die();
-    }
-
-    public function crawl_nguonc_movies()
-    {
-        try {
-            $data_post = input('url');
-            $filterType = input('filterType');
-            $filterCategory = input('filterCategory');
-            $url = explode('|', $data_post)[0];
-            $nguonc_id = explode('|', $data_post)[1];
-            $nguonc_update_time 	= explode('|', $data_post)[2];
-            $title = explode('|', $data_post)[3];
-            $org_title = explode('|', $data_post)[4];
-            $year = explode('|', $data_post)[5];
-
-            $host = parse_url($url, PHP_URL_HOST);
-            $api_url = str_replace($host, 'apii.online', $url);
-            $html = mac_curl_get($api_url);
-            $html = mac_filter_tags($html);
-            $sourcePage = json_decode($html, true);
-
-            if ($filterType) {
-                $filterType = explode(",", $filterType);
-            }
-            if ($filterCategory) {
-                $filterCategory = explode(",", $filterCategory);
-            }
-
-            $result = $this->add_movie($title, $year, $nguonc_id, $sourcePage, $filterType, $filterCategory);
-            return $result;
-
-        } catch (Exception $e) {
-            $result = array(
-                'status' => true,
-                'msg' => "Crawl error"
-            );
-            return json_encode($result);
-        }
-    }
-
-    // CRAWLER APII.ONLINE  NGUỒN GỘP
-    public function apiiphim()
-    {
-        return $this->fetch('admin@collect/apiiphim');
-    }
-
-    public function crawl_apiiphim_link()
-    {
-        try {
-            $url = input('url');
-            $host = parse_url($url, PHP_URL_HOST);
-            $api_url = str_replace($host, 'apii.online', $url);
-            $html = mac_curl_get($api_url);
-            $html = mac_filter_tags($html);
-            $sourcePage = json_decode($html, true);
-            $title = $sourcePage['movie']['name'];
-            $year = $sourcePage['movie']['year'];
-            $apiiphim_id = $sourcePage['movie']['_id'];
-            $result = $this->add_movie($title, $year, $apiiphim_id, $sourcePage);
-            return $result;
-        } catch (\Throwable $th) {
-            $result = array(
-                'status' => true,
-                'msg' => "Crawl error: " . $th,
-            );
-            return json_encode($result);
-        }
-    }
-
-    public function crawl_apiiphim_page()
-    {
-        $url = input('url');
-        $html = mac_curl_get($url);
-        if(empty($html)){
-            return ['code'=>1001, 'msg'=>lang('model/collect/get_html_err') . ', url: ' . $url];
-        }
-        $html = mac_filter_tags($html);
-        $sourcePage = json_decode($html);
-        $listMovies = [];
-
-        if(count($sourcePage->items) > 0) {
-            foreach ($sourcePage->items as $key => $item) {
-                array_push($listMovies, "https://apii.online/apii/phim/{$item->slug}|{$item->_id}|{$item->modified->time}|{$item->name}|{$item->origin_name}|{$item->year}");
-            }
-            echo join("\n", $listMovies);
-        } else {
-            echo [];
-        }
-        die();
-    }
-
-    public function crawl_apiiphim_movies()
-    {
-        try {
-            $data_post = input('url');
-            $filterType = input('filterType');
-            $filterCategory = input('filterCategory');
-            $url = explode('|', $data_post)[0];
-            $apiiphim_id = explode('|', $data_post)[1];
-            $apiiphim_update_time = explode('|', $data_post)[2];
-            $title = explode('|', $data_post)[3];
-            $org_title = explode('|', $data_post)[4];
-            $year = explode('|', $data_post)[5];
-
-            $host = parse_url($url, PHP_URL_HOST);
-            $api_url = str_replace($host, 'apii.online', $url);
-            $html = mac_curl_get($api_url);
-            $html = mac_filter_tags($html);
-            $sourcePage = json_decode($html, true);
-
-
-            if (isset($sourcePage['status']) && $sourcePage['status'] === false) {
-                return json_encode(array(
-                    'status' => false,
-                    'msg' => "Crawl lỗi: URL không hợp lệ hoặc đã bị thay đổi",
-                ));
-            }
-            
-            if ($filterType) {
-                $filterType = explode(",", $filterType);
-            }
-
-            if ($filterCategory) {
-                $filterCategory = explode(",", $filterCategory);
-            }
-
-            $result = $this->add_movie($title, $year, $apiiphim_id, $sourcePage, $filterType, $filterCategory);
-            return $result;
-
-        } catch (Exception $e) {
-            $result = array(
-                'status' => true,
-                'msg' => "Crawl error"
-            );
-            return json_encode($result);
-        }
-    }
-    // CRAWLER HOẠT HÌNH  NGUỒN GỘP
-    public function apiiphim_hoathinh()
-    {
-        return $this->fetch('admin@collect/apiiphim_hoathinh');
-    }
-
-    public function crawl_apiiphim_hoathinh_link()
-    {
-        try {
-            $url = input('url');
-            $host = parse_url($url, PHP_URL_HOST);
-            $api_url = str_replace($host, 'apii.online', $url);
-            $html = mac_curl_get($api_url);
-            $html = mac_filter_tags($html);
-            $sourcePage = json_decode($html, true);
-            $title = $sourcePage['movie']['name'];
-            $year = $sourcePage['movie']['year'];
-            $apiiphim_hoathinh_id = $sourcePage['movie']['_id'];
-            $result = $this->add_movie($title, $year, $apiiphim_hoathinh_id, $sourcePage);
-            return $result;
-        } catch (\Throwable $th) {
-            $result = array(
-                'status' => true,
-                'msg' => "Crawl error: " . $th,
-            );
-            return json_encode($result);
-        }
-    }
-
-    public function crawl_apiiphim_hoathinh_page()
-    {
-        $url = input('url');
-        $html = mac_curl_get($url);
-        if(empty($html)){
-            return ['code'=>1001, 'msg'=>lang('model/collect/get_html_err') . ', url: ' . $url];
-        }
-        $html = mac_filter_tags($html);
-        $sourcePage = json_decode($html);
-        $listMovies = [];
-
-        if(count($sourcePage->items) > 0) {
-            foreach ($sourcePage->items as $key => $item) {
-                array_push($listMovies, "https://apii.online/apii/phim/{$item->slug}|{$item->_id}|{$item->modified->time}|{$item->name}|{$item->origin_name}|{$item->year}");
-            }
-            echo join("\n", $listMovies);
-        } else {
-            echo [];
-        }
-        die();
-    }
-
-    public function crawl_apiiphim_hoathinh_movies()
-    {
-        try {
-            $data_post = input('url');
-            $filterType = input('filterType');
-            $filterCategory = input('filterCategory');
-            $url = explode('|', $data_post)[0];
-            $apiiphim_hoathinh_id = explode('|', $data_post)[1];
-            $apiiphim_hoathinh_update_time = explode('|', $data_post)[2];
-            $title = explode('|', $data_post)[3];
-            $org_title = explode('|', $data_post)[4];
-            $year = explode('|', $data_post)[5];
-
-            $host = parse_url($url, PHP_URL_HOST);
-            $api_url = str_replace($host, 'apii.online', $url);
-            $html = mac_curl_get($api_url);
-            $html = mac_filter_tags($html);
-            $sourcePage = json_decode($html, true);
-
-
-            if (isset($sourcePage['status']) && $sourcePage['status'] === false) {
-                return json_encode(array(
-                    'status' => false,
-                    'msg' => "Crawl lỗi: URL không hợp lệ hoặc đã bị thay đổi",
-                ));
-            }
-            
-            if ($filterType) {
-                $filterType = explode(",", $filterType);
-            }
-
-            if ($filterCategory) {
-                $filterCategory = explode(",", $filterCategory);
-            }
-
-            $result = $this->add_movie($title, $year, $apiiphim_hoathinh_id, $sourcePage, $filterType, $filterCategory);
-            return $result;
-
-        } catch (Exception $e) {
-            $result = array(
-                'status' => true,
-                'msg' => "Crawl error"
-            );
-            return json_encode($result);
-        }
-    }
-
-
-    // NGUỒN C OLD
-    public function nguonc_goc()
-    {
-        return $this->fetch('admin@collect/nguonc_goc');
-    }
-
-    public function crawl_nguonc_goc_link() 
-    {
-        try {
-            $url = input('url');
-            $html = mac_curl_get($url);
-            $html = mac_filter_tags($html);
-            $sourcePage = json_decode($html, true);
-
-            if (!$sourcePage || $sourcePage['status'] != 'success') {
-                throw new Exception("Không thể lấy dữ liệu từ API");
-            }
-            $movie = $sourcePage['movie'];
-            $title = $movie['name'];
-            $nguonc_goc_id = $movie['id'];
-            $year = !empty($movie['category']['3']['list'][0]['name']) ? $movie['category']['3']['list'][0]['name'] : '';
-
-            $result = $this->add_nguonc_goc_movie($movie);
-            return $result;
-        } catch (\Throwable $th) {
-            return json_encode([
-                'status' => false,
-                'msg' => "Crawl error: " . $th->getMessage(),
-            ]);
-        }
-    }
-
-
-   public function crawl_nguonc_goc_page()
-{
-    $url = input('url');
-    $html = mac_curl_get($url);
-    if (empty($html)) {
-        return json_encode(['code' => 1001, 'msg' => 'Không lấy được dữ liệu HTML, URL: ' . $url]);
-    }
-
-    $sourcePage = json_decode($html, true);
-
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        return json_encode(['code' => 1003, 'msg' => 'Lỗi giải mã JSON']);
-    }
-
-    if (!isset($sourcePage['status']) || $sourcePage['status'] !== 'success' || empty($sourcePage['items'])) {
-        return json_encode(['code' => 1005, 'msg' => 'Không có dữ liệu']);
-    }
-
-    $listMovies = array_map(function ($item) {
-        return "https://phim.nguonc.com/api/film/" . $item['slug'];
-    }, $sourcePage['items']);
-
-    return implode("\n", $listMovies);
-}
-
-
-
-
-    public function crawl_nguonc_goc_movies()
-    {
-        try {
-            $url = input('url');
-            $html = mac_curl_get($url);
-            if(empty($html)){
-                throw new Exception("Không thể truy cập API.");
-            }
-
-            $html = mac_filter_tags($html);
-            $movie = json_decode($html, true);
-            if ($movie['status'] != 'success' || empty($movie['movie'])) {
-                throw new Exception("Không thể lấy thông tin phim từ API.");
-            }
-
-            $filterType = input('filterType', '');
-            if (!empty($filterType)) {
-                $filterType = explode(",", $filterType);
-            }
-
-            $movieData = $movie['movie'];
-            $result = $this->add_nguonc_goc_movie($movieData);
-            return $result;
-
-        } catch (Exception $e) {
-            return json_encode([
-                'status' => false,
-                'msg' => "Crawl error: " . $e->getMessage()
-            ]);
-        }
-    }
-
-
-    protected function add_nguonc_goc_movie($movie, $filterType = [])
-    {
-        try {
-            $title = $movie['name'];
-            $year = $movie['category']['3']['list'][0]['name']; 
-            $nguonc_goc_id = $movie['id'];
-            
-            $where = [
-                'vod_name' => mac_filter_xss($title),
-                'vod_year' => $year,
-                'vod_writer' => $nguonc_goc_id
-            ];
-            $info = model('Vod')->where($where)->find();
-
-            if (!$info) {
-                $data = $this->create_data_nguonc_goc($movie, 'i'); 
-                $vod_id = model('Vod')->insert($data, false, true);
-                if ($vod_id > 0) {
-                    return json_encode([
-                        'status' => true,
-                        'msg' => 'Thêm phim mới thành công',
-                        'post_id' => $vod_id,
-                    ]);
-                } else {
-                    return json_encode([
-                        'status' => false,
-                        'msg' => 'Lỗi khi chèn phim mới',
-                    ]);
-                }
-            } else {
-                $data = $this->create_data_nguonc_goc($movie, 'u');
-                $res = model('Vod')->where($where)->update($data);
-                if ($res) {
-                    return json_encode([
-                        'status' => true,
-                        'msg' => 'Cập nhật phim thành công',
-                        'post_id' => $info['vod_id'],
-                    ]);
-                } else {
-                    return json_encode([
-                        'status' => false,
-                        'msg' => 'Lỗi khi cập nhật phim',
-                    ]);
-                }
-            }
-        } catch (\Throwable $th) {
-            return json_encode([
-                'status' => false,
-                'msg' => "Crawl error: " . $th->getMessage(),
-            ]);
-        }
-    }
-
-
-
-	protected function create_data_nguonc_goc($movie, $flag) {
-		$arrCat = array_map(function($cat) { return $cat['name']; }, $movie['category']['2']['list']);
-
-	        $arrCountry = array_column($movie['category']['4']['list'], 'name');
-	        $arrYear = $movie['category']['3']['list'][0]['name'];
-	
-	        if (is_numeric($arrCountry[0])) {
-	            $arrCountry = array_column($movie['category']['3']['list'], 'name');
-	            $arrYear = $movie['category']['4']['list'][0]['name'];
-	        }
-		
-		$arrActors = !empty($movie['casts']) ? (is_array($movie['casts']) ? $movie['casts'] : explode(", ", $movie['casts'])) : ["Đang cập nhật"];
-		$director = !empty($movie['director']) ? $movie['director'] : "Đang cập nhật";
-		
-		$arrTags = array_filter([$movie['name'], $movie['original_name']], function($value) { return !empty($value); });
-
-		$vod_pic = $vod_pic_slide = '';
-		if ($flag == 'i') {
-			$vod_pic = $this->syncImagesThumb(1, $movie['thumb_url'])['pic'];
-			$vod_pic_slide = $this->syncImagesPoster(1, $movie['poster_url'])['pic'];
-		}
-
-		$type_id = 1;
-		if ($movie['category']['1']['list'][0]['id'] === "e4da3b7fbbce2345d7772b0674a318d5") {
-			$type_id = 4;
-		} elseif (in_array("Hoạt Hình", $arrCat)) {
-			$type_id = 3;
-		} elseif ($movie['category']['1']['list'][0]['id'] === "a87ff679a2f3e71d9181a67b7542122c") {
-			$type_id = 2; 
-		} elseif ($movie['category']['1']['list'][0]['id'] === "eccbc87e4b5ce2fe28308fd9f2a7baf3" && !in_array("Hoạt Hình", $arrCat)) {
-			$type_id = 1; 
-		}
-
-		$data = compact('type_id', 'vod_pic', 'vod_pic_slide') + [
-			'vod_name' => $movie['name'],
-			'vod_sub' => $this->slugify($movie['name']),
-			'vod_en' => $movie['original_name'],
-			'vod_status' => 1,
-			'vod_letter' => strtoupper(substr($this->slugify($movie['name']), 0, 1)),
-			'vod_tag' => implode(",", $arrTags),
-			'vod_class' => implode(",", $arrCat),
-			'vod_actor' => implode(", ", $arrActors),
-			'vod_director' => $director,
-			'vod_writer' => $movie['id'],
-			'vod_remarks' => $movie['current_episode'],
-			'vod_area' => implode(",", $arrCountry),
-			'vod_lang' => $movie['language'],
-			'vod_year' => $arrYear,
-			'vod_version' => $movie['quality'],
-			'vod_duration' => $movie['time'],
-			'vod_time' => time(),
-			'vod_time_add' => time(),
-			'vod_content' => $movie['description'],
-			'vod_play_url' => $this->play_list_nguonc_goc($movie['episodes']),
-
-			'vod_down_url' => '',
-		];
-
-		if ($movie["status"] == 'trailer') {
-			$data += ['vod_play_from' => '', 'vod_play_server' => '', 'vod_play_note' => ''];
-		} else {
-			$data += ['vod_play_from' => 'nguonc$$$nguoncm3u8', 'vod_play_server' => 'server2$$$server2', 'vod_play_note' => '$$$'];
-		}
-
-		if ($flag == 'u') {
-			unset($data['vod_pic'], $data['vod_pic_thumb'], $data['vod_pic_slide']);
-		}
-
-		return $data;
-	}
-
-
-    protected function play_list_nguonc_goc($episodes)
-    {
-        $vod_play_url = "";
-        $vod_embed = [];
-        foreach ($episodes as $episode_group) {
-            foreach ($episode_group['items'] as $item) {
-                $vod_embed[] = $item['name'] . '$' . $item['embed'];
-            }
-        }
-      
-        $embed_list = implode("#", $vod_embed);
-        $vod_play_url = $embed_list;
-        return $vod_play_url;
-    }
-
-
+     // CRAWLER NGUONC_OLD by APII.ONLINE
+     public function nguonc_goc()
+     {
+         return $this->fetch('admin@collect/nguonc_goc');
+     }
+ 
+     public function crawl_nguonc_goc_link()
+     {
+         try {
+             $url = input('url');
+             $host = parse_url($url, PHP_URL_HOST);
+             $api_url = str_replace(['http://', 'https://', $host], '', $url);
+             $api_url = $GLOBALS['config']['site']['site_url'] . $api_url;
+             $html = mac_curl_get($api_url);
+             $html = mac_filter_tags($html);
+             $sourcePage = json_decode($html, true);
+             $title = $sourcePage['movie']['name'];
+             $year = $sourcePage['movie']['year'];
+             $nguonc_goc_id = $sourcePage['movie']['_id'];
+             $result = $this->add_movie($title, $year, $nguonc_goc_id, $sourcePage);
+             return $result;
+         } catch (\Throwable $th) {
+             $result = array(
+                 'status' => true,
+                 'msg' => "Crawl error: " . $th,
+             );
+             return json_encode($result);
+         }
+     }
+ 
+     public function crawl_nguonc_goc_page()
+     {
+         $url = input('url');
+         $html = mac_curl_get($url);
+         if(empty($html)){
+             return ['code'=>1001, 'msg'=>lang('model/collect/get_html_err') . ', url: ' . $url];
+         }
+         $html = mac_filter_tags($html);
+         $sourcePage = json_decode($html);
+         $listMovies = [];
+ 
+         if(count($sourcePage->items) > 0) {
+             foreach ($sourcePage->items as $key => $item) {
+                 array_push($listMovies, $GLOBALS['config']['site']['site_url'] . "/nguonc.php?slug={$item->slug}|{$item->_id}|{$item->modified->time}|{$item->name}|{$item->origin_name}|{$item->year}");
+             }
+             echo join("\n", $listMovies);
+         } else {
+             echo [];
+         }
+         die();
+     }
+ 
+     public function crawl_nguonc_goc_movies()
+     {
+         try {
+             $data_post = input('url');
+             $filterType = input('filterType');
+             $filterCategory = input('filterCategory');
+             $url = explode('|', $data_post)[0];
+             $nguonc_goc_id = explode('|', $data_post)[1];
+             $nguonc_goc_update_time 	= explode('|', $data_post)[2];
+             $title = explode('|', $data_post)[3];
+             $org_title = explode('|', $data_post)[4];
+             $year = explode('|', $data_post)[5];
+ 
+             $host = parse_url($url, PHP_URL_HOST);
+             $api_url = str_replace(['http://', 'https://', $host], '', $url);
+             $api_url = $GLOBALS['config']['site']['site_url'] . $api_url;
+             $html = mac_curl_get($api_url);
+             $html = mac_filter_tags($html);
+             $sourcePage = json_decode($html, true);
+ 
+             if ($filterType) {
+                 $filterType = explode(",", $filterType);
+             }
+             if ($filterCategory) {
+                 $filterCategory = explode(",", $filterCategory);
+             }
+             
+             $result = $this->add_movie($title, $year, $nguonc_goc_id, $sourcePage, $filterType, $filterCategory);
+             return $result;
+ 
+         } catch (Exception $e) {
+             $result = array(
+                 'status' => true,
+                 'msg' => "Crawl error"
+             );
+             return json_encode($result);
+         }
+     }
 
     // Kết thúc APII
     protected function add_movie($title, $year, $ophim_id, $sourcePage, $filterType = [], $filterCategory = [])
@@ -1490,18 +971,20 @@ class Collect extends Base
         $arrTags 			= [];
         array_push($arrTags, $sourcePage["movie"]["name"]);
         if($sourcePage["movie"]["name"] != $sourcePage["movie"]["origin_name"]) array_push($arrTags, $sourcePage["movie"]["origin_name"]);
-
+        
         if($flag == 'i') {
             $thumb_url = $sourcePage["movie"]["thumb_url"];
             $poster_url = $sourcePage["movie"]["poster_url"];
-            if (strpos($poster_url, 'img.phimapi.com') !== false) { // Do thằng KKphim nó sắp xếp ngược với các nguồn khác =))
-                $vod_pic = $this->syncImagesThumb(1, $poster_url)['pic'];
-                $vod_pic_slide = $this->syncImagesPoster(1, $thumb_url)['pic'];
+
+            if (strpos($poster_url, 'img.phimapi.com') !== false) {
+                $vod_pic = $poster_url;
+                $vod_pic_slide = $thumb_url;
             } else {
-                $vod_pic = $this->syncImagesThumb(1, $thumb_url)['pic'];
-                $vod_pic_slide = $this->syncImagesPoster(1, $poster_url)['pic'];
+                $vod_pic = $thumb_url;
+                $vod_pic_slide = $poster_url;
             }
         }
+
     
         $vod_play_data = $this->play_list($sourcePage["episodes"]);
         $vod_douban_id = $sourcePage["movie"]["tmdb"]["id"] ?? '';
@@ -1570,50 +1053,38 @@ class Collect extends Base
             $play_from_m3u8 = '';
             $vod_embed = [];
             $vod_m3u8 = [];
-            if (stripos($server['server_name'], '[NC] Thuyết Minh') !== false || stripos($server['server_name'], '[NC] Lồng Tiếng') !== false) {
-                $play_from_embed = 'thuyetminh';
-                $play_from_m3u8 = 'thuyetminhm3u8';
+            if (stripos($server['server_name'], 'Thuyết Minh') !== false || stripos($server['server_name'], 'Lồng Tiếng') !== false) {
+                $play_from_embed = 'embed7';
+                $play_from_m3u8 = 'hls7';
                 $play_from_server = 'server0';
-            } elseif (stripos($server['server_name'], '[OP] Thuyết Minh') !== false || stripos($server['server_name'], '[OP] Lồng Tiếng') !== false) {
-                $play_from_embed = 'thuyetminh';
-                $play_from_m3u8 = 'thuyetminhm3u8';
+            } elseif (strpos($server['server_name'], '[SV #1]') !== false) {
+                $play_from_embed = 'embed1';
+                $play_from_m3u8 = 'hls1';
                 $play_from_server = 'server1';
-            } elseif (stripos($server['server_name'], '[KK] Thuyết Minh') !== false || stripos($server['server_name'], '[KK] Lồng Tiếng') !== false) {
-                $play_from_embed = 'thuyetminh';
-                $play_from_m3u8 = 'thuyetminhm3u8';
-                $play_from_server = 'server3';
-            } elseif (strpos($server['server_name'], '[NC]') !== false) {
-                $play_from_embed = 'nguonc';
-                // $play_from_m3u8 = 'nguoncm3u8'; // Tắt thằng mặt lồn nguồnc hls này
+            } elseif (strpos($server['server_name'], '[SV #2]') !== false) {
+                $play_from_embed = 'embed2';
+                $play_from_m3u8 = 'hls2';
                 $play_from_server = 'server2';
-            } elseif (strpos($server['server_name'], '[OP]') !== false) {
-                $play_from_embed = 'ophim';
-                $play_from_m3u8 = 'ophimm3u8';
-                $play_from_server = 'server1';
-            } elseif (strpos($server['server_name'], '[KK]') !== false) {
-                $play_from_embed = 'kkphim';
-                $play_from_m3u8 = 'kkphimm3u8';
+            } elseif (strpos($server['server_name'], '[SV #3]') !== false) {
+                $play_from_embed = 'embed3';
+                $play_from_m3u8 = 'hls3';
                 $play_from_server = 'server3';
-            } elseif (stripos($server['server_name'], 'Thuyết Minh') !== false || stripos($server['server_name'], 'Lồng Tiếng') !== false) {
-                $play_from_embed = 'thuyetminh';
-                $play_from_m3u8 = 'thuyetminhm3u8';
-                $play_from_server = 'server0';
-            } elseif (strpos($server['server_name'], '#1') !== false) {
-                $play_from_embed = 'thuongduphong1';
-                $play_from_m3u8 = 'thuong1';
-                $play_from_server = 'server0';
-            } elseif (strpos($server['server_name'], '#2') !== false) {
-                $play_from_embed = 'thuongduphong2';
-                $play_from_m3u8 = 'thuong2';
-                $play_from_server = 'server0';
-            } elseif (strpos($server['server_name'], '[VIP]') !== false || strpos($server['server_name'], '[APII]') !== false) {
-                $play_from_embed = 'vipapii';
-                $play_from_m3u8 = 'vipapiim3u8';
+            } elseif (strpos($server['server_name'], '[SV #4]') !== false) {
+                $play_from_embed = 'embed4';
+                $play_from_m3u8 = 'hls4';
                 $play_from_server = 'server4';
+            } elseif (strpos($server['server_name'], '[SV #5]') !== false) {
+                $play_from_embed = 'embed5';
+                $play_from_m3u8 = 'hls5';
+                $play_from_server = 'server5';
+            } elseif (strpos($server['server_name'], '[SV #6]') !== false) {
+                $play_from_embed = 'embed6';
+                $play_from_m3u8 = 'hls6';
+                $play_from_server = 'server6';
             } else {
-                $play_from_embed = 'thuongduphong1';
-                $play_from_m3u8 = 'thuong1';
-                $play_from_server = 'server0';
+                $play_from_embed = 'embed1';
+                $play_from_m3u8 = 'hls1';
+                $play_from_server = 'server1';
             }
 
             // Xử lý server_data
@@ -1741,242 +1212,6 @@ class Collect extends Base
         return $str;
     }
 
-    /**
-     * Myanimelist
-     */
-    public function myanimelist()
-    {
-        if (Request()->isPost()) {
-            $type_id = input('type_id');
-            $link = input('anime_link');
-            if ($type_id == '' || $link == '') {
-                return $this->error('Vui lòng nhập TypeID và Link');
-            }
-            $source_page = file_get_contents($link);
-            $doc = new DOMDocument('1.0', 'utf-8');
-            libxml_use_internal_errors(true);
-            $doc->preserveWhiteSpace = false;
-            $doc->loadHTML(mb_convert_encoding($source_page, 'HTML-ENTITIES', 'UTF-8'));
-
-            $data = [];
-            $data['type_id'] = intval(input('type_id'));
-            $data['vod_en'] = $this->getElementsByAttr($doc, 'meta', 'property', 'og:title')[0]->getAttribute('content');
-            $data['vod_pic'] = $data['vod_pic_thumb'] = $this->getElementsByAttr($doc, 'meta', 'property', 'og:image')[0]->getAttribute('content');
-            $data['vod_name'] = $this->getElementsByAttr($doc, 'meta', 'property', 'og:title')[0]->getAttribute('content');
-            $data['vod_writer'] = $doc->getElementById('myinfo_anime_id')->getAttribute('value');
-            
-            $content = $doc->getElementById('content');
-            $infoLeft = $this->getElementsByAttr($content, 'div', 'class', 'leftside')[0];
-            $infoRight = $this->getElementsByAttr($content, 'div', 'class', 'rightside')[0];
-            $baseInfo = $this->getElementsByAttr($infoLeft, 'div', 'class', 'spaceit_pad');
-
-            $synopsis_tag = ['p', 'span'];
-            foreach ( $synopsis_tag as $tag ) {
-                $description = $this->getElementsByAttr($infoRight, $tag, 'itemprop', 'description');
-                if ($description) {
-                    $data['vod_content'] = $description[0]->ownerDocument->saveHTML( $description[0] );
-                    break;
-                }
-            }
-
-            $genres = [];
-            $genre_nodes = $this->getElementsByAttr($infoLeft, 'span', 'itemprop', 'genre');
-            foreach ( $genre_nodes as $node ) {
-                if ( $node->nodeType == 1 ) { $genres[] = $node->textContent; }
-            }
-            $data['vod_class'] = join(',', $genres);
-            $score = $this->getElementsByAttr($infoLeft, 'span', 'itemprop', 'ratingValue');
-            if ($score) { $data['vod_score'] = $score[0]->textContent; } else { $data['vod_score'] = random_int(5,8) * 1.2; }
-
-            $synonyms = [];
-
-            foreach ($baseInfo as $div) {
-                if ( ! $div->hasChildNodes() ) { return; }
-
-                foreach ($div->childNodes as $node) {
-                    if ( $node->nodeType == 1 && $node->getAttribute("class") == "dark_text") {
-                        switch ($node->textContent) {
-                            case 'Synonyms:':
-                            case 'Japanese:':
-                                $alias = explode(',', trim($node->nextSibling->textContent));
-                                foreach ( $alias as &$n ) {
-                                    $n = trim($n);
-                                    // $n = mb_convert_encoding($n, 'UTF-8', 'auto');
-                                    array_push($synonyms, $n);
-                                }
-                                break;
-                            case 'Type:':
-                                $data['vod_lang'] = trim($node->nextSibling->nextSibling->textContent);
-                                break;
-                            case 'Episodes:':
-                                $data['vod_remarks'] = trim($node->nextSibling->textContent);
-                                break;
-                            case 'Status:':
-                                $data['vod_remarks'] = array_key_exists('vod_remarks', $data) ? 'Ep.' . $data['vod_remarks'] . '-' . trim($node->nextSibling->textContent) : trim($node->nextSibling->textContent);
-                                break;
-                            case 'Premiered:':
-                                $data['vod_year'] = trim($node->nextSibling->nextSibling->textContent);
-                                break;
-                            case 'Studios:':
-                                $data['vod_director'] = trim($node->nextSibling->nextSibling->textContent);
-                                break;
-                            case 'Duration:':
-                                $data['vod_duration'] = trim($node->nextSibling->textContent);
-                                break;
-                            default:
-                                # code...
-                                break;
-                        }
-                    }
-                }
-            }
-            $data['vod_en'] = join(', ', $synonyms);
-
-            // Characters & Voice Actors
-            $detail_characters_list = $this->getElementsByAttr($infoRight, 'div', 'class', 'detail-characters-list');
-            if ( count($detail_characters_list) ) { $detail_characters_list = $detail_characters_list[0]; }
-            $characters_actors = [];
-
-            if ( $detail_characters_list->hasChildNodes() ) {
-                $key = 0;
-                foreach ($detail_characters_list->childNodes as $column) {
-                    if ( ! $column->hasChildNodes() ) { break; }
-                    $tables = $column->childNodes;
-                    foreach ( $tables as $table ) {
-                        $picSurrounds = $this->getElementsByAttr($table, 'div', 'class', 'picSurround');
-                        if ( count($picSurrounds) == 2 ) {
-                            for ($i=0; $i < 2; $i++) { 
-                                $nodes = $picSurrounds[$i]->childNodes;
-                                foreach ($nodes as $node) {
-                                    if ( $node->nodeType == 1 && $node->nodeName == 'a' ) {
-                                        foreach ($node->childNodes as $item) {
-                                            if ( $item->nodeType == 1 && $item->nodeName == 'img' ) {
-                                                $img = $item->getAttribute('data-src');
-                                                $img = preg_replace('/\\?.*/', '', $img);
-                                                $img = parse_url($img);
-                                                $path = preg_replace('/\/r\/\d+x\d+/', '', $img['path']);
-
-                                                if ( $i == 0 ) {
-                                                    $characters_actors[$key]['c_name'] = $item->getAttribute('alt');
-                                                    $characters_actors[$key]['c_img'] = $img['scheme'] . '://' . $img['host'] . $path;
-                                                } elseif ( $i == 1 ) {
-                                                    $characters_actors[$key]['v_name'] = $item->getAttribute('alt');
-                                                    $characters_actors[$key]['v_img'] = $img['scheme'] . '://' . $img['host'] . $path;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        } elseif (count($picSurrounds) == 1 ) {
-                            foreach ($picSurrounds[0]->childNodes as $node) {
-                                if ( $node->nodeType == 1 && $node->nodeName == 'a' ) {
-                                    foreach ($node->childNodes as $item) {
-                                        if ( $item->nodeType == 1 && $item->nodeName == 'img' ) {
-                                            $img = $item->getAttribute('data-src');
-                                            $img = preg_replace('/\\?.*/', '', $img);
-                                            $img = parse_url($img);
-                                            $path = preg_replace('/\/r\/\d+x\d+/', '', $img['path']);
-                                            $characters_actors[$key]['c_name'] = $item->getAttribute('alt');
-                                            $characters_actors[$key]['c_img'] = $img['scheme'] . '://' . $img['host'] . $path;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        // Vai trò
-                        $role = $this->getElementsByAttr($table, 'div', 'class', 'spaceit_pad');
-                        if ( count($role) ) {
-                            if ( ! $role[0]->hasChildNodes() ) { continue; }
-                            foreach ( $role[0]->childNodes as $item ) {
-                                if ( $item->nodeType == 1 && $item->nodeName == "small") {
-                                    $characters_actors[$key]['c_role'] = $item->textContent;
-                                }
-                            }
-                        }
-                        $key += 1;
-                    }
-                }
-            }
-
-            $status = $this->anime_insert($data, $characters_actors);
-
-            if ($status) {
-                return $this->success('Thu thập thành công');
-            } else {
-                return $this->error('Thất bại, vui lòng kiểm tra lại');
-            }
-        }
-
-        return $this->fetch('admin@collect/myanimelist');
-    }
-
-    protected function anime_insert($baseInfo, $characters_actors)
-    {
-        if ( ! array_key_exists('vod_en', $baseInfo) ) {
-            $baseInfo['vod_en'] = $baseInfo['vod_name'];
-        }
-        $slug = $this->slugify($baseInfo['vod_name']);
-        $missing_data = array(
-            'vod_sub' => $slug,
-            'vod_status' => 1,
-            'vod_letter' => strtoupper(substr($slug,0,1)),
-            'vod_area' => 'Japan',
-            'vod_time' => time(),
-            'vod_time_add' => time(),
-            'vod_play_url' => '',
-            'vod_down_url' => '',
-            'vod_plot_name' => '',
-            'vod_plot_detail' => '',
-        );
-        $data = array_merge($missing_data, $baseInfo);
-
-        $vod_id = 0;
-        $where = [];
-        $where['vod_name'] = mac_filter_xss($baseInfo['vod_name']);
-        $where['vod_writer'] = $baseInfo['vod_writer'];
-        $info = model('Vod')->where($where)->find();
-
-        if ( !$info ) {
-            $vod_id = model('Vod')->insert($data, false, true);
-        } else {                
-            $vod_id = $info['vod_id'];
-            $where = [];
-            $where['vod_id'] = $info['vod_id'];
-            $update = VodValidate::formatDataBeforeDb($data);
-            model('Vod')->where($where)->update($update);
-        }
-
-        $is_success = false;
-
-        if ($vod_id != 0) {
-            $is_success = true;
-            foreach ($characters_actors as $character) {
-                if ( array_key_exists('c_name', $character) ) {
-                    $actor_id = model('Actor')->where(['actor_name' => $character['c_name']])->find();
-                    if ( $actor_id ) { continue; }
-                    $actor = array(
-                        'type_id' => $vod_id,
-                        'actor_name' => $character['c_name'], // Character
-                        'actor_en' => array_key_exists('v_name', $character) ? $character['v_name'] : '',  // Voice
-                        'actor_pic' => array_key_exists('c_img', $character) ? $character['c_img'] : '', // Character image
-                        'actor_blurb' => array_key_exists('v_img', $character) ? $character['v_img'] : '', // Voice image
-                        'actor_alias' => array_key_exists('c_role', $character) ? $character['c_role'] : 'N/A',
-                        'actor_status' => 1,
-                        'actor_content' => $data['vod_name'],
-                    );
-                    $actor_id = model('Actor')->insert($actor, false, true);
-                    if ($actor_id) {
-                        $is_success = true;
-                    }
-                }
-            }
-        } else {
-            $is_success = false;
-        }
-
-        return $is_success;
-    }
 
     protected function getElementsByAttr($parentNode, $tagName, $attributeName, $className) {
         $nodes=array();
