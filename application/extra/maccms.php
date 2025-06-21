@@ -87,7 +87,7 @@ return array (
   ),
   'user' => 
   array (
-    'status' => '1',
+    'status' => '0',
     'reg_open' => '1',
     'reg_status' => '1',
     'reg_phone_sms' => '0',
@@ -488,12 +488,12 @@ return array (
     'encode_key' => 'abcdefg',
     'encode_len' => '6',
     'vod_id' => '1',
-    'art_id' => '0',
-    'type_id' => '0',
-    'topic_id' => '0',
-    'actor_id' => '0',
-    'role_id' => '0',
-    'website_id' => '0',
+    'art_id' => '1',
+    'type_id' => '1',
+    'topic_id' => '1',
+    'actor_id' => '1',
+    'role_id' => '1',
+    'website_id' => '1',
     'route' => 'map   => map/index
 rss/index   => rss/index
 rss/baidu => rss/baidu
