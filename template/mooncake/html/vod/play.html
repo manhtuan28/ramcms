@@ -66,7 +66,7 @@
 								</div>
 								<div class="play_infobox">
 									<div class="play_vlist cblock">
-										<div class="play_vlist_thumb vnow lazyload" data-original="{:mac_url_img($obj.vod_pic)}">
+										<div class="play_vlist_thumb vnow lazyload" data-original="{:mac_url_img($obj.vod_pic_thumb)}">
 										</div>
 										<div class="play_vlist_text vnow">
 											<p class="play_vlist_title">{$obj.vod_name}</p>
@@ -78,7 +78,7 @@
 									{maccms:vod num="6" type="current" order="desc" by="hits"}
 									<div class="play_vlist cblock">
 										<a href="{:mac_url_vod_detail($vo)}" title="{$vo.vod_name}">
-											<div class="play_vlist_thumb lazyload" data-original="{:mac_url_img($vo.vod_pic)}"></div>
+											<div class="play_vlist_thumb lazyload" data-original="{:mac_url_img($vo.vod_pic_thumb)}"></div>
 											<div class="play_vlist_text">
 												<div class="play_vlist_title">
 													<p>{$vo.vod_name}</p>
@@ -159,7 +159,7 @@
 							{maccms:vod num="6" type="all" order="desc" by="hits"}
 							<div class="play_vlist cblock">
 								<a href="{:mac_url_vod_detail($vo)}" title="{$vo.vod_name}">
-									<div class="play_vlist_thumb lazyload" data-original="{:mac_url_img($vo.vod_pic)}"></div>
+									<div class="play_vlist_thumb lazyload" data-original="{:mac_url_img($vo.vod_pic_thumb)}"></div>
 									<div class="play_vlist_text">
 										<div class="play_vlist_title">
 											<p>{$vo.vod_name}</p>
@@ -219,7 +219,7 @@
 					</div>
 					<!-- END Gợi ý liên quan -->
 					<!-- Đề xuất bài viết -->
-					<div class="pannel clearfix">
+					<!-- <div class="pannel clearfix">
 						<div class="pannel_head clearfix">
 							{maccms:type mid="2" ids="parent" order="asc" by="id"}
 							<a class="text_muted pull_right" href="{:mac_url_type($vo)}">Xem thêm<i class="iconfont more_i">&#xe623;</i></a>
@@ -239,7 +239,7 @@
 							</li>
 							{/maccms:art}
 						</ul>
-					</div>
+					</div> -->
 					<!-- END Đề xuất bài viết -->
 					<!-- Bình luận -->
 					<div class="pannel clearfix" id="pinglun">

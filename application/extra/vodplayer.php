@@ -4,7 +4,7 @@ return array (
   array (
     'status' => '1',
     'from' => 'embed1',
-    'show' => 'Dự phòng VS#1',
+    'show' => 'Vietsub #2',
     'des' => 'Ổn định',
     'target' => '_self',
     'ps' => '0',
@@ -17,7 +17,7 @@ return array (
   array (
     'status' => '1',
     'from' => 'hls1',
-    'show' => 'Máy chủ VS#1',
+    'show' => 'Vietsub #1',
     'des' => 'Tốc độ',
     'target' => '_self',
     'ps' => '0',
@@ -95,7 +95,7 @@ return array (
   array (
     'status' => '1',
     'from' => 'embed7',
-    'show' => 'Dự phòng TM',
+    'show' => 'Thuyết Minh #2',
     'des' => 'Ổn định',
     'target' => '_self',
     'ps' => '0',
@@ -173,7 +173,7 @@ return array (
   array (
     'status' => '1',
     'from' => 'hls7',
-    'show' => 'Máy chủ TM',
+    'show' => 'Thuyết Minh #1',
     'des' => 'Tốc độ',
     'target' => '_self',
     'ps' => '0',
