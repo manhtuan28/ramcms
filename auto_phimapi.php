@@ -1,4 +1,6 @@
 <?php
+date_default_timezone_set("Asia/Ho_Chi_Minh");
+
 $db_host = 'localhost';
 $db_user = 'root';
 $db_pass = '';
@@ -8,6 +10,15 @@ $table   = 'tuancute_vod';
 $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
 if ($conn->connect_error) die("DB ERROR: " . $conn->connect_error);
 $conn->set_charset('utf8mb4');
+
+function logz($msg, $action = '', $movie = '') {
+    $logfile = __DIR__ . '/auto_phimapi.log';
+    $time = date('[Y-m-d H:i:s]');
+    $movie_str = $movie ? " | Phim: $movie" : "";
+    $action_str = $action ? strtoupper($action) : "";
+    $line = "$time [$action_str] $msg$movie_str\n";
+    file_put_contents($logfile, $line, FILE_APPEND | LOCK_EX);
+}
 
 function getEpisodeTotal($str) {
     if (is_numeric($str)) return intval($str);
@@ -20,31 +31,25 @@ function getEpisodeTotal($str) {
 function buildVodPlayData($episodes) {
     $vod_play_data = [];
     foreach ($episodes as $server) {
-        $play_from_embed = '';
-        $play_from_m3u8 = '';
-        $play_from_server = '';
-        $vod_embed = [];
-        $vod_m3u8 = [];
-
-        $server_name = $server['server_name'];
-        if (stripos($server_name, 'Thuyết Minh') !== false || stripos($server_name, 'Lồng Tiếng') !== false) {
-            $play_from_embed = 'embed7'; $play_from_m3u8 = 'hls7'; $play_from_server = 'server0';
-        } elseif (strpos($server_name, '[SV #1]') !== false) {
-            $play_from_embed = 'embed1'; $play_from_m3u8 = 'hls1'; $play_from_server = 'server1';
-        } elseif (strpos($server_name, '[SV #2]') !== false) {
-            $play_from_embed = 'embed2'; $play_from_m3u8 = 'hls2'; $play_from_server = 'server2';
-        } elseif (strpos($server_name, '[SV #3]') !== false) {
-            $play_from_embed = 'embed3'; $play_from_m3u8 = 'hls3'; $play_from_server = 'server3';
-        } elseif (strpos($server_name, '[SV #4]') !== false) {
-            $play_from_embed = 'embed4'; $play_from_m3u8 = 'hls4'; $play_from_server = 'server4';
-        } elseif (strpos($server_name, '[SV #5]') !== false) {
-            $play_from_embed = 'embed5'; $play_from_m3u8 = 'hls5'; $play_from_server = 'server5';
-        } elseif (strpos($server_name, '[SV #6]') !== false) {
-            $play_from_embed = 'embed6'; $play_from_m3u8 = 'hls6'; $play_from_server = 'server6';
+        $server_name = strtolower($server['server_name']);
+        if (strpos($server_name, 'vietsub') !== false) {
+            $play_from_embed = 'embed1';
+            $play_from_m3u8 = 'hls1';
+            $play_from_server = 'server1';
+        } elseif (strpos($server_name, 'thuyết minh') !== false) {
+            $play_from_embed = 'embed2';
+            $play_from_m3u8 = 'hls2';
+            $play_from_server = 'server2';
+        } elseif (strpos($server_name, 'lồng tiếng') !== false) {
+            $play_from_embed = 'embed3';
+            $play_from_m3u8 = 'hls3';
+            $play_from_server = 'server3';
         } else {
-            $play_from_embed = 'embed1'; $play_from_m3u8 = 'hls1'; $play_from_server = 'server1';
+            continue;
         }
 
+        $vod_embed = [];
+        $vod_m3u8 = [];
         foreach ($server['server_data'] as $episode) {
             if (!empty($episode["link_m3u8"])) {
                 $vod_m3u8[] = $episode["name"] . '$' . $episode["link_m3u8"];
@@ -69,12 +74,6 @@ function buildVodPlayData($episodes) {
         }
     }
     return $vod_play_data;
-}
-
-function logz($msg, $emoji='') {
-    $logfile = __DIR__ . '/auto_phimapi.log';
-    $line = "$emoji " . date('[Y-m-d H:i:s] ') . "$msg\n";
-    file_put_contents($logfile, $line, FILE_APPEND | LOCK_EX);
 }
 
 function multi_curl_detail($urls) {
@@ -104,18 +103,25 @@ function multi_curl_detail($urls) {
     return $results;
 }
 
-logz('===== START auto crawl =====', '🚀');
+logz('===== START auto crawl =====', 'SYSTEM');
 
 $batch_size = 10;
+$total_pages = 10;
 
-for ($page = 1; $page <= 10; $page++) {
+for ($page = 1; $page <= $total_pages; $page++) {
+    logz("Đang crawl page $page...", "PAGE");
     $listUrl = "https://phimapi.com/danh-sach/phim-moi-cap-nhat-v3?page=$page";
     $json = @file_get_contents($listUrl);
-    if (!$json) continue;
-
+    if (!$json) {
+        logz("Không lấy được danh sách phim trang $page", "ERROR");
+        continue;
+    }
     $json = mb_convert_encoding($json, 'UTF-8', 'UTF-8,ISO-8859-1');
     $data = json_decode($json, true);
-    if (empty($data['items'])) continue;
+    if (empty($data['items'])) {
+        logz("Không có phim nào ở page $page", "WARNING");
+        continue;
+    }
 
     $batch_detail_urls = [];
     $movies_in_batch = [];
@@ -127,11 +133,13 @@ for ($page = 1; $page <= 10; $page++) {
         $movies_in_batch[] = $movie;
 
         if (count($batch_detail_urls) == $batch_size) {
+            logz("Bắt đầu batch mới với " . count($batch_detail_urls) . " phim!", "BATCH");
             $details = multi_curl_detail($batch_detail_urls);
             foreach ($details as $k => $detailJson) {
+                $name = $movies_in_batch[$k]['name'] ?? 'unknown';
                 $ok = process_movie_detail($movies_in_batch[$k], $detailJson, $conn, $table);
                 if (!$ok) {
-                    logz("Lỗi crawl phim: " . ($movies_in_batch[$k]['name'] ?? 'unknown') . " - nghỉ 10s rồi tiếp tục!", "❗");
+                    logz("Lỗi crawl phim, nghỉ 10s rồi tiếp tục!", "ERROR", $name);
                     sleep(10);
                 }
             }
@@ -140,30 +148,39 @@ for ($page = 1; $page <= 10; $page++) {
         }
     }
     if (count($batch_detail_urls) > 0) {
+        logz("Xử lý batch cuối cùng " . count($batch_detail_urls) . " phim!", "BATCH");
         $details = multi_curl_detail($batch_detail_urls);
         foreach ($details as $k => $detailJson) {
+            $name = $movies_in_batch[$k]['name'] ?? 'unknown';
             $ok = process_movie_detail($movies_in_batch[$k], $detailJson, $conn, $table);
             if (!$ok) {
-                logz("Lỗi crawl phim: " . ($movies_in_batch[$k]['name'] ?? 'unknown') . " - nghỉ 10s rồi tiếp tục!", "❗");
+                logz("Lỗi crawl phim, nghỉ 10s rồi tiếp tục!", "ERROR", $name);
                 sleep(10);
             }
         }
     }
 }
 
-logz('===== END auto crawl =====', '✅');
+logz('===== END auto crawl =====', 'SYSTEM');
 $conn->close();
 
 function process_movie_detail($movie, $detailJson, $conn, $table) {
     $vod_name = $conn->real_escape_string($movie['name']);
     $vod_year = $conn->real_escape_string($movie['year'] ?? '');
+    $name = $movie['name'] ?? 'unknown';
 
-    if (empty($detailJson)) return false;
+    if (empty($detailJson)) {
+        logz("Không lấy được detail", "ERROR", $name);
+        return false;
+    }
 
     $detailJson = mb_convert_encoding($detailJson, 'UTF-8', 'UTF-8,ISO-8859-1');
     $detail = json_decode($detailJson, true);
 
-    if (empty($detail['movie']['name'])) return false;
+    if (empty($detail['movie']['name'])) {
+        logz("API trả về lỗi", "ERROR", $name);
+        return false;
+    }
 
     $m = $detail['movie'];
 
@@ -188,7 +205,7 @@ function process_movie_detail($movie, $detailJson, $conn, $table) {
 
     $vote_average = isset($m['tmdb']['vote_average']) ? floatval($m['tmdb']['vote_average']) : 0.0;
 
-    $sqlCheck = "SELECT vod_id, vod_play_url, vod_remarks, vod_total, type_id, vod_sub, vod_score FROM $table WHERE vod_name='$vod_name' AND vod_year='$vod_year' LIMIT 1";
+    $sqlCheck = "SELECT vod_id, vod_play_url, vod_remarks, vod_total, type_id, vod_sub FROM $table WHERE vod_name='$vod_name' AND vod_year='$vod_year' LIMIT 1";
     $rs = $conn->query($sqlCheck);
 
     if ($rs && $rs->num_rows > 0) {
@@ -198,9 +215,9 @@ function process_movie_detail($movie, $detailJson, $conn, $table) {
         $old_total = intval($row['vod_total']);
         if (!$old_total) $old_total = getEpisodeTotal($old_remarks);
         $current_db_typeid = isset($row['type_id']) ? intval($row['type_id']) : 0;
-        $current_score = isset($row['vod_score']) ? floatval($row['vod_score']) : 0.0;
         $need_update = false;
         $fields = [];
+        $changed = [];
 
         if ($vod_remarks !== $old_remarks) {
             $fields[] = "vod_play_url='$vod_play_url'";
@@ -209,34 +226,35 @@ function process_movie_detail($movie, $detailJson, $conn, $table) {
             $fields[] = "vod_remarks='$vod_remarks'";
             $fields[] = "vod_total=$ep_total";
             $fields[] = "type_id=$type_id";
-            $fields[] = "vod_score=$vote_average";
             $need_update = true;
+            $changed[] = "Tập ($old_remarks ➡️ $vod_remarks)";
         }
-        elseif ($old_play_url != $vod_play_url) {
+        if ($old_play_url != $vod_play_url) {
             $fields[] = "vod_play_url='$vod_play_url'";
             $fields[] = "vod_play_from='$vod_play_from'";
             $fields[] = "vod_play_server='$vod_play_server'";
             $fields[] = "type_id=$type_id";
             $fields[] = "vod_score=$vote_average";
             $need_update = true;
+            $changed[] = "play_url";
         }
-        elseif ($current_db_typeid != $type_id) {
+        if ($current_db_typeid != $type_id) {
             $fields[] = "type_id=$type_id";
             $need_update = true;
+            $changed[] = "type_id ($current_db_typeid ➡️ $type_id)";
         }
-        elseif ($row['vod_sub'] !== $m['slug']) {
+        if ($row['vod_sub'] !== $m['slug']) {
             $fields[] = "vod_sub='" . $conn->real_escape_string($m['slug']) . "'";
             $need_update = true;
-        }
-        // Không update ảnh cũ nữa
-        elseif (abs($current_score - $vote_average) > 0.01) {
-            $fields[] = "vod_score=$vote_average";
-            $need_update = true;
+            $changed[] = "vod_sub ({$row['vod_sub']} ➡️ {$m['slug']})";
         }
 
         if ($need_update && count($fields)) {
             $sqlUpdate = "UPDATE $table SET " . implode(',', $fields) . " WHERE vod_id={$row['vod_id']}";
             $conn->query($sqlUpdate);
+            logz("Sửa phim, sửa: ".implode(', ', $changed), "UPDATE", $name);
+        } else {
+            logz("Bỏ qua phim (không cần update)", "SKIP", $name);
         }
         return true;
     }
@@ -325,9 +343,9 @@ function process_movie_detail($movie, $detailJson, $conn, $table) {
 
     $cols = implode(',', array_keys($insert));
     $vals = implode(',', array_map(function($v) { return "'$v'"; }, $insert));
-    $sql = "INSERT INTO `$table` ($cols) VALUES ($vals)";
+    $sql = "INSERT INTO $table ($cols) VALUES ($vals)";
     $conn->query($sql);
-    logz("Thêm mới phim: {$m['name']} | $vod_remarks | Tổng số tập: $ep_total | type_id: $type_id | vod_score: $vote_average", "🎬");
+    logz("Thêm phim mới", "INSERT", $m['name']);
     return true;
 }
 ?>
