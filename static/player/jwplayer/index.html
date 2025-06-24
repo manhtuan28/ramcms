@@ -1,18 +1,25 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/player/jwplayer/style.css">
     <title>Embed Video Player</title>
 </head>
+
 <body>
     <div id="player"></div>
     <script src='/static/player/jwplayer/jw/jwplayer.js'></script>
     <script>
-        // Sử dụng URL của video làm key lưu trữ
-        const videoUrl = parent.MacPlayer.PlayUrl; // Lấy URL của video hiện tại
-        const videoKey = `videoProgress_${videoUrl}`; // Tạo key riêng cho mỗi video
+        const videoUrl = parent.MacPlayer.PlayUrl;
+        const videoKey = `videoProgress_${videoUrl}`;
+
+        const tenPhim = parent.player_aaaa?.vod_data?.vod_name || "ashamovie.me";
+        const thumb = parent.player_aaaa?.vod_data?.vod_poster || parent.player_aaaa?.vod_data?.vod_pic_thumb || "/template/mooncake/asset/img/load.gif";
+        const poster = parent.player_aaaa?.vod_data?.vod_pic || thumb;
+
+        document.title = tenPhim + " | ashamovie.me";
 
         const playerInstance = jwplayer("player").setup({
             controls: true,
@@ -22,18 +29,12 @@
             preload: "auto",
             airplay: true,
             displaydescription: true,
-            skin: {
-                name: "netflix"
-            },
-            captions: {
-                color: "#F00",
-                fontSize: 10,
-                backgroundOpacity: 0,
-                edgeStyle: "raised"
-            },
+            skin: { name: "netflix" },
+            captions: { color: "#F00", fontSize: 10, backgroundOpacity: 0, edgeStyle: "raised" },
             playlist: [
                 {
-                    image: parent.player_aaaa.vod_data.vod_poster != "" ? parent.player_aaaa.vod_data.vod_poster : parent.player_aaaa.vod_data.vod_pic,
+                    title: tenPhim,
+                    image: thumb,
                     sources: [
                         {
                             file: videoUrl,
@@ -45,7 +46,6 @@
             ],
         });
 
-        // Khi video sẵn sàng, tiếp tục phát từ vị trí đã lưu cho video cụ thể này
         playerInstance.on("ready", function () {
             const savedTime = localStorage.getItem(videoKey);
             if (savedTime) {
@@ -78,19 +78,32 @@
                     playerInstance.seek(playerInstance.getPosition() + 10);
                 };
             });
+
+            if ('mediaSession' in navigator) {
+                try {
+                    navigator.mediaSession.metadata = new window.MediaMetadata({
+                        title: tenPhim,
+                        artist: tenPhim,
+                        album: 'ashamovie.me',
+                        artwork: [
+                            { src: poster, sizes: '512x512', type: 'image/jpeg' },
+                            { src: poster, sizes: '1024x1024', type: 'image/jpeg' }
+                        ]
+                    });
+                } catch (e) { }
+            }
         });
 
-        // Lưu lại vị trí video khi người dùng dừng xem hoặc rời khỏi trang
         playerInstance.on("pause", function () {
             const currentTime = playerInstance.getPosition();
             localStorage.setItem(videoKey, currentTime);
         });
 
-        // Lưu lại vị trí video khi người dùng thoát khỏi trang
         window.addEventListener("beforeunload", function () {
             const currentTime = playerInstance.getPosition();
             localStorage.setItem(videoKey, currentTime);
         });
     </script>
 </body>
+
 </html>
