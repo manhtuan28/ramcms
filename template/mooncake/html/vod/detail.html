@@ -32,7 +32,7 @@
 									&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" style="cursor:hand" title="Lưu vào trình duyệt" onclick="MAC.Fav(location.href,document.name);">Bookmarks</a>
 								</span>
 								<span class="text_muted pull_right hidden_xs">
-									<a href="javascript:void(0);" style="cursor:hand" class="mac_ulog" title="Thêm vào Bộ Sưu tập" data-type="{$obj.type_id}" data-mid="{$maccms.mid}" data-id="{$obj.vod_id}">Bộ Sưu tập</a>
+									<a href="javascript:void(0);" style="cursor:hand" class="mac_ulog" title="Thêm vào Bộ Sưu tập" data-type="2" data-mid="{$maccms.mid}" data-id="{$obj.vod_id}">Bộ Sưu tập</a>
 								</span>
 								<span class="text_muted pull_right hidden_mb">
 									<a href="javascript:;" class="open-share"><i class="iconfont shaixuan_i">&#xe615;</i>&nbsp;Share</a>
@@ -202,7 +202,7 @@
 			{include file="vod/playright"}
 		</div>
 
-		<span style="display:none" class="mac_ulog_set" data-type="{$obj.type_id}" data-mid="{$maccms.mid}" data-id="{$obj.vod_id}" data-sid="{$param.sid}" data-nid="{$param.nid}"></span>
+		<span style="display:none" data-type="{$obj.type_id}" data-mid="{$maccms.mid}" data-id="{$obj.vod_id}" data-sid="{$param.sid}" data-nid="{$param.nid}"></span>
 		
 		{include file="index/footer"}
 	</body>

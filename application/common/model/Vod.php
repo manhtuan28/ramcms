@@ -44,7 +44,6 @@ class Vod extends Base {
         if($totalshow==1) {
             $total = $this->where($where)->where($where2)->count();
         }
-
         $list = Db::name('Vod')->field($field)->where($where)->where($where2)->order($order)->limit($limit_str)->select();
 
         //分类

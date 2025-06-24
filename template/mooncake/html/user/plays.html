@@ -1,4 +1,7 @@
-<?php $name = 'plays'; ?>
+<?php 
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+$name = 'plays'; 
+?>
 <!DOCTYPE html>
 <html>
 
@@ -21,70 +24,78 @@
 			<div class="m-nav">
 				<a href="javascript:MAC.GoBack()" class="btn-left"><i class="iconfont ico-right">&#xe625;</i></a>
 				<a href="javascript:;" id="btnClear" class="btn-right">Xoá</a>
-				<span class="mb-title">Bộ sưu tập</span>
+				<span class="mb-title">Lịch sử xem</span>
 			</div>
 			<div class="co-right co-right-bg">
-			<h2>Bộ sưu tập</h2>
-			<div class="gong">
-			<a href="javascript:;" onClick="MAC.CheckBox.All('ids[]');">Chọn tất cả</a>
-			<a href="javascript:;" onClick="MAC.CheckBox.Other('ids[]');">Huỷ chọn</a>
-			<a href="javascript:;" id="btnDel">Xoá</a>
-			<a href="javascript:;" id="btnClear2">Xoá Toàn Bộ</a>
+				<h2>Lịch sử xem</h2>
+				<div class="gong">
+					<a href="javascript:;" onClick="MAC.CheckBox.All('ids[]');">Chọn tất cả</a>
+					<a href="javascript:;" onClick="MAC.CheckBox.Other('ids[]');">Huỷ chọn</a>
+					<a href="javascript:;" id="btnDel">Xoá</a>
+					<a href="javascript:;" id="btnClear2">Xoá Toàn Bộ</a>
+				</div>
+				<ul class="data__list clearfix">
+					{volist name="list" id="vo"}
+					<li class="data__item">
+						<div class="xz-box"><input name="ids[]" type="checkbox" value="{$vo.ulog_id}"></div>
+						<div class="data__img">
+							<a class="data__thumb lazyload" href="{$vo.data.link}" title="{$vo.data.name}"
+								data-original="{$vo.data.pic}"></a>
+						</div>
+						<div class="data__txt">
+							<h4 class="data__title"><a href="{$vo.data.link}"
+									title="{$vo.data.name}">{$vo.data.name}</a>
+								<span style="font-size:13px; color:#007bff; font-weight:normal;">
+									(Tập {$vo.ulog_nid})
+								</span>
+							</h4>
+							<p>Thể loại: <span class="badge"
+									style="color:#fff; background: #f77c3c; border-radius: 4px; padding: 2px 8px;">{$vo.data.type.type_name}</span>
+							</p>
+							<p>Xem lần cuối: {$vo.ulog_time|date='d/m/Y H:i',###}</p>
+						</div>
+						<div class="data__del clearfix">
+							<a class="btn-brand btn-del" href="javascript:void(0)"
+								onclick="delData({$vo.ulog_id})">Xoá</a>
+						</div>
+					</li>
+					{/volist}
+					{empty name="list"}
+					<li class="no-tips text-center"><img class="no-cont" src="{$maccms.path_tpl}asset/img/no-cont.png"
+							alt="Chưa có dữ liệu">Chưa có lịch sử xem</li>
+					{/empty}
+				</ul>
+				<div class="member-page"></div>
 			</div>
-			<ul class="data__list clearfix">
-				<li class="no-tips text-center"><img class="no-cont" src="{$maccms.path_tpl}asset/img/no-cont.png" alt="Chưa có dữ liệu">Chưa có phim Bộ Sưu tập, hãy thêm mới</li>
-				{volist name="list" id="vo"}
-				<li class="data__item">
-					<div class="xz-box"><input name="ids[]" type="checkbox" value="{$vo.ulog_id}"></div>
-					<div class="data__img">
-						<a class="data__thumb lazyload" href="{$vo.data.link}" title="{$vo.data.name}" data-original="{$vo.data.pic}"></a>
-					</div>	
-					<div class="data__txt">								
-						<h4 class="data__title"><a href="{$vo.data.link}" title="{$vo.data.name}">{$vo.data.name}</a></h4>
-						<p>Thể loại: {$vo.data.type.type_name}</p>
-						<p>Thời lượng xem: <span class="co-tz"></span></p>
-						<p>Thời gian: 2022-09-18 06:32</p>
-						{maccms:foreach name="$vo.data" id="vo1" key="key1"}
-						<p>{$key} - {$vo1}</p>
-						{/maccms:foreach}
-					</div>
-					<div class="data__del clearfix">
-						<a class="btn-brand btn-del" href="javascript:void(0)" onclick="delData({$vo.ulog_id})">Xoá</a>
-					</div>   		
-				</li>
-				{/volist}
-			</ul>
-			<div class="member-page"></div>
-		</div>
 		</div>
 	</div>
 	<script>
-		function delData(ids,all){
-			var msg ='Xoá';
-			if(all==1){
-				msg='Xoá toàn bộ';
+		function delData(ids, all) {
+			var msg = 'Xoá';
+			if (all == 1) {
+				msg = 'Xoá toàn bộ';
 			}
-			if(confirm('Bạn có chắc chắc muốn '+msg+' không?')){
-				$.post("/index.php/user/ulog_del.html",{ids:ids,type:2,all:all},function(data) {
+			if (confirm('Bạn có chắc chắc muốn ' + msg + ' không?')) {
+				$.post("/index.php/user/ulog_del.html", { ids: ids, type: 4, all: all }, function (data) {
 					if (data.code == '1') {
 						alert('Xoá thành công');
 						location.reload();
-					}else {
+					} else {
 						alert('Xoá thất bại: ' + data.msg);
 					}
 				}, 'json')
 			}
 		}
-		$("#btnClear,#btnClear2").click(function(){
-			delData('',1);
+		$("#btnClear,#btnClear2").click(function () {
+			delData('', 1);
 		});
-		$("#btnDel").click(function(){
+		$("#btnDel").click(function () {
 			var ids = MAC.CheckBox.Ids('ids[]');
-			if(ids==''){
+			if (ids == '') {
 				alert("Hãy chọn phim cần xoá.");
 				return;
 			}
-			delData(ids,0);
+			delData(ids, 0);
 		});
 	</script>
 	{include file="user/footer"}
