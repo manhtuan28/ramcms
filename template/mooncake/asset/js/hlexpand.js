@@ -63,7 +63,7 @@ var ConchEx = {
                 $("#conch_history").append(list);
                 $(".conch_history_title").prepend('<a class="clean_history" target="_self" href="javascript:void(0)" onclick="ConchEx.History.Clear();">Xoá</a>');
             } else {
-                $("#conch_history").append('<li class="conch_history_no"><i class="iconfont"></i>Bạn chưa xem phim nào</li>');
+                $("#conch_history").append('<li class="conch_history_no"><i class="iconfont"></i>Bạn chưa xem phim nào<p class="user_log_tips"><a class="mac_user" href="javascript:void(0)">Đăng nhập để xem thêm</a></p></li>');
             }
             $('.history').click(function () {
                 $('html,body').addClass("overhidden");
