@@ -2,107 +2,280 @@
 <html lang="vi">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/player/jwplayer/style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/player/jwplayer/style.css" />
     <title>Embed Video Player</title>
 </head>
 
 <body>
     <div id="player"></div>
-    <script src='/static/player/jwplayer/jw/jwplayer.js'></script>
+    <script src="/static/player/jwplayer/jw/jwplayer.js"></script>
     <script>
+        const vodData = parent.player_aaaa?.vod_data || {};
         const videoUrl = parent.MacPlayer.PlayUrl;
         const videoKey = `videoProgress_${videoUrl}`;
+        const movieTitle = vodData.vod_name || "ashamovie.me";
+        const thumb = vodData.vod_poster || vodData.vod_pic_thumb || "/template/mooncake/asset/img/load.gif";
+        const poster = vodData.vod_pic || thumb;
 
-        const tenPhim = parent.player_aaaa?.vod_data?.vod_name || "ashamovie.me";
-        const thumb = parent.player_aaaa?.vod_data?.vod_poster || parent.player_aaaa?.vod_data?.vod_pic_thumb || "/template/mooncake/asset/img/load.gif";
-        const poster = parent.player_aaaa?.vod_data?.vod_pic || thumb;
+        const pathname = parent.location.pathname;
 
-        document.title = tenPhim + " | ashamovie.me";
+        const getVodIdFromUrl = (url) => url.match(/xem-phim\/(.+?)(-tap-\d+)?\/?$/i)?.[1] || '';
+        const getEpisodeFromUrl = (url) => url.match(/-tap-(\d+)\/?$/i)?.[1] || '';
 
-        const playerInstance = jwplayer("player").setup({
-            controls: true,
-            sharing: true,
-            displaytitle: true,
-            autostart: true,
-            preload: "auto",
-            airplay: true,
-            displaydescription: true,
-            skin: { name: "netflix" },
-            captions: { color: "#F00", fontSize: 10, backgroundOpacity: 0, edgeStyle: "raised" },
-            playlist: [
-                {
-                    title: tenPhim,
-                    image: thumb,
-                    sources: [
-                        {
-                            file: videoUrl,
-                            autostart: true,
-                            default: true
-                        }
-                    ]
-                }
-            ],
-        });
+        const vodId = getVodIdFromUrl(pathname);
+        const episode = getEpisodeFromUrl(pathname);
 
-        playerInstance.on("ready", function () {
-            const savedTime = localStorage.getItem(videoKey);
-            if (savedTime) {
-                playerInstance.seek(parseFloat(savedTime));
+        const getCookie = (name) => {
+            const match = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") + "=([^;]*)"));
+            return match ? decodeURIComponent(match[1]) : undefined;
+        };
+
+        const userId = getCookie("user_id");
+        const isLoggedIn = () => !!userId && !isNaN(userId) && Number(userId) > 0;
+
+        window._x = userId;
+
+        const b64 = (str) => {
+            try {
+                return btoa(unescape(encodeURIComponent(str)));
+            } catch {
+                return "";
+            }
+        };
+
+        const sendHistory = (isFinal = false) => {
+            if (!isLoggedIn()) {
+                return;
             }
 
-            const playerContainer = playerInstance.getContainer();
-            const buttonContainer = playerContainer.querySelector(".jw-button-container");
-            const spacer = buttonContainer.querySelector(".jw-spacer");
-            const timeSlider = playerContainer.querySelector(".jw-slider-time");
-            buttonContainer.replaceChild(timeSlider, spacer);
+            const player = jwplayer();
+            if (!player || typeof player.getPosition !== 'function' || typeof player.getPlaylistItem !== 'function') {
+                return;
+            }
 
-            const rewindContainer = playerContainer.querySelector(".jw-display-icon-rewind");
-            const forwardContainer = rewindContainer.cloneNode(true);
-            const forwardDisplayButton = forwardContainer.querySelector(".jw-icon-rewind");
-            forwardDisplayButton.style.transform = "scaleX(-1)";
-            forwardDisplayButton.ariaLabel = "Tua nhanh 10 giây";
-            const nextContainer = playerContainer.querySelector(".jw-display-icon-next");
-            nextContainer.parentNode.insertBefore(forwardContainer, nextContainer);
+            const currentTime = player.getPosition() || 0;
+            const item = player.getPlaylistItem() || {};
 
-            playerContainer.querySelector(".jw-display-icon-next").style.display = "none";
-            const rewindControlBarButton = buttonContainer.querySelector(".jw-icon-rewind");
-            const forwardControlBarButton = rewindControlBarButton.cloneNode(true);
-            forwardControlBarButton.style.transform = "scaleX(-1)";
-            forwardControlBarButton.ariaLabel = "Tua nhanh 10 giây";
-            rewindControlBarButton.parentNode.insertBefore(forwardControlBarButton, rewindControlBarButton.nextElementSibling);
+            // Chỉ không gửi nếu thời gian hiện tại là 0 VÀ KHÔNG PHẢI là sự kiện cuối cùng (isFinal)
+            // Điều này đảm bảo mọi hành động tua (seek) đều được lưu, miễn là thời gian > 0
+            if (currentTime === 0 && !isFinal) {
+                return;
+            }
 
-            [forwardDisplayButton, forwardControlBarButton].forEach((button) => {
-                button.onclick = () => {
-                    playerInstance.seek(playerInstance.getPosition() + 10);
-                };
+            const payload = {
+                uid: b64(userId),
+                vid: b64(vodId),
+                vname: b64(movieTitle),
+                ep: b64(episode),
+                pt: b64(item.image || item.poster || ""),
+                lnk: b64(item.file || item.sources?.[0]?.file || ""),
+                sec: b64(currentTime.toString()),
+                ts: b64(Date.now().toString())
+            };
+
+            const query = new URLSearchParams(payload).toString();
+
+            if (isFinal && navigator.sendBeacon) {
+                const formData = new FormData();
+                for (const [k, v] of Object.entries(payload)) {
+                    formData.append(k, v);
+                }
+                navigator.sendBeacon("/abc.php", formData);
+            } else {
+                fetch(`/abc.php?${query}`, {
+                    method: 'GET',
+                    keepalive: true
+                }).catch(() => {});
+            }
+        };
+
+        let playSendTimeout = null;
+        let serverSeekTime = 0;
+
+        const setupPlayer = () => {
+            const player = jwplayer("player").setup({
+                controls: true,
+                sharing: true,
+                displaytitle: true,
+                autostart: true,
+                preload: "auto",
+                airplay: true,
+                displaydescription: true,
+                skin: {
+                    name: "netflix"
+                },
+                playlist: [{
+                    title: movieTitle,
+                    image: thumb,
+                    sources: [{
+                        file: videoUrl,
+                        autostart: true,
+                        default: true
+                    }]
+                }]
             });
 
-            if ('mediaSession' in navigator) {
-                try {
-                    navigator.mediaSession.metadata = new window.MediaMetadata({
-                        title: tenPhim,
-                        artist: tenPhim,
-                        album: 'ashamovie.me',
-                        artwork: [
-                            { src: poster, sizes: '512x512', type: 'image/jpeg' },
-                            { src: poster, sizes: '1024x1024', type: 'image/jpeg' }
-                        ]
+            player.on("ready", () => {
+                let timeToSeek = 0;
+                const currentUserId = getCookie("user_id");
+                const currentUserLoggedIn = !!currentUserId && !isNaN(currentUserId) && Number(currentUserId) > 0;
+
+                if (currentUserLoggedIn) {
+                    if (serverSeekTime > 5) {
+                        timeToSeek = serverSeekTime;
+                    }
+                } else {
+                    const savedTimeLocal = localStorage.getItem(videoKey);
+                    if (savedTimeLocal && parseFloat(savedTimeLocal) > 5) {
+                        timeToSeek = parseFloat(savedTimeLocal);
+                    }
+                }
+
+                if (timeToSeek > 5) {
+                    player.seek(timeToSeek);
+                }
+
+                const container = player.getContainer();
+                const buttonBar = container.querySelector(".jw-button-container");
+                const spacer = buttonBar.querySelector(".jw-spacer");
+                const timeSlider = container.querySelector(".jw-slider-time");
+                if (spacer && timeSlider) {
+                    buttonBar.replaceChild(timeSlider, spacer);
+                }
+
+                const rewindBtn = container.querySelector(".jw-display-icon-rewind");
+                if (rewindBtn) {
+                    const forwardBtn = rewindBtn.cloneNode(true);
+                    const forwardIcon = forwardBtn.querySelector(".jw-icon-rewind");
+                    if (forwardIcon) {
+                        forwardIcon.style.transform = "scaleX(-1)";
+                        forwardIcon.ariaLabel = "Tua nhanh 10 giây";
+                    }
+                    const nextBtn = container.querySelector(".jw-display-icon-next");
+                    if (nextBtn) {
+                        rewindBtn.parentNode.insertBefore(forwardBtn, nextBtn);
+                        nextBtn.style.display = "none";
+                    }
+                }
+
+                const rewindBarBtn = buttonBar.querySelector(".jw-icon-rewind");
+                if (rewindBarBtn) {
+                    const forwardBarBtn = rewindBarBtn.cloneNode(true);
+                    forwardBarBtn.style.transform = "scaleX(-1)";
+                    forwardBarBtn.ariaLabel = "Tua nhanh 10 giây";
+                    rewindBarBtn.parentNode.insertBefore(forwardBarBtn, rewindBarBtn.nextElementSibling);
+
+                    [container.querySelector(".jw-display-icon-rewind")?.nextElementSibling, forwardBarBtn].forEach(btn => {
+                        if (btn) {
+                            btn.onclick = () => {
+                                player.seek(player.getPosition() + 10);
+                            };
+                        }
                     });
-                } catch (e) { }
+                }
+
+                if ("mediaSession" in navigator) {
+                    try {
+                        navigator.mediaSession.metadata = new MediaMetadata({
+                            title: movieTitle,
+                            artist: movieTitle,
+                            album: "ashamovie.me",
+                            artwork: [{
+                                src: poster,
+                                sizes: "512x512",
+                                type: "image/jpeg"
+                            }, {
+                                src: poster,
+                                sizes: "1024x1024",
+                                type: "image/jpeg"
+                            }]
+                        });
+                    } catch (e) {}
+                }
+            });
+
+            const saveProgressLocal = () => {
+                if (!isLoggedIn() && jwplayer() && typeof jwplayer().getPosition === 'function') {
+                    const currentPos = jwplayer().getPosition();
+                    localStorage.setItem(videoKey, currentPos);
+                }
+            };
+
+            player.on("pause", () => {
+                saveProgressLocal();
+                sendHistory(false);
+            });
+            player.on("seek", () => {
+                saveProgressLocal();
+                sendHistory(false);
+            });
+            player.on("complete", () => {
+                saveProgressLocal();
+                sendHistory(false);
+            });
+
+            player.on("play", () => {
+                if (playSendTimeout) {
+                    clearTimeout(playSendTimeout);
+                }
+                playSendTimeout = setTimeout(() => {
+                    if (jwplayer() && jwplayer().getState() === "playing") {
+                        sendHistory(false);
+                        saveProgressLocal();
+                    }
+                }, 5000);
+            });
+
+            player.on("pause", () => {
+                if (playSendTimeout) {
+                    clearTimeout(playSendTimeout);
+                    playSendTimeout = null;
+                }
+            });
+
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+            window.addEventListener("beforeunload", handleBeforeUnload);
+
+            function handleBeforeUnload() {
+                saveProgressLocal();
+                sendHistory(true);
             }
-        });
 
-        playerInstance.on("pause", function () {
-            const currentTime = playerInstance.getPosition();
-            localStorage.setItem(videoKey, currentTime);
-        });
+            setInterval(() => {
+                if (jwplayer() && jwplayer().getState() === "playing") {
+                    saveProgressLocal();
+                }
+            }, 5000);
 
-        window.addEventListener("beforeunload", function () {
-            const currentTime = playerInstance.getPosition();
-            localStorage.setItem(videoKey, currentTime);
-        });
+            setInterval(() => {
+                if (isLoggedIn() && jwplayer() && jwplayer().getState() === "playing") {
+                    sendHistory(false);
+                }
+            }, 60000);
+        };
+
+        let fetchPromise;
+        if (vodId) {
+            fetchPromise = fetch(`/static/player/jwplayer/get_history.php?user_id=${userId}&vod_id=${encodeURIComponent(vodId)}&ep=${encodeURIComponent(episode)}`)
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error(`HTTP error! status: ${res.status}`);
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    if (data?.seek_time && parseFloat(data.seek_time) > 5) {
+                        serverSeekTime = parseFloat(data.seek_time);
+                    }
+                })
+                .catch(() => {});
+        } else {
+            fetchPromise = Promise.resolve();
+        }
+
+        fetchPromise.finally(setupPlayer);
     </script>
 </body>
 
