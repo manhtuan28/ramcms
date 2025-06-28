@@ -311,6 +311,12 @@ Toltips mais perto da barra, alterar cores e remover sombras.
 }
 
 .jwplayer.jw-skin-netflix .jw-controlbar .jw-text {
+  color: var(--bg-white);
+}
+
+.jw-reset-text.jw-tooltip.jw-tooltip-fullscreen .jw-text,
+.jw-reset-text.jw-tooltip.jw-tooltip-share .jw-text,
+.jw-reset-text.jw-tooltip.jw-tooltip-pip .jw-text {
   color: black;
 }
 
