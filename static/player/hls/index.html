@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trình phát HLS - Fullscreen</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="/static/player/hls/hls.min.js"></script>
+  <style>
+    :root {
+      --accent-color: #E50914;
+      --track-color: rgba(255, 255, 255, 0.3);
+      --buffered-color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* === THIẾT LẬP FULLSCREEN === */
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      /* Ngăn thanh cuộn xuất hiện */
+      font-family: 'Poppins', sans-serif;
+      background-color: #000;
+      /* Nền đen mặc định */
+    }
+
+    .player-container {
+      --progress-bar-height: 4px;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    /* === KẾT THÚC THIẾT LẬP FULLSCREEN === */
+
+    #controls-container,
+    #mobile-title-overlay {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 300ms ease-in-out, visibility 300ms ease-in-out;
+    }
+
+    .player-container.controls-active #controls-container,
+    .player-container.controls-active #mobile-title-overlay {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .controls-backdrop {
+      background-image: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent 60%);
+    }
+
+    .control-btn {
+      color: #fff;
+      transition: transform 200ms ease-out, background-color 200ms ease-out;
+      border-radius: 9999px;
+    }
+
+    .control-btn:hover {
+      transform: scale(1.1);
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .seek-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+
+    .seek-btn i {
+      font-size: 1.5rem;
+    }
+
+    .seek-btn span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.6rem;
+      font-weight: 600;
+    }
+
+    .progress-bar-container {
+      height: var(--progress-bar-height);
+      transition: height 200ms ease;
+    }
+
+    .player-container.controls-active .progress-bar-container {
+      height: 6px;
+    }
+
+    .progress-bar-bg {
+      background-color: var(--track-color);
+    }
+
+    .progress-bar-buffered {
+      background-color: var(--buffered-color);
+      z-index: 1;
+    }
+
+    .progress-bar-current {
+      background-color: var(--accent-color);
+      z-index: 2;
+    }
+
+    .progress-thumb {
+      height: 16px;
+      width: 16px;
+      background-color: var(--accent-color);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      transition: transform 200ms ease;
+      top: 50%;
+      z-index: 3;
+      border: 2px solid white;
+    }
+
+    .player-container.controls-active .progress-thumb {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    @keyframes spin-red {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-spinner {
+      height: 60px;
+      width: 60px;
+      border-radius: 50%;
+      animation: spin-red 1s linear infinite;
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      border-top-color: var(--accent-color);
+    }
+
+    .volume-popup {
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-bottom: 1rem;
+      background-color: rgba(30, 30, 30, 0.9);
+      backdrop-filter: blur(8px);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1.25rem 1rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .volume-button-group:hover .volume-popup {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .volume-slider-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 120px;
+    }
+
+    input[type="range"].volume-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      width: 120px;
+      height: 6px;
+      transform: rotate(-90deg);
+      cursor: pointer;
+    }
+
+    input[type="range"].volume-slider::-webkit-slider-runnable-track {
+      border-radius: 3px;
+      height: 6px;
+      background: var(--track-color);
+    }
+
+    input[type="range"].volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 18px;
+      width: 18px;
+      border-radius: 50%;
+      background: white;
+      border: 3px solid var(--accent-color);
+      margin-top: -6px;
+    }
+
+    .episode-item a {
+      transition: background-color 200ms ease;
+      border-radius: 8px;
+      text-align: center;
+      padding: 0.75rem 0.25rem;
+      font-size: 0.9rem;
+    }
+
+    .episode-item a:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .episode-item a.current-episode {
+      background-color: var(--accent-color);
+      color: white;
+      font-weight: 600;
+    }
+
+    .seek-indicator {
+      transition: opacity 500ms ease-out, transform 500ms ease-out;
+      text-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="player-container" class="player-container relative w-screen h-screen bg-black">
+    <video id="video" class="w-full h-full" playsinline preload="metadata"></video>
+
+    <div id="loading-overlay"
+      class="absolute inset-0 flex items-center justify-center bg-black/50 z-50 transition-opacity duration-300">
+      <div class="loading-spinner"></div>
+    </div>
+
+    <div id="mobile-title-overlay" class="absolute top-4 left-4 right-4 z-30 pointer-events-none md:hidden">
+      <h1 class="text-white text-xl font-bold" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"></h1>
+    </div>
+
+    <div id="forward-indicator"
+      class="seek-indicator text-white absolute top-1/2 left-3/4 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center opacity-0 scale-75 pointer-events-none z-30">
+      <i class="fas fa-forward text-5xl"></i><span class="text-xl font-bold mt-1">10s</span>
+    </div>
+    <div id="rewind-indicator"
+      class="seek-indicator text-white absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center opacity-0 scale-75 pointer-events-none z-30">
+      <i class="fas fa-backward text-5xl"></i><span class="text-xl font-bold mt-1">10s</span>
+    </div>
+
+    <div id="controls-container"
+      class="controls-backdrop absolute inset-0 flex flex-col justify-end p-3 md:p-5 z-20 pointer-events-none">
+      <div class="flex items-center gap-3 w-full pointer-events-auto">
+        <div id="progress-container" class="w-full cursor-pointer group/progress py-2 relative">
+          <div id="timeline-tooltip"
+            class="absolute bottom-10 bg-black/90 text-white text-sm rounded-md py-1.5 px-3 pointer-events-none opacity-0 -translate-x-1/2 backdrop-blur-sm transition-opacity duration-200">
+            00:00</div>
+          <div class="progress-bar-container progress-bar-bg relative rounded-full">
+            <div id="buffered-bar" class="progress-bar-buffered absolute h-full rounded-full"></div>
+            <div id="progress-bar" class="progress-bar-current absolute h-full rounded-full"></div>
+            <div id="progress-thumb" class="progress-thumb absolute"></div>
+          </div>
+        </div>
+        <span id="time-duration" class="text-sm font-medium text-white">00:00</span>
+      </div>
+
+      <div class="flex items-center w-full pointer-events-auto mt-1">
+        <div class="flex-1 flex items-center justify-start gap-1 md:gap-3">
+          <button id="play-pause-btn" class="control-btn p-2.5 text-2xl md:text-3xl"><i
+              class="fas fa-play"></i></button>
+          <button id="rewind-btn" class="control-btn seek-btn"><i
+              class="fa-solid fa-rotate-left"></i><span>10</span></button>
+          <button id="forward-btn" class="control-btn seek-btn"><i
+              class="fa-solid fa-rotate-right"></i><span>10</span></button>
+
+          <div class="relative group volume-button-group">
+            <button id="mute-btn" class="control-btn text-xl md:text-2xl p-2.5"><i
+                class="fas fa-volume-high"></i></button>
+            <div class="volume-popup pointer-events-auto">
+              <div class="volume-slider-wrapper">
+                <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.01" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex-1 text-center min-w-0 px-4 hidden md:block">
+          <h1 id="desktop-title-display" class="text-lg font-semibold text-white truncate"></h1>
+        </div>
+        <div class="flex-1 flex items-center justify-end gap-1 md:gap-3">
+          <button id="next-episode-btn" class="control-btn text-xl md:text-2xl hidden p-2.5" title="Tập tiếp theo"><i
+              class="fas fa-forward-step"></i></button>
+          <button id="episode-list-btn" class="control-btn text-xl md:text-2xl hidden p-2.5" title="Danh sách tập"><i
+              class="fas fa-list-ul"></i></button>
+          <button id="fullscreen-btn" class="control-btn text-xl md:text-2xl p-2.5"><i
+              class="fas fa-expand"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div id="episode-list-overlay"
+      class="absolute inset-0 z-40 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+      <div
+        class="bg-[#141414] rounded-xl w-full max-w-lg max-h-[75vh] flex flex-col shadow-2xl pointer-events-auto border border-white/10">
+        <div class="p-4 flex justify-between items-center border-b border-white/10 flex-shrink-0">
+          <h3 class="text-xl font-semibold text-white">Danh sách tập</h3>
+          <button id="close-episode-list-btn" class="control-btn w-9 h-9 text-lg"><i class="fas fa-times"></i></button>
+        </div>
+        <ul id="episode-list-content"
+          class="overflow-y-auto p-3 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2.5"></ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =================================================================
+    // KHAI BÁO BIẾN & HÀM TIỆN ÍCH
+    // (Kết hợp từ code cũ và code mới)
+    // =================================================================
+
+    const vodData = parent.player_aaaa?.vod_data || {};
+    const videoUrl = parent.MacPlayer.PlayUrl || 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
+    const movieTitle = vodData.vod_name || "Phim Hay";
+    const videoKey = `videoProgress_${videoUrl}`; // Key để lưu local storage cho khách
+    const poster = vodData.vod_pic || vodData.vod_poster || vodData.vod_pic_thumb || "";
+    const pathname = parent.location.pathname;
+
+    // --- Các hàm và biến từ code cũ ---
+    const getVodIdFromUrl = (url) => url.match(/xem-phim\/(.+?)(-tap-\d+)?\/?$/i)?.[1] || '';
+    const getEpisodeFromUrl = (url) => url.match(/-tap-(\d+)\/?$/i)?.[1] || '';
+    const getCookie = (name) => {
+      const match = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") + "=([^;]*)"));
+      return match ? decodeURIComponent(match[1]) : undefined;
+    };
+    const b64 = (str) => {
+      try { return btoa(unescape(encodeURIComponent(str))); } catch { return ""; }
+    };
+
+    const vodId = getVodIdFromUrl(pathname);
+    const episode = getEpisodeFromUrl(pathname);
+    const userId = getCookie("user_id");
+    const isLoggedIn = () => !!userId && !isNaN(userId) && Number(userId) > 0;
+    let serverSeekTime = 0; // Biến lưu thời gian xem lấy từ server
+
+    // --- Lấy các DOM element từ code mới ---
+    const playerContainer = document.getElementById('player-container');
+    const video = document.getElementById('video');
+    const mobileTitleOverlay = document.getElementById('mobile-title-overlay');
+    const desktopTitleDisplay = document.getElementById('desktop-title-display');
+    const playPauseBtn = document.getElementById('play-pause-btn');
+    const rewindBtn = document.getElementById('rewind-btn');
+    const forwardBtn = document.getElementById('forward-btn');
+    const muteBtn = document.getElementById('mute-btn');
+    const volumeSlider = document.getElementById('volume-slider');
+    const timeDuration = document.getElementById('time-duration');
+    const progressBar = document.getElementById('progress-bar');
+    const bufferedBar = document.getElementById('buffered-bar');
+    const progressThumb = document.getElementById('progress-thumb');
+    const progressContainer = document.getElementById('progress-container');
+    const timelineTooltip = document.getElementById('timeline-tooltip');
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const nextEpisodeBtn = document.getElementById('next-episode-btn');
+    const episodeListBtn = document.getElementById('episode-list-btn');
+    const episodeListOverlay = document.getElementById('episode-list-overlay');
+    const closeEpisodeListBtn = document.getElementById('close-episode-list-btn');
+    const episodeListContent = document.getElementById('episode-list-content');
+    const rewindIndicator = document.getElementById('rewind-indicator');
+    const forwardIndicator = document.getElementById('forward-indicator');
+
+    // --- Biến trạng thái ---
+    let hls, activityTimer, clickTimer, lastClickTime = 0, isScrubbing = false, wasPaused;
+
+    // =================================================================
+    // LOGIC LƯU/TẢI DỮ LIỆU SERVER
+    // =================================================================
+
+    /** Gửi lịch sử xem lên server cho người dùng đã đăng nhập */
+    const sendHistory = (isFinal = false) => {
+      if (!isLoggedIn() || !vodId) return;
+
+      const currentTime = video.currentTime || 0;
+      if (currentTime < 5 && !isFinal) return; // Chỉ gửi nếu đã xem > 5s
+
+      const payload = {
+        uid: b64(userId),
+        vid: b64(vodId),
+        vname: b64(movieTitle),
+        ep: b64(episode),
+        pt: b64(poster),
+        lnk: b64(videoUrl),
+        sec: b64(currentTime.toString()),
+        ts: b64(Date.now().toString())
+      };
+
+      const query = new URLSearchParams(payload).toString();
+      const url = `/abc.php?${query}`; // Endpoint để lưu dữ liệu
+
+      // Sử dụng sendBeacon khi rời trang để đảm bảo gửi đi thành công
+      if (isFinal && navigator.sendBeacon) {
+        navigator.sendBeacon(url);
+      } else {
+        fetch(url, { method: 'GET', keepalive: true }).catch(() => { });
+      }
+    };
+
+    /** Hàm thống nhất việc lưu tiến trình */
+    const saveProgress = (isFinal = false) => {
+      if (isLoggedIn()) {
+        sendHistory(isFinal);
+      } else {
+        if (!video.paused && video.currentTime > 0) {
+          localStorage.setItem(videoKey, video.currentTime);
+        }
+      }
+    };
+
+    // =================================================================
+    // CÁC HÀM CỦA TRÌNH PHÁT
+    // (Giữ nguyên từ code mới)
+    // =================================================================
+
+    const formatTime = (time) => {
+      if (isNaN(time)) return '00:00';
+      const hours = Math.floor(time / 3600);
+      const mins = Math.floor((time % 3600) / 60);
+      const secs = Math.floor(time % 60);
+      return hours > 0 ? `${hours}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}` : `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    };
+
+    const updateProgress = () => {
+      if (isNaN(video.duration) || isScrubbing) return;
+      const percent = (video.currentTime / video.duration) * 100;
+      progressBar.style.width = `${percent}%`;
+      progressThumb.style.left = `${percent}%`;
+      const remainingTime = video.duration - video.currentTime;
+      timeDuration.textContent = `${formatTime(remainingTime)}`;
+    };
+
+    const togglePlay = () => video.paused ? video.play() : video.pause();
+    const showControls = () => { playerContainer.classList.add('controls-active'); resetActivityTimer(); };
+    const hideControls = () => {
+      if (video.paused || !episodeListOverlay.classList.contains('hidden') || isScrubbing) return;
+      playerContainer.classList.remove('controls-active');
+    };
+    const resetActivityTimer = () => { clearTimeout(activityTimer); activityTimer = setTimeout(hideControls, 3000); };
+    const showSeekIndicator = (element) => {
+      element.classList.remove('opacity-0', 'scale-75');
+      element.classList.add('opacity-100', 'scale-100');
+      clearTimeout(element.timer);
+      element.timer = setTimeout(() => {
+        element.classList.remove('opacity-100', 'scale-100');
+        element.classList.add('opacity-0', 'scale-75');
+      }, 800);
+    };
+
+    // ... (Các hàm nhỏ khác như updateBuffer, updateVolumeUI, setupEpisodeFeatures, handleKeyboardShortcuts giữ nguyên) ...
+    const updateBuffer = () => { if (video.buffered.length > 0 && video.duration > 0) { bufferedBar.style.width = `${(video.buffered.end(video.buffered.length - 1) / video.duration) * 100}%`; } };
+    const updateVolumeUI = () => { const volume = video.muted ? 0 : video.volume; volumeSlider.value = volume; let iconClass = 'fa-volume-high'; if (volume === 0) iconClass = 'fa-volume-xmark'; else if (volume < 0.5) iconClass = 'fa-volume-low'; muteBtn.innerHTML = `<i class="fas ${iconClass}"></i>`; const percent = volume * 100; volumeSlider.style.background = `linear-gradient(to right, var(--accent-color) ${percent}%, var(--track-color) ${percent}%)`; };
+    const setupEpisodeFeatures = () => { let title = "Tập 1"; try { let anchors = Array.from(parent.document.querySelectorAll('.playlist_full .content_playlist li a')).filter(a => a.href && a.href.includes('-sv1-')); const active = anchors.find(a => a.parentElement.classList.contains('active')); if (active) title = active.textContent.trim(); if (anchors.length > 1) { episodeListBtn.classList.remove('hidden'); episodeListContent.innerHTML = ''; anchors.forEach(anchor => { const li = document.createElement('li'); li.className = "episode-item"; const a = document.createElement('a'); a.href = anchor.href; a.textContent = anchor.textContent.trim(); a.className = 'w-full block cursor-pointer text-gray-300'; if (anchor.parentElement.classList.contains('active')) a.classList.add('current-episode'); a.onclick = (e) => { e.preventDefault(); parent.location.href = anchor.href; }; li.appendChild(a); episodeListContent.appendChild(li); }); const current = episodeListContent.querySelector('.current-episode'); if (current) current.scrollIntoView({ block: 'center' }); } const nextAnchor = Array.from(parent.document.querySelectorAll('.ewave-player-footer a')).find(a => a.textContent.includes('Tập tiếp') && a.hasAttribute('href') && !a.classList.contains('disabled') && a.href.includes('-sv1-')); if (nextAnchor) { nextEpisodeBtn.classList.remove('hidden'); nextEpisodeBtn.addEventListener('click', e => { e.stopPropagation(); parent.location.href = nextAnchor.href; }); } } catch (e) { console.warn("Lỗi khi phân tích danh sách tập."); } mobileTitleOverlay.querySelector('h1').textContent = `${movieTitle} | ${title}`; desktopTitleDisplay.textContent = `${movieTitle} | ${title}`; };
+    const handleKeyboardShortcuts = (event) => { const target = event.target; if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) { return; } switch (event.key.toLowerCase()) { case ' ': event.preventDefault(); togglePlay(); break; case 'f': event.preventDefault(); document.fullscreenElement ? document.exitFullscreen() : playerContainer.requestFullscreen(); break; case 'm': event.preventDefault(); video.muted = !video.muted; break; case 'arrowright': event.preventDefault(); video.currentTime += 5; showSeekIndicator(forwardIndicator); break; case 'arrowleft': event.preventDefault(); video.currentTime -= 5; showSeekIndicator(rewindIndicator); break; case 'arrowup': event.preventDefault(); video.volume = Math.min(1, video.volume + 0.1); break; case 'arrowdown': event.preventDefault(); video.volume = Math.max(0, video.volume - 0.1); break; } };
+
+    // =================================================================
+    // HÀM CHÍNH: SETUP PLAYER
+    // =================================================================
+    const setupPlayer = () => {
+      if (Hls.isSupported()) { hls = new Hls(); hls.loadSource(videoUrl); hls.attachMedia(video); }
+      else if (video.canPlayType('application/vnd.apple.mpegurl')) { video.src = videoUrl; }
+      setupEpisodeFeatures();
+
+      // Lắng nghe các sự kiện của video
+      video.addEventListener('play', () => { playPauseBtn.innerHTML = `<i class="fas fa-pause"></i>`; showControls(); });
+      video.addEventListener('pause', () => { playPauseBtn.innerHTML = `<i class="fas fa-play"></i>`; showControls(); saveProgress(false); });
+      video.addEventListener('timeupdate', updateProgress);
+      video.addEventListener('volumechange', updateVolumeUI);
+      video.addEventListener('seeked', () => { updateProgress(); saveProgress(false); });
+      video.addEventListener('progress', updateBuffer);
+      video.addEventListener('waiting', () => { loadingOverlay.classList.remove('hidden'); loadingOverlay.style.opacity = '1'; });
+      video.addEventListener('playing', () => { loadingOverlay.style.opacity = '0'; setTimeout(() => loadingOverlay.classList.add('hidden'), 300); });
+
+      video.addEventListener('loadedmetadata', () => {
+        // *** LOGIC TUA VIDEO ĐÃ TÍCH HỢP ***
+        let timeToSeek = 0;
+        if (isLoggedIn()) {
+          if (serverSeekTime > 5) {
+            timeToSeek = serverSeekTime;
+          }
+        } else {
+          const savedTimeLocal = localStorage.getItem(videoKey);
+          if (savedTimeLocal && parseFloat(savedTimeLocal) > 5) {
+            timeToSeek = parseFloat(savedTimeLocal);
+          }
+        }
+
+        if (timeToSeek > 5) {
+          video.currentTime = Math.min(timeToSeek, video.duration - 5);
+        }
+        // ********************************
+
+        updateVolumeUI();
+        updateProgress();
+        updateBuffer();
+        video.play().catch(() => { loadingOverlay.style.opacity = '0'; setTimeout(() => loadingOverlay.classList.add('hidden'), 300); showControls(); });
+      });
+
+      // Lắng nghe các sự kiện của người dùng trên giao diện
+      playerContainer.addEventListener('click', (e) => {
+        if (e.target !== video && e.target !== playerContainer) return;
+        e.preventDefault();
+        const now = new Date().getTime();
+        if ((now - lastClickTime) < 300) {
+          clearTimeout(clickTimer);
+          lastClickTime = 0;
+          const rect = playerContainer.getBoundingClientRect();
+          if (e.clientX - rect.left < rect.width / 2) { video.currentTime -= 10; showSeekIndicator(rewindIndicator); }
+          else { video.currentTime += 10; showSeekIndicator(forwardIndicator); }
+        } else {
+          clickTimer = setTimeout(togglePlay, 250);
+        }
+        lastClickTime = now;
+      });
+
+      // ... (Các hàm xử lý tua video bằng chuột mousedown/mouseup/mousemove giữ nguyên) ...
+      const handleScrubbing = (e) => { const rect = progressContainer.getBoundingClientRect(); let clientX = e.touches ? e.touches[0].clientX : e.clientX; let percent = (clientX - rect.left) / rect.width; percent = Math.max(0, Math.min(1, percent)); video.currentTime = percent * video.duration; updateProgress(); };
+      const handleMouseMove = (e) => { if (isScrubbing) handleScrubbing(e); };
+      const handleMouseUp = () => { if (!isScrubbing) return; isScrubbing = false; timelineTooltip.classList.add('opacity-0'); if (!wasPaused) video.play(); document.removeEventListener('mousemove', handleMouseMove); document.removeEventListener('mouseup', handleMouseUp); document.removeEventListener('touchmove', handleMouseMove); document.removeEventListener('touchend', handleMouseUp); };
+      const handleMouseDown = e => { e.stopPropagation(); isScrubbing = true; wasPaused = video.paused; video.pause(); timelineTooltip.classList.remove('opacity-0'); handleScrubbing(e); document.addEventListener('mousemove', handleMouseMove); document.addEventListener('mouseup', handleMouseUp); document.addEventListener('touchmove', handleMouseMove); document.addEventListener('touchend', handleMouseUp); };
+      progressContainer.addEventListener('mousedown', handleMouseDown);
+      progressContainer.addEventListener('touchstart', handleMouseDown, { passive: true });
+      progressContainer.addEventListener('mousemove', e => { if (isScrubbing || !video.duration) return; const rect = progressContainer.getBoundingClientRect(); const hoverX = e.clientX - rect.left; timelineTooltip.style.left = `${hoverX}px`; timelineTooltip.textContent = formatTime((hoverX / rect.width) * video.duration); });
+      progressContainer.addEventListener('mouseenter', () => !isScrubbing && timelineTooltip.classList.remove('opacity-0'));
+      progressContainer.addEventListener('mouseleave', () => timelineTooltip.classList.add('opacity-0'));
+
+      const setupControlBtn = (btn, action, event = 'click') => btn.addEventListener(event, e => { e.stopPropagation(); action(e); });
+      setupControlBtn(playPauseBtn, togglePlay);
+      setupControlBtn(rewindBtn, () => video.currentTime -= 10);
+      setupControlBtn(forwardBtn, () => video.currentTime += 10);
+      setupControlBtn(muteBtn, () => { video.muted = !video.muted; });
+      setupControlBtn(volumeSlider, (e) => { video.volume = e.target.value; video.muted = e.target.value == 0; }, 'input');
+      setupControlBtn(fullscreenBtn, () => document.fullscreenElement ? document.exitFullscreen() : playerContainer.requestFullscreen());
+      setupControlBtn(episodeListBtn, () => episodeListOverlay.classList.remove('hidden'));
+      setupControlBtn(closeEpisodeListBtn, () => episodeListOverlay.classList.add('hidden'));
+
+      document.addEventListener('fullscreenchange', () => fullscreenBtn.innerHTML = `<i class="fas ${document.fullscreenElement ? 'fa-compress' : 'fa-expand'}"></i>`);
+      document.addEventListener('keydown', handleKeyboardShortcuts);
+      episodeListOverlay.addEventListener('click', e => { if (e.target === episodeListOverlay) episodeListOverlay.classList.add('hidden') });
+      playerContainer.addEventListener('mousemove', showControls);
+      playerContainer.addEventListener('mouseleave', hideControls);
+
+      // *** TỰ ĐỘNG LƯU TIẾN TRÌNH (THỐNG NHẤT) ***
+      setInterval(() => {
+        if (!video.paused) saveProgress(false);
+      }, 15000); // Lưu mỗi 15 giây
+      window.addEventListener("beforeunload", () => saveProgress(true));
+    };
+
+    // =================================================================
+    // KHỞI CHẠY (LOGIC LẤY DỮ LIỆU TRƯỚC, CHẠY PLAYER SAU)
+    // =================================================================
+    let fetchPromise;
+    if (isLoggedIn() && vodId) {
+      // Chỉ fetch nếu đã đăng nhập và có vodId
+      fetchPromise = fetch(`/static/player/jwplayer/get_history.php?user_id=${userId}&vod_id=${encodeURIComponent(vodId)}&ep=${encodeURIComponent(episode)}`)
+        .then(res => {
+          if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+          return res.json();
+        })
+        .then(data => {
+          // Chú ý: code cũ của bạn trả về `current_time` nhưng JS lại tìm `seek_time`.
+          // Tôi sẽ kiểm tra cả hai để tương thích.
+          const time = data?.seek_time || data?.current_time || 0;
+          if (time && parseFloat(time) > 5) {
+            serverSeekTime = parseFloat(time);
+          }
+        })
+        .catch((err) => {
+          console.error("Lỗi khi lấy lịch sử xem:", err);
+        });
+    } else {
+      // Nếu không, tạo một promise rỗng và chạy ngay lập tức
+      fetchPromise = Promise.resolve();
+    }
+
+    // Chỉ gọi setupPlayer SAU KHI fetchPromise đã hoàn thành (dù thành công hay thất bại)
+    fetchPromise.finally(setupPlayer);
+  </script>
+</body>
+
+</html>
