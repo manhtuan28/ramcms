@@ -58,9 +58,7 @@
 
             const currentTime = player.getPosition() || 0;
             const item = player.getPlaylistItem() || {};
-
-            // Chỉ không gửi nếu thời gian hiện tại là 0 VÀ KHÔNG PHẢI là sự kiện cuối cùng (isFinal)
-            // Điều này đảm bảo mọi hành động tua (seek) đều được lưu, miễn là thời gian > 0
+            
             if (currentTime === 0 && !isFinal) {
                 return;
             }
