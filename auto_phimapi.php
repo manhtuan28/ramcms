@@ -5,7 +5,7 @@ $db_host = 'localhost';
 $db_user = 'root';
 $db_pass = '';
 $db_name = 'ashamovie';
-$table   = 'tuancute_vod';
+$table   = 'ashamovie_vod';
 
 $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
 if ($conn->connect_error) die("DB ERROR: " . $conn->connect_error);
@@ -165,8 +165,6 @@ logz('===== END auto crawl =====', 'SYSTEM');
 $conn->close();
 
 function process_movie_detail($movie, $detailJson, $conn, $table) {
-    $vod_name = $conn->real_escape_string($movie['name']);
-    $vod_year = $conn->real_escape_string($movie['year'] ?? '');
     $name = $movie['name'] ?? 'unknown';
 
     if (empty($detailJson)) {
@@ -177,175 +175,150 @@ function process_movie_detail($movie, $detailJson, $conn, $table) {
     $detailJson = mb_convert_encoding($detailJson, 'UTF-8', 'UTF-8,ISO-8859-1');
     $detail = json_decode($detailJson, true);
 
+    $skip_ids = [
+        // Bỏ qua phim _id
+    ];
+    $current_id = $detail['movie']['_id'] ?? null;
+
+    if ($current_id && in_array($current_id, $skip_ids)) {
+        logz("Bỏ qua phim vì có trong danh sách skip _id", "SKIP", $name);
+        return true;
+    }
+
     if (empty($detail['movie']['name'])) {
-        logz("API trả về lỗi", "ERROR", $name);
+        logz("API trả về lỗi hoặc dữ liệu không hợp lệ", "ERROR", $name);
         return false;
     }
 
     $m = $detail['movie'];
 
     $vod_play_data = !empty($detail['episodes']) ? buildVodPlayData($detail['episodes']) : [];
-    $vod_play_url    = implode('$$$', array_column($vod_play_data, 'play_url'));
-    $vod_play_from   = implode('$$$', array_column($vod_play_data, 'play_from'));
-    $vod_play_server = implode('$$$', array_column($vod_play_data, 'play_server'));
+    $vod_play_url    = $conn->real_escape_string(implode('$$$', array_column($vod_play_data, 'play_url')));
+    $vod_play_from   = $conn->real_escape_string(implode('$$$', array_column($vod_play_data, 'play_from')));
+    $vod_play_server = $conn->real_escape_string(implode('$$$', array_column($vod_play_data, 'play_server')));
 
     $ep_total = intval($m['episode_total'] ?? 1);
-    $ep_current = $m['episode_current'] ?? '';
+    $ep_current = $conn->real_escape_string($m['episode_current'] ?? '');
     $vod_remarks = $ep_current;
 
     $type_id = 1;
-    $type = isset($m['type']) ? $m['type'] : 'series';
-    switch ($type) {
-        case 'single':    $type_id = 2; break;
-        case 'hoathinh':  $type_id = 3; break;
-        case 'tvshows':   $type_id = 4; break;
-        case 'series':
-        default:          $type_id = 1; break;
+    switch ($m['type'] ?? 'series') {
+        case 'single':   $type_id = 2; break;
+        case 'hoathinh': $type_id = 3; break;
+        case 'tvshows':  $type_id = 4; break;
     }
 
-    $vote_average = isset($m['tmdb']['vote_average']) ? floatval($m['tmdb']['vote_average']) : 0.0;
+    $vote_average = floatval($m['tmdb']['vote_average'] ?? 0.0);
+    $api_id = $conn->real_escape_string($m['_id'] ?? '');
 
-    $sqlCheck = "SELECT vod_id, vod_play_url, vod_remarks, vod_total, type_id, vod_sub FROM $table WHERE vod_name='$vod_name' AND vod_year='$vod_year' LIMIT 1";
+    $sqlCheck = "SELECT vod_id, vod_play_url, vod_remarks, type_id, vod_sub FROM $table WHERE vod_writer='$api_id' LIMIT 1";
     $rs = $conn->query($sqlCheck);
 
     if ($rs && $rs->num_rows > 0) {
         $row = $rs->fetch_assoc();
-        $old_play_url = $row['vod_play_url'];
-        $old_remarks = $row['vod_remarks'];
-        $old_total = intval($row['vod_total']);
-        if (!$old_total) $old_total = getEpisodeTotal($old_remarks);
-        $current_db_typeid = isset($row['type_id']) ? intval($row['type_id']) : 0;
         $need_update = false;
-        $fields = [];
+        $update_data = [];
         $changed = [];
 
-        if ($vod_remarks !== $old_remarks) {
-            $fields[] = "vod_play_url='$vod_play_url'";
-            $fields[] = "vod_play_from='$vod_play_from'";
-            $fields[] = "vod_play_server='$vod_play_server'";
-            $fields[] = "vod_remarks='$vod_remarks'";
-            $fields[] = "vod_total=$ep_total";
-            $fields[] = "type_id=$type_id";
+        if ($row['vod_remarks'] !== $vod_remarks || $row['vod_play_url'] !== $vod_play_url) {
+            $update_data['vod_play_url']    = "'$vod_play_url'";
+            $update_data['vod_play_from']   = "'$vod_play_from'";
+            $update_data['vod_play_server'] = "'$vod_play_server'";
+            $update_data['vod_remarks']     = "'$vod_remarks'";
+            $update_data['vod_total']       = $ep_total;
+            $changed[] = "Tập/Link ({$row['vod_remarks']} -> $vod_remarks)";
             $need_update = true;
-            $changed[] = "Tập ($old_remarks ➡️ $vod_remarks)";
-        }
-        if ($old_play_url != $vod_play_url) {
-            $fields[] = "vod_play_url='$vod_play_url'";
-            $fields[] = "vod_play_from='$vod_play_from'";
-            $fields[] = "vod_play_server='$vod_play_server'";
-            $fields[] = "type_id=$type_id";
-            $fields[] = "vod_score=$vote_average";
-            $need_update = true;
-            $changed[] = "play_url";
-        }
-        if ($current_db_typeid != $type_id) {
-            $fields[] = "type_id=$type_id";
-            $need_update = true;
-            $changed[] = "type_id ($current_db_typeid ➡️ $type_id)";
-        }
-        if ($row['vod_sub'] !== $m['slug']) {
-            $fields[] = "vod_sub='" . $conn->real_escape_string($m['slug']) . "'";
-            $need_update = true;
-            $changed[] = "vod_sub ({$row['vod_sub']} ➡️ {$m['slug']})";
         }
 
-        if ($need_update && count($fields)) {
-            $sqlUpdate = "UPDATE $table SET " . implode(',', $fields) . " WHERE vod_id={$row['vod_id']}";
+        if ($row['type_id'] != $type_id) {
+            $update_data['type_id'] = $type_id;
+            $changed[] = "Loại phim ({$row['type_id']} -> $type_id)";
+            $need_update = true;
+        }
+
+        if ($row['vod_sub'] !== $m['slug']) {
+            $update_data['vod_sub'] = "'" . $conn->real_escape_string($m['slug']) . "'";
+            $changed[] = "Slug ({$row['vod_sub']} -> {$m['slug']})";
+            $need_update = true;
+        }
+
+        if ($need_update) {
+            $set_clauses = [];
+            foreach ($update_data as $col => $val) {
+                $set_clauses[] = "$col = $val";
+            }
+            $set_clauses[] = "vod_time = " . time();
+
+            $sqlUpdate = "UPDATE $table SET " . implode(', ', $set_clauses) . " WHERE vod_id={$row['vod_id']}";
             $conn->query($sqlUpdate);
-            logz("Sửa phim, sửa: ".implode(', ', $changed), "UPDATE", $name);
+            logz("Sửa phim, các thay đổi: " . implode(', ', array_unique($changed)), "UPDATE", $name);
         } else {
-            logz("Bỏ qua phim (không cần update)", "SKIP", $name);
+            logz("Bỏ qua phim (không có gì mới để cập nhật)", "SKIP", $name);
         }
         return true;
     }
 
     $insert = [];
-    $insert['type_id']      = $type_id;
-    $insert['type_id_1']    = 0;
-    $insert['group_id']     = 0;
-    $insert['vod_name']     = $conn->real_escape_string($m['name']);
-    $insert['vod_sub']      = $conn->real_escape_string($m['slug']);
-    $insert['vod_en']       = $conn->real_escape_string($m['origin_name'] ?? '');
-    $insert['vod_status']   = 1;
-    $insert['vod_letter']   = strtoupper(mb_substr($m['slug'], 0, 1));
-    $insert['vod_color']    = '';
-    $insert['vod_tag']      = $conn->real_escape_string(($m['name']??'') . ',' . ($m['origin_name']??''));
-    $insert['vod_class']    = $conn->real_escape_string(implode(',', array_column($m['category'] ?? [], 'name')));
-    $insert['vod_pic']      = $conn->real_escape_string($m['poster_url'] ?? '');
-    $insert['vod_pic_thumb']= $conn->real_escape_string($m['thumb_url'] ?? '');
-    $insert['vod_pic_slide']= $conn->real_escape_string($m['poster_url'] ?? '');
-    $insert['vod_actor']    = $conn->real_escape_string(implode(',', $m['actor'] ?? []));
-    $insert['vod_director'] = $conn->real_escape_string(implode(',', $m['director'] ?? []));
-    $insert['vod_writer']   = $conn->real_escape_string($m['_id'] ?? '');
-    $insert['vod_behind']   = '';
-    $insert['vod_blurb']    = '';
-    $insert['vod_remarks']  = $conn->real_escape_string($vod_remarks);
-    $insert['vod_pubdate']  = '';
-    $insert['vod_total']    = $ep_total;
-    $insert['vod_serial']   = '0';
-    $insert['vod_tv']       = '';
-    $insert['vod_weekday']  = $conn->real_escape_string($m['showtimes'] ?? '');
-    $insert['vod_area']     = $conn->real_escape_string(implode(',', array_column($m['country'] ?? [], 'name')));
-    $insert['vod_lang']     = $conn->real_escape_string($m['lang'] ?? '');
-    $insert['vod_year']     = $conn->real_escape_string($m['year'] ?? '');
-    $insert['vod_version']  = $conn->real_escape_string($m['quality'] ?? '');
-    $insert['vod_state']    = '';
-    $insert['vod_author']   = '';
-    $insert['vod_jumpurl']  = '';
-    $insert['vod_tpl']      = '';
-    $insert['vod_tpl_play'] = '';
-    $insert['vod_tpl_down'] = '';
-    $insert['vod_isend']    = 0;
-    $insert['vod_lock']     = 0;
-    $insert['vod_level']    = isset($m['chieurap']) && $m['chieurap'] ? 9 : 0;
-    $insert['vod_copyright']= 0;
-    $insert['vod_points']   = 0;
-    $insert['vod_points_play'] = 0;
-    $insert['vod_points_down'] = 0;
-    $insert['vod_hits']     = 0;
-    $insert['vod_hits_day'] = 0;
-    $insert['vod_hits_week']= 0;
-    $insert['vod_hits_month']=0;
-    $insert['vod_duration'] = $conn->real_escape_string($m['time'] ?? '');
-    $insert['vod_up']       = 0;
-    $insert['vod_down']     = 0;
-    $insert['vod_score']    = $vote_average;
-    $insert['vod_score_all']= 0;
-    $insert['vod_score_num']= 0;
-    $insert['vod_time']     = time();
-    $insert['vod_time_add'] = time();
-    $insert['vod_time_hits']= 0;
-    $insert['vod_time_make']= 0;
-    $insert['vod_trysee']   = 0;
-    $insert['vod_douban_id']= intval($m['tmdb']['id'] ?? 0);
+    $insert['type_id']          = $type_id;
+    $insert['vod_name']         = $conn->real_escape_string($m['name']);
+    $insert['vod_sub']          = $conn->real_escape_string($m['slug']);
+    $insert['vod_en']           = $conn->real_escape_string($m['origin_name'] ?? '');
+    $insert['vod_status']       = 1;
+    $insert['vod_letter']       = strtoupper(mb_substr($m['slug'], 0, 1));
+    $insert['vod_tag']          = $conn->real_escape_string(($m['name'] ?? '') . ',' . ($m['origin_name'] ?? ''));
+    $insert['vod_class']        = $conn->real_escape_string(implode(',', array_column($m['category'] ?? [], 'name')));
+    $insert['vod_pic']          = $conn->real_escape_string($m['poster_url'] ?? '');
+    $insert['vod_pic_thumb']    = $conn->real_escape_string($m['thumb_url'] ?? '');
+    $insert['vod_pic_slide']    = $conn->real_escape_string($m['poster_url'] ?? '');
+    $insert['vod_actor']        = $conn->real_escape_string(implode(',', $m['actor'] ?? []));
+    $insert['vod_director']     = $conn->real_escape_string(implode(',', $m['director'] ?? []));
+    $insert['vod_writer']       = $api_id;
+    $insert['vod_remarks']      = $vod_remarks;
+    $insert['vod_total']        = $ep_total;
+    $insert['vod_area']         = $conn->real_escape_string(implode(',', array_column($m['country'] ?? [], 'name')));
+    $insert['vod_lang']         = $conn->real_escape_string($m['lang'] ?? '');
+    $insert['vod_year']         = $conn->real_escape_string($m['year'] ?? '');
+    $insert['vod_version']      = $conn->real_escape_string($m['quality'] ?? '');
+    $insert['vod_level']        = (isset($m['chieurap']) && $m['chieurap']) ? 9 : 0;
+    $insert['vod_hits']         = rand(100, 500);
+    $insert['vod_duration']     = $conn->real_escape_string($m['time'] ?? '');
+    $insert['vod_score']        = $vote_average;
+    $insert['vod_time']         = time();
+    $insert['vod_time_add']     = time();
+    $insert['vod_douban_id']    = intval($m['tmdb']['id'] ?? 0);
     $insert['vod_douban_score'] = floatval($m['tmdb']['vote_average'] ?? 0.0);
-    $insert['vod_reurl']    = '';
-    $insert['vod_rel_vod']  = '';
-    $insert['vod_rel_art']  = '';
-    $insert['vod_pwd']      = '';
-    $insert['vod_pwd_url']  = '';
-    $insert['vod_pwd_play'] = '';
-    $insert['vod_pwd_play_url'] = '';
-    $insert['vod_pwd_down'] = '';
-    $insert['vod_pwd_down_url'] = '';
-    $insert['vod_content']  = $conn->real_escape_string(strip_tags($m['content'] ?? ''));
-    $insert['vod_play_from']   = $conn->real_escape_string($vod_play_from);
-    $insert['vod_play_server'] = $conn->real_escape_string($vod_play_server);
-    $insert['vod_play_note']   = '$$$';
-    $insert['vod_play_url']    = $conn->real_escape_string($vod_play_url);
-    $insert['vod_down_from']   = '';
-    $insert['vod_down_server'] = '';
-    $insert['vod_down_note']   = '';
-    $insert['vod_down_url']    = '';
-    $insert['vod_plot']        = 0;
-    $insert['vod_plot_name']   = '';
-    $insert['vod_plot_detail'] = '';
+    $insert['vod_content']      = $conn->real_escape_string(strip_tags($m['content'] ?? ''));
+    $insert['vod_play_from']    = $vod_play_from;
+    $insert['vod_play_server']  = $vod_play_server;
+    $insert['vod_play_note']    = '$$$';
+    $insert['vod_play_url']     = $vod_play_url;
 
-    $cols = implode(',', array_keys($insert));
-    $vals = implode(',', array_map(function($v) { return "'$v'"; }, $insert));
-    $sql = "INSERT INTO $table ($cols) VALUES ($vals)";
-    $conn->query($sql);
-    logz("Thêm phim mới", "INSERT", $m['name']);
+    $defaults = [
+        'type_id_1' => 0, 'group_id' => 0, 'vod_color' => '', 'vod_behind' => '', 'vod_blurb' => '',
+        'vod_pubdate' => '', 'vod_serial' => '0', 'vod_tv' => '', 'vod_weekday' => '', 'vod_state' => '',
+        'vod_author' => '', 'vod_jumpurl' => '', 'vod_tpl' => '', 'vod_tpl_play' => '', 'vod_tpl_down' => '',
+        'vod_isend' => 0, 'vod_lock' => 0, 'vod_copyright' => 0, 'vod_points' => 0, 'vod_points_play' => 0,
+        'vod_points_down' => 0, 'vod_hits_day' => 0, 'vod_hits_week' => 0, 'vod_hits_month' => 0,
+        'vod_up' => 0, 'vod_down' => 0, 'vod_score_all' => 0, 'vod_score_num' => 0, 'vod_time_hits' => 0,
+        'vod_time_make' => 0, 'vod_trysee' => 0, 'vod_reurl' => '', 'vod_rel_vod' => '', 'vod_rel_art' => '',
+        'vod_pwd' => '', 'vod_pwd_url' => '', 'vod_pwd_play' => '', 'vod_pwd_play_url' => '', 'vod_pwd_down' => '',
+        'vod_pwd_down_url' => '', 'vod_down_from' => '', 'vod_down_server' => '', 'vod_down_note' => '',
+        'vod_down_url' => '', 'vod_plot' => 0, 'vod_plot_name' => '', 'vod_plot_detail' => ''
+    ];
+    $insert = array_merge($defaults, $insert);
+
+    $cols = implode('`,`', array_keys($insert));
+    $vals = implode("','", array_values($insert));
+    $sql = "INSERT INTO `$table` (`$cols`) VALUES ('$vals')";
+
+    if ($conn->query($sql)) {
+        logz("Thêm phim mới thành công", "INSERT", $name);
+    } else {
+        logz("Lỗi khi thêm phim mới: " . $conn->error, "ERROR", $name);
+        return false;
+    }
+
     return true;
 }
+
 ?>
