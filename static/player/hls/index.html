@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-  <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool@latest'></script>
+  <!-- <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool@latest'></script> -->
 
   <style>
     :root {
@@ -37,7 +37,7 @@
     }
 
     .player-container.cursor-hidden {
-        cursor: none;
+      cursor: none;
     }
 
     video[poster] {
@@ -53,15 +53,15 @@
       transform: scale(1.05);
       background-color: rgba(0, 0, 0, 0.4);
     }
-    
+
     .player-container.paused-state #pause-overlay {
-        opacity: 1;
-        pointer-events: auto;
-        transform: scale(1);
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
     }
-    
+
     .player-container.paused-state #pause-overlay i {
-        opacity: 0.8;
+      opacity: 0.8;
     }
 
     #controls-container,
@@ -136,42 +136,45 @@
       text-overflow: ellipsis;
       text-align: center;
     }
-    
+
     @keyframes spin-red {
       0% {
         transform: rotate(0deg);
       }
+
       100% {
         transform: rotate(360deg);
       }
     }
 
     #progress-container {
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
     }
+
     .progress-bar-container:hover {
-        --progress-bar-height: 8px;
+      --progress-bar-height: 8px;
     }
+
     #progress-thumb {
-        height: 18px !important;
-        width: 18px !important;
-        transform: translate(-50%, -50%) scale(0);
+      height: 18px !important;
+      width: 18px !important;
+      transform: translate(-50%, -50%) scale(0);
     }
-     .progress-bar-container:hover #progress-thumb {
-        transform: translate(-50%, -50%) scale(1);
-     }
 
-
+    .progress-bar-container:hover #progress-thumb {
+      transform: translate(-50%, -50%) scale(1);
+    }
   </style>
 </head>
 
 <body>
   <div id="player-container" class="player-container relative w-screen h-screen">
     <video id="video" class="w-full h-full" playsinline preload="metadata"></video>
-    
+
     <div id="pause-overlay" class="absolute inset-0 z-10 flex items-center justify-center">
-        <i class="fas fa-play text-white text-7xl opacity-0 transition-opacity duration-300" style="text-shadow: 0 0 25px rgba(0,0,0,0.5);"></i>
+      <i class="fas fa-play text-white text-7xl opacity-0 transition-opacity duration-300"
+        style="text-shadow: 0 0 25px rgba(0,0,0,0.5);"></i>
     </div>
 
     <div id="loading-overlay"
@@ -309,7 +312,7 @@
     const updateProgress = () => { if (isNaN(video.duration) || isScrubbing) return; const percent = (video.currentTime / video.duration) * 100; progressBar.style.width = `${percent}%`; progressThumb.style.left = `${percent}%`; const remainingTime = video.duration - video.currentTime; timeDuration.textContent = `${formatTime(remainingTime)}`; };
     const updateBuffer = () => { if (video.buffered.length > 0 && video.duration > 0) { bufferedBar.style.width = `${(video.buffered.end(video.buffered.length - 1) / video.duration) * 100}%`; } };
     const togglePlay = () => video.paused ? video.play() : video.pause();
-    
+
     const showControls = () => {
       playerContainer.classList.add('controls-active');
       playerContainer.classList.remove('cursor-hidden');
@@ -324,33 +327,33 @@
         playerContainer.classList.add('cursor-hidden');
       }
     };
-    
+
     const resetActivityTimer = () => { clearTimeout(activityTimer); activityTimer = setTimeout(hideControls, 3000); };
     const showSeekIndicator = (element) => { element.classList.remove('opacity-0', 'scale-75'); element.classList.add('opacity-100', 'scale-100'); clearTimeout(element.timer); element.timer = setTimeout(() => { element.classList.remove('opacity-100', 'scale-100'); element.classList.add('opacity-0', 'scale-75'); }, 800); };
     const updateVolumeUI = () => { const vol = video.muted ? 0 : video.volume; volumeSlider.value = vol; let icon = 'fa-volume-high'; if (vol === 0) icon = 'fa-volume-xmark'; else if (vol < 0.5) icon = 'fa-volume-low'; muteBtn.innerHTML = `<i class="fas ${icon}"></i>`; const percent = vol * 100; volumeSlider.style.background = `linear-gradient(to right, var(--accent-color) ${percent}%, var(--track-color) ${percent}%)`; };
 
     const setupAutoPip = () => {
-        if (!document.pictureInPictureEnabled) return;
-        const handleVisibilityChange = () => {
-            if (!video || video.paused || video.ended || video.disablePictureInPicture) return;
-            if (document.visibilityState === 'hidden') {
-                if (!document.pictureInPictureElement) {
-                    video.requestPictureInPicture().catch(error => console.error("Lỗi khi tự động bật PiP:", error));
-                }
-            } else if (document.visibilityState === 'visible') {
-                if (document.pictureInPictureElement) {
-                    document.exitPictureInPicture().catch(error => console.error("Lỗi khi tự động tắt PiP:", error));
-                }
-            }
-        };
-        const handlePageHide = () => {
-            if (!video || video.paused || video.ended || video.disablePictureInPicture) return;
-            if (!document.pictureInPictureElement) {
-                video.requestPictureInPicture().catch(error => console.error("Lỗi khi tự động bật PiP (pagehide):", error));
-            }
-        };
-        document.addEventListener('visibilitychange', handleVisibilityChange);
-        window.addEventListener('pagehide', handlePageHide);
+      if (!document.pictureInPictureEnabled) return;
+      const handleVisibilityChange = () => {
+        if (!video || video.paused || video.ended || video.disablePictureInPicture) return;
+        if (document.visibilityState === 'hidden') {
+          if (!document.pictureInPictureElement) {
+            video.requestPictureInPicture().catch(error => console.error("Lỗi khi tự động bật PiP:", error));
+          }
+        } else if (document.visibilityState === 'visible') {
+          if (document.pictureInPictureElement) {
+            document.exitPictureInPicture().catch(error => console.error("Lỗi khi tự động tắt PiP:", error));
+          }
+        }
+      };
+      const handlePageHide = () => {
+        if (!video || video.paused || video.ended || video.disablePictureInPicture) return;
+        if (!document.pictureInPictureElement) {
+          video.requestPictureInPicture().catch(error => console.error("Lỗi khi tự động bật PiP (pagehide):", error));
+        }
+      };
+      document.addEventListener('visibilitychange', handleVisibilityChange);
+      window.addEventListener('pagehide', handlePageHide);
     };
 
     const setupEpisodeFeatures = () => {
@@ -390,7 +393,7 @@
     const setupMediaSession = () => { if ('mediaSession' in navigator) { navigator.mediaSession.metadata = new MediaMetadata({ title: movieTitle, artist: document.title, album: 'ashamovie.me', artwork: [{ src: poster, sizes: '512x512', type: 'image/jpeg' }] }); navigator.mediaSession.setActionHandler('play', () => togglePlay()); navigator.mediaSession.setActionHandler('pause', () => togglePlay()); navigator.mediaSession.setActionHandler('seekbackward', () => { video.currentTime -= 10; }); navigator.mediaSession.setActionHandler('seekforward', () => { video.currentTime += 10; }); } };
 
     const setupPlayer = () => {
-      if (poster) { video.poster = poster; pauseOverlay.style.backgroundImage = `url('${poster}')`; }
+      // if (poster) { video.poster = poster; pauseOverlay.style.backgroundImage = `url('${poster}')`; }
       setupMediaSession();
       setupAutoPip();
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -401,7 +404,7 @@
         hls.on(Hls.Events.ERROR, (event, data) => { if (data.fatal) console.error('HLS.js Fatal Error:', data); });
       }
       setupEpisodeFeatures();
-      
+
       video.addEventListener('play', () => {
         playPauseBtn.innerHTML = `<i class="fas fa-pause"></i>`;
         showControls();
@@ -411,7 +414,7 @@
         playPauseBtn.innerHTML = `<i class="fas fa-play"></i>`;
         saveProgress(false);
         if (!isScrubbing) {
-            playerContainer.classList.add('paused-state');
+          playerContainer.classList.add('paused-state');
         }
       });
 
@@ -422,23 +425,23 @@
       video.addEventListener('waiting', () => { loadingOverlay.classList.remove('hidden'); loadingOverlay.style.opacity = '1'; });
       video.addEventListener('playing', () => { loadingOverlay.style.opacity = '0'; setTimeout(() => loadingOverlay.classList.add('hidden'), 300); playerContainer.classList.remove('paused-state'); });
       video.addEventListener('loadedmetadata', () => { let timeToSeek = 0; if (isLoggedIn()) { if (serverSeekTime > 5) timeToSeek = serverSeekTime; } else { const savedTimeLocal = localStorage.getItem(videoKey); if (savedTimeLocal && parseFloat(savedTimeLocal) > 5) timeToSeek = parseFloat(savedTimeLocal); } if (timeToSeek > 0 && video.duration > timeToSeek) { video.currentTime = Math.min(timeToSeek, video.duration - 5); } updateVolumeUI(); updateProgress(); updateBuffer(); const playPromise = video.play(); if (playPromise !== undefined) { playPromise.catch(() => { loadingOverlay.style.opacity = '0'; setTimeout(() => loadingOverlay.classList.add('hidden'), 300); showControls(); playerContainer.classList.add('paused-state'); }); } });
-      
+
       pauseOverlay.addEventListener('click', (e) => {
         e.stopPropagation();
         togglePlay();
       });
 
-      playerContainer.addEventListener('click', (e) => { if (e.target !== video && e.target !== playerContainer && e.target !== pauseOverlay) return; if(e.target === pauseOverlay) return; e.preventDefault(); const now = new Date().getTime(); if ((now - lastClickTime) < 300) { clearTimeout(clickTimer); lastClickTime = 0; const rect = playerContainer.getBoundingClientRect(); if (e.clientX - rect.left < rect.width / 2) { video.currentTime -= 10; showSeekIndicator(rewindIndicator); } else { video.currentTime += 10; showSeekIndicator(forwardIndicator); } } else { clickTimer = setTimeout(togglePlay, 250); } lastClickTime = now; });
+      playerContainer.addEventListener('click', (e) => { if (e.target !== video && e.target !== playerContainer && e.target !== pauseOverlay) return; if (e.target === pauseOverlay) return; e.preventDefault(); const now = new Date().getTime(); if ((now - lastClickTime) < 300) { clearTimeout(clickTimer); lastClickTime = 0; const rect = playerContainer.getBoundingClientRect(); if (e.clientX - rect.left < rect.width / 2) { video.currentTime -= 10; showSeekIndicator(rewindIndicator); } else { video.currentTime += 10; showSeekIndicator(forwardIndicator); } } else { clickTimer = setTimeout(togglePlay, 250); } lastClickTime = now; });
       const handleScrubbing = (e) => { const r = progressContainer.getBoundingClientRect(); let cX = e.touches ? e.touches[0].clientX : e.clientX; let p = (cX - r.left) / r.width; p = Math.max(0, Math.min(1, p)); video.currentTime = p * video.duration; updateProgress(); }; const handleMouseMove = (e) => { if (isScrubbing) handleScrubbing(e); }; const handleMouseUp = () => { if (!isScrubbing) return; isScrubbing = false; timelineTooltip.classList.add('opacity-0'); if (!wasPaused) video.play(); document.removeEventListener('mousemove', handleMouseMove); document.removeEventListener('mouseup', handleMouseUp); document.removeEventListener('touchmove', handleMouseMove); document.removeEventListener('touchend', handleMouseUp); }; const handleMouseDown = e => { e.stopPropagation(); isScrubbing = true; wasPaused = video.paused; video.pause(); timelineTooltip.classList.remove('opacity-0'); handleScrubbing(e); document.addEventListener('mousemove', handleMouseMove); document.addEventListener('mouseup', handleMouseUp); document.addEventListener('touchmove', handleMouseMove); document.addEventListener('touchend', handleMouseUp); }; progressContainer.addEventListener('mousedown', handleMouseDown); progressContainer.addEventListener('touchstart', handleMouseDown, { passive: true });
       progressContainer.addEventListener('mousemove', e => { if (isScrubbing || !video.duration) return; const r = progressContainer.getBoundingClientRect(); const hX = e.clientX - r.left; timelineTooltip.style.left = `${hX}px`; timelineTooltip.textContent = formatTime((hX / r.width) * video.duration); }); progressContainer.addEventListener('mouseenter', () => !isScrubbing && timelineTooltip.classList.remove('opacity-0')); progressContainer.addEventListener('mouseleave', () => timelineTooltip.classList.add('opacity-0'));
       const setupControlBtn = (btn, action, event = 'click') => btn.addEventListener(event, e => { e.stopPropagation(); action(e); });
       setupControlBtn(playPauseBtn, togglePlay); setupControlBtn(rewindBtn, () => video.currentTime -= 10); setupControlBtn(forwardBtn, () => video.currentTime += 10); setupControlBtn(muteBtn, () => { video.muted = !video.muted; }); setupControlBtn(volumeSlider, (e) => { video.volume = e.target.value; video.muted = e.target.value == 0; }, 'input'); setupControlBtn(fullscreenBtn, toggleFullScreen); setupControlBtn(episodeListBtn, () => episodeListOverlay.classList.remove('hidden')); setupControlBtn(closeEpisodeListBtn, () => episodeListOverlay.classList.add('hidden'));
-      
+
       const updateFullscreenIcon = () => {
         const isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
         fullscreenBtn.innerHTML = `<i class="fas ${isFS ? 'fa-compress' : 'fa-expand'}"></i>`;
         if (!isFS) {
-            playerContainer.classList.remove('cursor-hidden');
+          playerContainer.classList.remove('cursor-hidden');
         }
       };
 
@@ -456,6 +459,54 @@
       fetchPromise = Promise.resolve();
     }
     fetchPromise.finally(setupPlayer);
+
+    function isTV() {
+      const ua = navigator.userAgent.toLowerCase();
+      return (
+        ua.includes('smart-tv') ||
+        ua.includes('smarttv') ||
+        ua.includes('hbbtv') ||
+        ua.includes('netcast') ||
+        ua.includes('tizen') ||
+        ua.includes('webos') ||
+        ua.includes('viera') ||
+        ua.includes('appletv') ||
+        ua.includes('bravia') ||
+        ua.includes('androidtv')
+      );
+    }
+
+    if (isTV()) {
+      let lastKeyTime = 0;
+      let keyPressCount = 0;
+      let doubleClickTimer = null;
+
+      playerContainer.addEventListener('dblclick', (e) => {
+        e.preventDefault();
+        toggleFullScreen();
+        
+      });
+      
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === 'OK') {
+          const now = Date.now();
+          if (now - lastKeyTime < 350) {
+            keyPressCount++;
+          } else {
+            keyPressCount = 1;
+          }
+          lastKeyTime = now;
+
+          clearTimeout(doubleClickTimer);
+          doubleClickTimer = setTimeout(() => {
+            if (keyPressCount >= 2) {
+              toggleFullScreen();
+            }
+            keyPressCount = 0;
+          }, 400);
+        }
+      });
+    }
   </script>
 </body>
 
